@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eray Yapagcı — Computer Scientist &amp; AI Engineer</title>
+  <meta name="description" content="Eray Yapagcı — Computer Science student at Bilkent University, AI Engineer and Research Assistant. Portfolio of projects, experience, and publications." />
+  <meta name="author" content="Eray Yapagcı" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Eray Yapagcı — Computer Scientist & AI Engineer" />
+  <meta property="og:description" content="CS student at Bilkent University, AI Engineer and Research Assistant. Projects, experience, and publications." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- NAV -->
+  <header class="nav" id="top">
+    <div class="container nav__inner">
+      <a href="#top" class="nav__logo">
+        <span class="nav__logo-mark">EY</span>
+        <span class="nav__logo-text">Eray Yapagcı</span>
+      </a>
+      <nav class="nav__links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#activities">Activities</a>
+        <a href="#contact" class="btn btn--sm">Contact</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <p class="hero__eyebrow"><span class="dot"></span> Available for opportunities</p>
+        <h1 class="hero__title">
+          Hi, I'm <span class="grad">Eray Yapagcı</span>.<br />
+          I build <span class="grad-alt" id="rotator">AI systems</span>.
+        </h1>
+        <p class="hero__sub">
+          Computer Science student at <strong>Bilkent University</strong>, AI Engineer, and
+          Research Assistant. I work on LLM agents, retrieval-augmented generation,
+          and end-to-end tooling that makes software more reliable.
+        </p>
+        <div class="hero__cta">
+          <a href="#projects" class="btn">View my work</a>
+          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+          <a href="ErayYapagciCV.pdf" class="btn btn--ghost" download>Download CV</a>
+        </div>
+        <div class="hero__social">
+          <a href="https://github.com/erayyap" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.94c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.4-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.75.81 1.2 1.84 1.2 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.79 1.08.79 2.18v3.23c0 .31.2.67.8.55A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/erayyap" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.56c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.66H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          </a>
+          <a href="mailto:erayyapagci@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          </a>
+        </div>
+
+        <div class="hero__stats">
+          <div class="stat"><span class="stat__num" data-count="362">#362</span><span class="stat__label">YKS rank / 2M+ students</span></div>
+          <div class="stat"><span class="stat__num">3.57</span><span class="stat__label">CGPA · Bilkent CS</span></div>
+          <div class="stat"><span class="stat__num" data-count="1">1st</span><span class="stat__label">Amazon Univ. Programme</span></div>
+          <div class="stat"><span class="stat__num">200K+</span><span class="stat__label">aid coordination reach</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">01</span>
+          <h2 class="section__title">About me</h2>
+        </div>
+        <div class="about">
+          <div class="about__text">
+            <p>
+              I'm a final-year Computer Science student at <strong>Bilkent University</strong> on a
+              comprehensive scholarship, ranked <strong>362nd out of 2&nbsp;million+</strong> candidates
+              in the national university entrance exam (YKS, Y-SAY).
+            </p>
+            <p>
+              As a <strong>Research Assistant</strong> in the BILSEN group and an <strong>AI Engineer</strong> at
+              DataBoss A.S., I build LLM-powered systems — from automated bug reproduction agents to
+              context-aware retrieval pipelines and document intelligence tools.
+            </p>
+            <p>
+              I've first-authored a research preprint, won hackathons and datathons, and organized
+              AI and math events on campus. I care about building things that are both rigorous and useful.
+            </p>
+          </div>
+          <div class="about__edu card">
+            <h3>Education</h3>
+            <div class="edu">
+              <div class="edu__row">
+                <span class="edu__school">Bilkent University</span>
+                <span class="pill pill--muted">Expected May 2025</span>
+              </div>
+              <p class="edu__deg">B.Sc. Computer Science</p>
+              <ul class="edu__list">
+                <li>CGPA <strong>3.57</strong> · Comprehensive Scholarship Recipient</li>
+                <li>YKS (Y-SAY): <strong>#362</strong> of 2M+ participants</li>
+              </ul>
+            </div>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag">PyTorch</span>
+              <span class="tag">LangChain</span><span class="tag">Vespa</span>
+              <span class="tag">EasyOCR</span><span class="tag">TensorRT</span>
+              <span class="tag">ONNX</span><span class="tag">Neo4j</span>
+              <span class="tag">C#</span><span class="tag">.NET</span>
+              <span class="tag">React.js</span><span class="tag">Docker</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section section--alt" id="experience">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">02</span>
+          <h2 class="section__title">Experience</h2>
+        </div>
+        <div class="timeline">
+          <article class="tl-item">
+            <div class="tl-item__marker"></div>
+            <div class="tl-item__card card">
+              <div class="tl-item__head">
+                <h3>Research Assistant</h3>
+                <span class="pill">Sep 2024 – Present</span>
+              </div>
+              <p class="tl-item__org">BILSEN — Bilkent Software Engineering &amp; Data Analytics Research Group</p>
+              <ul>
+                <li>Work on automated bug reproduction and refactor-acceptance prediction using LLMs, under the supervision of Eray Tüzün.</li>
+                <li>First-authored <em>“BugCraft: End-to-End Crash Bug Reproduction Using LLM Agents in Minecraft”</em> — <a href="https://arxiv.org/abs/2503.20036" target="_blank" rel="noopener">arXiv:2503.20036</a>.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tl-item">
+            <div class="tl-item__marker"></div>
+            <div class="tl-item__card card">
+              <div class="tl-item__head">
+                <h3>AI Engineer</h3>
+                <span class="pill">Jun 2024 – Present</span>
+              </div>
+              <p class="tl-item__org">DataBoss A.Ş., Ankara <span class="stack">Python · LangChain · Vespa · EasyOCR · Docker · PyTorch</span></p>
+              <ul>
+                <li>Designed an automatic document-chunking system using contextual retrieval for offline RAG across diverse document formats.</li>
+                <li>Built a PDF-to-PDF translation tool combining layout detection, OCR, and LLMs to preserve document structure.</li>
+                <li>Developed an expert chatbot grounded in Ministry of Education documents with verifiable source citations.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tl-item">
+            <div class="tl-item__marker"></div>
+            <div class="tl-item__card card">
+              <div class="tl-item__head">
+                <h3>Backend Intern</h3>
+                <span class="pill">Mar 2024 – May 2024</span>
+              </div>
+              <p class="tl-item__org">Güriş Teknoloji A.Ş., Ankara <span class="stack">C# · .NET · AngularJS</span></p>
+              <ul>
+                <li>Developed the backend for a company-wide job application system and integrated it with the frontend, improving recruitment efficiency.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tl-item">
+            <div class="tl-item__marker"></div>
+            <div class="tl-item__card card">
+              <div class="tl-item__head">
+                <h3>Full-stack Intern</h3>
+                <span class="pill">Aug 2023</span>
+              </div>
+              <p class="tl-item__org">Hop, Ankara <span class="stack">React.js · Redux · C# · .NET · OpenAI API</span></p>
+              <ul>
+                <li>Built a project using ChatGPT and Google Maps APIs to summarize reviews of selected locations.</li>
+                <li>Tested the Hop mobile app, documented 10 bugs, and helped fix 3 critical issues to improve stability.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tl-item">
+            <div class="tl-item__marker"></div>
+            <div class="tl-item__card card">
+              <div class="tl-item__head">
+                <h3>Backend Intern</h3>
+                <span class="pill">Jul 2023</span>
+              </div>
+              <p class="tl-item__org">Logo Yazılım, Remote <span class="stack">C# · ASP.NET · Swagger · Jira</span></p>
+              <ul>
+                <li>Enhanced an internal API with comprehensive Swagger documentation for Diva Retail software.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">03</span>
+          <h2 class="section__title">Projects</h2>
+        </div>
+        <div class="grid grid--projects">
+          <article class="proj card">
+            <div class="proj__top">
+              <h3>Bilkent AI Math Benchmark</h3>
+              <a class="proj__link" href="https://github.com/erayyap" target="_blank" rel="noopener" aria-label="Benchmark site">↗</a>
+            </div>
+            <p>A benchmark of 44 high-quality, olympiad-level math problems evaluating frontier-AI mathematical reasoning.</p>
+            <p>Also built an LLM framework that synthetically generates harder problems — targeting questions the generating model itself cannot solve, keeping the benchmark relevant.</p>
+            <div class="tags"><span class="tag">LLMs</span><span class="tag">Benchmarking</span><span class="tag">Math</span></div>
+          </article>
+
+          <article class="proj card">
+            <div class="proj__top">
+              <h3>Rubber Duck AI</h3>
+              <span class="ribbon">🥇 1st Place</span>
+            </div>
+            <p>An LLM-powered learning platform with adaptive question generation — awarded 1st place in the Amazon University Engagement Programme.</p>
+            <p>Features AI-driven knowledge-graph construction, dynamic subgraph identification, interactive feedback, and hybrid retrieval.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">OpenAI</span><span class="tag">Neo4j</span><span class="tag">Vespa</span><span class="tag">Flask</span><span class="tag">React</span></div>
+          </article>
+
+          <article class="proj card">
+            <div class="proj__top">
+              <h3>EasyOCR Optimized</h3>
+              <a class="proj__link" href="https://github.com/erayyap" target="_blank" rel="noopener" aria-label="GitHub repository">↗</a>
+            </div>
+            <p>Enhanced EasyOCR and optimized CRAFT inference to achieve up to <strong>3× faster</strong> inference on large images.</p>
+            <p>Added TensorRT and ONNX compilation support, improving model inference speed by ~20%.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">TensorRT</span><span class="tag">ONNX</span></div>
+          </article>
+        </div>
+
+        <div class="pub card">
+          <div class="pub__icon">📄</div>
+          <div>
+            <h3>Publication</h3>
+            <p><strong>BugCraft: End-to-End Crash Bug Reproduction Using LLM Agents in Minecraft.</strong><br />
+            E. Yapagcı et al. — Preprint, <a href="https://arxiv.org/abs/2503.20036" target="_blank" rel="noopener">arXiv:2503.20036</a>. A framework using LLM agents to automatically reproduce crash bugs end-to-end from user reports.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVITIES -->
+    <section class="section section--alt" id="activities">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">04</span>
+          <h2 class="section__title">Extracurricular &amp; Impact</h2>
+        </div>
+        <div class="grid grid--acts">
+          <div class="act card">
+            <div class="act__emoji">🏆</div>
+            <h3>Competitions</h3>
+            <p>1st Place, ODTÜ Data Days Datathon. Member of the 14th term of QNB FinansUp career club.</p>
+          </div>
+          <div class="act card">
+            <div class="act__emoji">🤝</div>
+            <h3>Disaster Relief Coordinator</h3>
+            <p>Led aid-collection efforts across Ankara during the 2023 Turkey earthquakes — reaching 200,000+ people and managing 11,000+ WhatsApp group members.</p>
+          </div>
+          <div class="act card">
+            <div class="act__emoji">🎓</div>
+            <h3>Student Leadership</h3>
+            <p>Founding member, Bilkent Natural Disasters Club. Board member, Bilkent AI Society — co-organized events with Global Turks AI. Active in Bilkent IEEE &amp; Math Society.</p>
+          </div>
+          <div class="act card">
+            <div class="act__emoji">🎪</div>
+            <h3>Event Organizing</h3>
+            <p>Helped organize the Bilkent IEEE Career Fair 2023 and the Bilkent Integration Bee in 2023 &amp; 2024.</p>
+          </div>
+          <div class="act card">
+            <div class="act__emoji">📱</div>
+            <h3>Math Content Creator</h3>
+            <p>@dailymathquestions &amp; @dailymathtricks on Instagram — original problems and tricks, with 10,000+ followers and 220,000+ views collectively.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact card">
+          <div class="contact__text">
+            <h2>Let's build something.</h2>
+            <p>Open to AI engineering roles, research collaborations, and interesting problems. The fastest way to reach me is email.</p>
+          </div>
+          <div class="contact__list">
+            <a href="mailto:erayyapagci@gmail.com"><span>✉️</span> erayyapagci@gmail.com</a>
+            <a href="tel:+905356668185"><span>📞</span> +90 535 666 8185</a>
+            <a href="https://linkedin.com/in/erayyap" target="_blank" rel="noopener"><span>💼</span> linkedin.com/in/erayyap</a>
+            <a href="https://github.com/erayyap" target="_blank" rel="noopener"><span>💻</span> github.com/erayyap</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span>© <span id="year"></span> Eray Yapagcı</span>
+      <a href="#top" class="footer__top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
