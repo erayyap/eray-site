@@ -1,6 +1,6 @@
 # eray-site
 
-Personal portfolio website for **Eray Yapagcı** — built from his CV.
+Personal portfolio website for **Eray Yapağcı** — built from his CV.
 
 Plain static HTML / CSS / JS. No build step, no dependencies. Deployable directly with GitHub Pages.
 
