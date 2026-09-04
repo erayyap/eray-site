@@ -8,8 +8,7 @@ Plain static HTML / CSS / JS. No build step, no dependencies. Deployable directl
 
 - `index.html` — single-page site (About, Experience, Projects, Activities, Contact)
 - `styles.css` — design tokens, light/dark themes, responsive layout
-- `script.js` — theme toggle, mobile nav, hero word rotator, scroll-reveal
-- `ErayYapagciCV.pdf` — downloadable CV
+- `script.js` — theme toggle, mobile nav
 
 ## Local preview
 
