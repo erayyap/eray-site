@@ -136,10 +136,6 @@ a:hover { text-decoration: underline; }
 .hero__social a { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); box-shadow: var(--shadow-sm); transition: .2s; }
 .hero__social a:hover { color: var(--brand); border-color: var(--brand); transform: translateY(-3px); }
 
-.hero__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 46px; }
-.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow-sm); }
-.stat__num { display: block; font-size: 1.5rem; font-weight: 800; background: linear-gradient(120deg, var(--brand), var(--brand-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.stat__label { font-size: .82rem; color: var(--muted); }
 
 /* ============ Sections ============ */
 .section { padding: clamp(56px, 9vh, 100px) 0; }
@@ -231,7 +227,6 @@ a:hover { text-decoration: underline; }
 @media (max-width: 900px) {
   .about { grid-template-columns: 1fr; }
   .contact { grid-template-columns: 1fr; }
-  .hero__stats { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 760px) {

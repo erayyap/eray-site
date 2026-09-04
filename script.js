@@ -46,7 +46,7 @@
 // ---------- Scroll reveal ----------
 (function () {
   const targets = document.querySelectorAll(
-    ".tl-item, .proj, .act, .pub, .about__edu, .stat, .contact"
+    ".tl-item, .proj, .act, .pub, .about__edu, .contact"
   );
   targets.forEach((t) => t.classList.add("reveal"));
   const io = new IntersectionObserver(
