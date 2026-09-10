@@ -1,223 +1,471 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eray Yapağcı</title>
-  <meta name="description" content="Eray Yapağcı — Computer Science graduate (Bilkent University), AI Engineer and Research Assistant. Projects, experience, and publications." />
-  <meta name="author" content="Eray Yapağcı" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eray Yapağcı — AI Engineer & Researcher</title>
+    <meta
+      name="description"
+      content="Eray Yapağcı — Computer Science graduate (Bilkent University), AI Engineer and Research Assistant. Projects, experience, and publications."
+    />
+    <meta name="author" content="Eray Yapağcı" />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Eray Yapağcı" />
-  <meta property="og:description" content="Computer Science graduate (Bilkent University), AI Engineer and Research Assistant." />
-  <meta property="og:type" content="website" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Eray Yapağcı" />
+    <meta
+      property="og:description"
+      content="Computer Science graduate (Bilkent University), AI Engineer and Research Assistant."
+    />
+    <meta property="og:type" content="website" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✳️</text></svg>" />
-</head>
-<body>
-  <!-- NAV -->
-  <header class="nav" id="top">
-    <div class="container nav__inner">
-      <a href="#top" class="nav__logo">Eray Yapağcı</a>
-      <nav class="nav__links" id="navLinks">
-        <a href="#experience">Experience</a>
-        <a href="#publications">Publications</a>
-        <a href="#projects">Projects</a>
-        <a href="#activities">Activities</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <div class="nav__actions">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">dark</button>
-        <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span>
-        </button>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✳️</text></svg>"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- NAV -->
+    <header class="nav" id="top">
+      <div class="container nav__inner">
+        <a href="#top" class="nav__logo">Eray Yapağcı</a>
+        <nav class="nav__links" id="navLinks" aria-label="Main navigation">
+          <a href="#publications">Publications</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#activities">Activities</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="nav__actions">
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            aria-label="Toggle color theme"
+          >
+            dark
+          </button>
+          <button
+            class="nav__burger"
+            id="navBurger"
+            aria-label="Open menu"
+            aria-controls="navLinks"
+            aria-expanded="false"
+          >
+            <span></span><span></span>
+          </button>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero__grid">
+          <div class="hero__intro">
+            <p class="eyebrow">
+              <span class="status-dot"></span> AI engineer &amp; researcher
+            </p>
+            <h1 class="hero__name" id="hero-title">
+              Eray Yapağcı<span class="hero__period">.</span>
+            </h1>
+            <p class="hero__headline">
+              From research ideas<br />to <em>working systems.</em>
+            </p>
+            <p class="hero__lead">
+              I build with language models: agents that take action, retrieval
+              that finds the right context, and tools that make documents
+              useful.
+            </p>
+            <div class="hero__cta">
+              <a class="button button--primary" href="#projects"
+                >Explore my work <span aria-hidden="true">↗</span></a
+              >
+              <a class="button" href="mailto:erayyapagci@gmail.com"
+                >Get in touch <span aria-hidden="true">↗</span></a
+              >
+            </div>
+            <p class="hero__links">
+              <a
+                href="https://github.com/erayyap"
+                target="_blank"
+                rel="noopener"
+                >GitHub ↗</a
+              >
+              <a
+                href="https://linkedin.com/in/erayyap"
+                target="_blank"
+                rel="noopener"
+                >LinkedIn ↗</a
+              >
+            </p>
+          </div>
+          <aside class="fieldnotes" aria-label="Areas of work">
+            <div class="fieldnotes__top">
+              <span>FIELD NOTES</span><span aria-hidden="true">✳</span>
+            </div>
+            <p class="fieldnotes__title">Intelligence,<br />put to work.</p>
+            <div class="fieldnotes__row">
+              <span>01</span>
+              <div>
+                <strong>Agentic systems</strong>
+                <p>Language models that do more.</p>
+              </div>
+            </div>
+            <div class="fieldnotes__row">
+              <span>02</span>
+              <div>
+                <strong>Document intelligence</strong>
+                <p>Structure from unstructured data.</p>
+              </div>
+            </div>
+            <div class="fieldnotes__row">
+              <span>03</span>
+              <div>
+                <strong>Applied research</strong>
+                <p>Experiments with a real-world purpose.</p>
+              </div>
+            </div>
+            <p class="fieldnotes__footer">
+              B.Sc. Computer Science<br /><strong
+                >Bilkent University · 2025</strong
+              >
+            </p>
+          </aside>
+        </div>
+        <div class="container affiliation">
+          <span>Across research &amp; engineering</span>
+          <p>
+            The Wharton School <span>/</span> BILSEN <span>/</span> DataBoss
+          </p>
+        </div>
+      </section>
+
+      <!-- PUBLICATIONS -->
+      <section class="section" id="publications">
+        <div class="container">
+          <div class="section__heading">
+            <div>
+              <p class="eyebrow">01 / Publications</p>
+              <h2>Ideas, investigated.</h2>
+            </div>
+            <p>Research in software engineering and speech.</p>
+          </div>
+
+          <article class="entry">
+            <div class="entry__when">ASE 2025</div>
+            <div class="entry__what">
+              <h3>
+                Agents in the Sandbox: End-to-End Crash Bug Reproduction for
+                Minecraft
+              </h3>
+              <p>
+                E. Yapağcı, Y. A. S. Öztürk, E. Tüzün · Accepted to IEEE/ACM ASE
+                2025 ·
+                <a
+                  href="https://arxiv.org/abs/2503.20036"
+                  target="_blank"
+                  rel="noopener"
+                  >arXiv preprint ↗</a
+                >
+              </p>
+            </div>
+          </article>
+
+          <article class="entry">
+            <div class="entry__when">IEEE TASLP 2026</div>
+            <div class="entry__what">
+              <h3>
+                ADASTT: Adaptive Speech-to-Text Algorithm Selection via
+                Meta-Learning
+              </h3>
+              <p>
+                A. S. Namlı, O. F. Celik, E. Yapağcı, S. S. Kozat · IEEE
+                Transactions on Audio, Speech and Language Processing, Vol. 34 ·
+                <a
+                  href="https://doi.org/10.1109/TASLPRO.2026.3675779"
+                  target="_blank"
+                  rel="noopener"
+                  >DOI ↗</a
+                >
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="section" id="projects">
+        <div class="container">
+          <div class="section__heading">
+            <div>
+              <p class="eyebrow">02 / Selected work</p>
+              <h2>Built to be useful.</h2>
+            </div>
+            <p>From model evaluation to faster inference.</p>
+          </div>
+          <div class="project-grid">
+            <article class="entry">
+              <div class="entry__when">Benchmark</div>
+              <div class="entry__what">
+                <h3>
+                  <a
+                    href="https://bench.bilkentai.com"
+                    target="_blank"
+                    rel="noopener"
+                    >Bilkent AI Math Benchmark ↗</a
+                  >
+                </h3>
+                <p>
+                  44 olympiad-level problems for evaluating frontier-AI
+                  reasoning, plus a framework that generates even harder ones.
+                </p>
+                <p class="entry__meta">LLMs · benchmarking · math</p>
+              </div>
+            </article>
+
+            <article class="entry">
+              <div class="entry__when">1st place, Amazon UEP</div>
+              <div class="entry__what">
+                <h3>Rubber Duck AI</h3>
+                <p>
+                  LLM learning platform with adaptive question generation,
+                  knowledge graphs, and hybrid retrieval. 1st place, Amazon
+                  University Engagement Programme.
+                </p>
+                <p class="entry__meta">
+                  Python · LangChain · OpenAI API · Neo4j · Vespa · Flask ·
+                  React.js
+                </p>
+              </div>
+            </article>
+
+            <article class="entry">
+              <div class="entry__when">OSS</div>
+              <div class="entry__what">
+                <h3>
+                  <a
+                    href="https://github.com/erayyap/EasyOCR-optimized"
+                    target="_blank"
+                    rel="noopener"
+                    >EasyOCR Optimized ↗</a
+                  >
+                </h3>
+                <p>
+                  Up to 3× faster CRAFT inference on large images; TensorRT/ONNX
+                  support (+20%).
+                </p>
+                <p class="entry__meta">Python · PyTorch · TensorRT · ONNX</p>
+              </div>
+            </article>
+
+            <article class="entry">
+              <div class="entry__when">HF collection</div>
+              <div class="entry__what">
+                <h3>
+                  <a
+                    href="https://huggingface.co/collections/erayyapagci/yolo-question-segmentation-v2"
+                    target="_blank"
+                    rel="noopener"
+                    >YOLO Question Segmentation v2 ↗</a
+                  >
+                </h3>
+                <p>
+                  YOLO26 checkpoints (N/S/M) for question detection on
+                  textbooks.
+                </p>
+                <p class="entry__meta">
+                  YOLO26 · object detection · document AI
+                </p>
+              </div>
+            </article>
+
+            <article class="entry">
+              <div class="entry__when">HF model</div>
+              <div class="entry__what">
+                <h3>
+                  <a
+                    href="https://huggingface.co/erayyapagci/DeepSeek-V4-Flash-IQ2XXS-TM64-Q4KAttention-v1"
+                    target="_blank"
+                    rel="noopener"
+                    >DeepSeek-V4-Flash · IQ2XXS-TM64 · Q4_K attention ↗</a
+                  >
+                </h3>
+                <p>
+                  The fastest DeepSeek V4 build on Strix Halo: a custom
+                  llama.cpp fork with a TM64 tensor relayout, custom Vulkan
+                  kernels, Q4_K attention, and speculative decoding.
+                </p>
+                <p class="entry__meta">
+                  llama.cpp fork · Vulkan · imatrix quantization · speculative
+                  decoding · AMD Strix Halo
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="section" id="experience">
+        <div class="container">
+          <div class="section__heading">
+            <div>
+              <p class="eyebrow">03 / Experience</p>
+              <h2>Where I’ve contributed.</h2>
+            </div>
+          </div>
+
+          <article class="entry">
+            <div class="entry__when">2025 —</div>
+            <div class="entry__what">
+              <h3>
+                Wharton Fellow — The Wharton School, University of Pennsylvania
+              </h3>
+              <p class="entry__meta">Remote</p>
+              <ul>
+                <li>
+                  Research on human–AI interaction; contributed to the analysis
+                  of two papers.
+                </li>
+                <li>Built production-robust LLM pipelines.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="entry">
+            <div class="entry__when">2024 —</div>
+            <div class="entry__what">
+              <h3>Research Assistant — BILSEN, Bilkent University</h3>
+              <p class="entry__meta">Ankara</p>
+              <ul>
+                <li>
+                  Automated bug reproduction and refactor-acceptance prediction
+                  with LLMs.
+                </li>
+                <li>
+                  First author of BugCraft (<a
+                    href="https://arxiv.org/abs/2503.20036"
+                    target="_blank"
+                    rel="noopener"
+                    >ASE 2025</a
+                  >).
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="entry">
+            <div class="entry__when">2024 —</div>
+            <div class="entry__what">
+              <h3>AI Engineer — DataBoss A.Ş.</h3>
+              <p class="entry__meta">
+                Ankara · Python, LangChain, Vespa, EasyOCR, Docker, PyTorch
+              </p>
+              <ul>
+                <li>
+                  Document chunking with contextual retrieval for offline RAG.
+                </li>
+                <li>
+                  Layout-preserving PDF-to-PDF translation (layout detection +
+                  OCR + LLMs).
+                </li>
+                <li>
+                  Expert chatbot grounded in official documents with verifiable
+                  citations.
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ACTIVITIES -->
+      <section class="section" id="activities">
+        <div class="container">
+          <div class="section__heading">
+            <div>
+              <p class="eyebrow">04 / Beyond the work</p>
+              <h2>Community &amp; curiosity.</h2>
+            </div>
+          </div>
+          <ul class="plainlist">
+            <li>
+              <span class="when">2023</span> Disaster relief coordinator — aid
+              collection across Ankara after the earthquakes; 200,000+ people
+              reached.
+            </li>
+            <li>
+              <span class="when">2023</span> 1st place, ODTÜ Data Days Datathon.
+            </li>
+            <li>
+              <span class="when"></span> Founding member, Natural Disasters
+              Club; board member, AI Society; active in IEEE and the Mathematics
+              Society.
+            </li>
+            <li>
+              <span class="when"></span> Helped organize IEEE Career Fair 2023
+              and Integration Bee 2023–2024.
+            </li>
+            <li>
+              <span class="when"></span> Math content creator —
+              <a
+                href="https://www.instagram.com/dailymathquestions/"
+                target="_blank"
+                rel="noopener"
+                >@dailymathquestions</a
+              >
+              ·
+              <a
+                href="https://www.instagram.com/dailymathtricks/"
+                target="_blank"
+                rel="noopener"
+                >@dailymathtricks</a
+              >
+              · 10,000+ followers.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="section" id="contact">
+        <div class="container">
+          <p class="eyebrow">05 / Get in touch</p>
+          <h2>Have something<br /><em>in mind?</em></h2>
+          <p class="contact">
+            For conversations about AI, research, or building something useful.
+          </p>
+          <a class="contact__email" href="mailto:erayyapagci@gmail.com"
+            >erayyapagci@gmail.com <span aria-hidden="true">↗</span></a
+          >
+          <div class="hero__links">
+            <a href="https://github.com/erayyap" target="_blank" rel="noopener"
+              >GitHub ↗</a
+            ><a
+              href="https://linkedin.com/in/erayyap"
+              target="_blank"
+              rel="noopener"
+              >LinkedIn ↗</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
       <div class="container">
-        <h1 class="hero__name">Eray Yapağcı</h1>
-        <p class="hero__lead">
-          AI Engineer and Research Assistant. I build systems around language models —
-          agents, retrieval pipelines, and document intelligence. B.Sc. Computer Science,
-          Bilkent University, May 2025.
-        </p>
-        <p class="hero__links">
-          <a href="mailto:erayyapagci@gmail.com">erayyapagci@gmail.com</a>
-          <span class="sep">·</span>
-          <a href="https://github.com/erayyap" target="_blank" rel="noopener">GitHub</a>
-          <span class="sep">·</span>
-          <a href="https://linkedin.com/in/erayyap" target="_blank" rel="noopener">LinkedIn</a>
-        </p>
+        <span>© <span id="year"></span> Eray Yapağcı</span>
+        <a href="#top">Back to top ↑</a>
       </div>
-    </section>
+    </footer>
 
-    <!-- EXPERIENCE -->
-    <section class="section" id="experience">
-      <div class="container">
-        <h2 class="section__label">Experience</h2>
-
-        <article class="entry">
-          <div class="entry__when">2025 —</div>
-          <div class="entry__what">
-            <h3>Wharton Fellow — The Wharton School, University of Pennsylvania</h3>
-            <p class="entry__meta">Remote</p>
-            <ul>
-              <li>Research on human–AI interaction; contributed to the analysis of two papers.</li>
-              <li>Built production-robust LLM pipelines.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="entry">
-          <div class="entry__when">2024 —</div>
-          <div class="entry__what">
-            <h3>Research Assistant — BILSEN, Bilkent University</h3>
-            <p class="entry__meta">Ankara</p>
-            <ul>
-              <li>Automated bug reproduction and refactor-acceptance prediction with LLMs.</li>
-              <li>First author of BugCraft (<a href="https://arxiv.org/abs/2503.20036" target="_blank" rel="noopener">ASE 2025</a>).</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="entry">
-          <div class="entry__when">2024 —</div>
-          <div class="entry__what">
-            <h3>AI Engineer — DataBoss A.Ş.</h3>
-            <p class="entry__meta">Ankara · Python, LangChain, Vespa, EasyOCR, Docker, PyTorch</p>
-            <ul>
-              <li>Document chunking with contextual retrieval for offline RAG.</li>
-              <li>Layout-preserving PDF-to-PDF translation (layout detection + OCR + LLMs).</li>
-              <li>Expert chatbot grounded in official documents with verifiable citations.</li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- PUBLICATIONS -->
-    <section class="section" id="publications">
-      <div class="container">
-        <h2 class="section__label">Publications</h2>
-
-        <article class="entry">
-          <div class="entry__when">ASE 2025</div>
-          <div class="entry__what">
-            <h3>Agents in the Sandbox: End-to-End Crash Bug Reproduction for Minecraft</h3>
-            <p>E. Yapağcı, Y. A. S. Öztürk, E. Tüzün · Accepted to IEEE/ACM ASE 2025 ·
-            <a href="https://arxiv.org/abs/2503.20036" target="_blank" rel="noopener">arXiv preprint ↗</a></p>
-          </div>
-        </article>
-
-        <article class="entry">
-          <div class="entry__when">IEEE TASLP 2026</div>
-          <div class="entry__what">
-            <h3>ADASTT: Adaptive Speech-to-Text Algorithm Selection via Meta-Learning</h3>
-            <p>A. S. Namlı, O. F. Celik, E. Yapağcı, S. S. Kozat · IEEE Transactions on Audio, Speech
-            and Language Processing, Vol. 34 ·
-            <a href="https://doi.org/10.1109/TASLPRO.2026.3675779" target="_blank" rel="noopener">DOI ↗</a></p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="section" id="projects">
-      <div class="container">
-        <h2 class="section__label">Projects</h2>
-
-        <article class="entry">
-          <div class="entry__when">Benchmark</div>
-          <div class="entry__what">
-            <h3><a href="https://bench.bilkentai.com" target="_blank" rel="noopener">Bilkent AI Math Benchmark ↗</a></h3>
-            <p>44 olympiad-level problems for evaluating frontier-AI reasoning, plus a framework
-            that generates even harder ones.</p>
-            <p class="entry__meta">LLMs · benchmarking · math</p>
-          </div>
-        </article>
-
-        <article class="entry">
-          <div class="entry__when">1st place, Amazon UEP</div>
-          <div class="entry__what">
-            <h3>Rubber Duck AI</h3>
-            <p>LLM learning platform with adaptive question generation, knowledge graphs, and
-            hybrid retrieval. 1st place, Amazon University Engagement Programme.</p>
-            <p class="entry__meta">Python · LangChain · OpenAI API · Neo4j · Vespa · Flask · React.js</p>
-          </div>
-        </article>
-
-        <article class="entry">
-          <div class="entry__when">OSS</div>
-          <div class="entry__what">
-            <h3><a href="https://github.com/erayyap/EasyOCR-optimized" target="_blank" rel="noopener">EasyOCR Optimized ↗</a></h3>
-            <p>Up to 3× faster CRAFT inference on large images; TensorRT/ONNX support (+20%).</p>
-            <p class="entry__meta">Python · PyTorch · TensorRT · ONNX</p>
-          </div>
-        </article>
-
-        <article class="entry">
-          <div class="entry__when">HF collection</div>
-          <div class="entry__what">
-            <h3><a href="https://huggingface.co/collections/erayyapagci/yolo-question-segmentation-v2" target="_blank" rel="noopener">YOLO Question Segmentation v2 ↗</a></h3>
-            <p>YOLO26 checkpoints (N/S/M) for question detection on textbooks.</p>
-            <p class="entry__meta">YOLO26 · object detection · document AI</p>
-          </div>
-        </article>
-
-        <article class="entry">
-          <div class="entry__when">HF model</div>
-          <div class="entry__what">
-            <h3><a href="https://huggingface.co/erayyapagci/DeepSeek-V4-Flash-IQ2XXS-TM64-Q4KAttention-v1" target="_blank" rel="noopener">DeepSeek-V4-Flash · IQ2XXS-TM64 · Q4_K attention ↗</a></h3>
-            <p>The fastest DeepSeek V4 build on Strix Halo: a custom llama.cpp fork with a TM64
-            tensor relayout, custom Vulkan kernels, Q4_K attention, and speculative decoding.</p>
-            <p class="entry__meta">llama.cpp fork · Vulkan · imatrix quantization · speculative decoding · AMD Strix Halo</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ACTIVITIES -->
-    <section class="section" id="activities">
-      <div class="container">
-        <h2 class="section__label">Activities &amp; recognition</h2>
-        <ul class="plainlist">
-          <li><span class="when">2023</span> Disaster relief coordinator — aid collection across Ankara after the earthquakes; 200,000+ people reached.</li>
-          <li><span class="when">2023</span> 1st place, ODTÜ Data Days Datathon.</li>
-          <li><span class="when"></span> Founding member, Natural Disasters Club; board member, AI Society; active in IEEE and the Mathematics Society.</li>
-          <li><span class="when"></span> Helped organize IEEE Career Fair 2023 and Integration Bee 2023–2024.</li>
-          <li><span class="when"></span> Math content creator — <a href="https://www.instagram.com/dailymathquestions/" target="_blank" rel="noopener">@dailymathquestions</a> · <a href="https://www.instagram.com/dailymathtricks/" target="_blank" rel="noopener">@dailymathtricks</a> · 10,000+ followers.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section" id="contact">
-      <div class="container">
-        <h2 class="section__label">Contact</h2>
-        <p class="contact">
-          Best way to reach me is email:
-          <a href="mailto:erayyapagci@gmail.com">erayyapagci@gmail.com</a> — or find me on
-          <a href="https://github.com/erayyap" target="_blank" rel="noopener">GitHub</a> and
-          <a href="https://linkedin.com/in/erayyap" target="_blank" rel="noopener">LinkedIn</a>.
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <span>© <span id="year"></span> Eray Yapağcı</span>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

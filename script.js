@@ -1,35 +1,69 @@
-// theme toggle (persisted, respects system preference)
-(function () {
+(() => {
   const root = document.documentElement;
-  const btn = document.getElementById("themeToggle");
-  const saved = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  function apply(theme) {
-    root.setAttribute("data-theme", theme);
-    btn.textContent = theme === "dark" ? "light" : "dark";
+  const themeButton = document.getElementById("themeToggle");
+  const preference = window.matchMedia("(prefers-color-scheme: dark)");
+  let saved;
+  try {
+    saved = localStorage.getItem("theme");
+  } catch {
+    /* Storage may be disabled. */
   }
-  apply(saved || (prefersDark ? "dark" : "light"));
-
-  btn.addEventListener("click", () => {
-    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    apply(next);
-    localStorage.setItem("theme", next);
-  });
-})();
-
-// mobile nav
-(function () {
-  const burger = document.getElementById("navBurger");
-  const links = document.getElementById("navLinks");
-  burger.addEventListener("click", () => {
-    const open = links.classList.toggle("open");
-    burger.setAttribute("aria-expanded", String(open));
-  });
-  links.querySelectorAll("a").forEach((a) =>
-    a.addEventListener("click", () => links.classList.remove("open"))
+  function applyTheme(theme) {
+    root.dataset.theme = theme;
+    themeButton.textContent = theme === "dark" ? "Light ↗" : "Dark ↗";
+    themeButton.setAttribute(
+      "aria-label",
+      `Switch to ${theme === "dark" ? "light" : "dark"} theme`,
+    );
+  }
+  applyTheme(
+    saved === "light" || saved === "dark"
+      ? saved
+      : preference.matches
+        ? "dark"
+        : "light",
   );
-})();
+  themeButton.addEventListener("click", () => {
+    saved = root.dataset.theme === "dark" ? "light" : "dark";
+    applyTheme(saved);
+    try {
+      localStorage.setItem("theme", saved);
+    } catch {
+      /* Keep the theme for this visit. */
+    }
+  });
+  preference.addEventListener("change", (event) => {
+    if (saved !== "light" && saved !== "dark")
+      applyTheme(event.matches ? "dark" : "light");
+  });
 
-// footer year
-document.getElementById("year").textContent = new Date().getFullYear();
+  const burger = document.getElementById("navBurger");
+  const navigation = document.getElementById("navLinks");
+  function setMenu(open) {
+    navigation.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+  burger.addEventListener("click", () =>
+    setMenu(burger.getAttribute("aria-expanded") !== "true"),
+  );
+  navigation
+    .querySelectorAll("a")
+    .forEach((link) => link.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      burger.getAttribute("aria-expanded") === "true"
+    ) {
+      setMenu(false);
+      burger.focus();
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".nav")) setMenu(false);
+  });
+  window
+    .matchMedia("(min-width: 761px)")
+    .addEventListener("change", () => setMenu(false));
+  document.getElementById("year").textContent = new Date().getFullYear();
+})();
