@@ -21,7 +21,7 @@ npm run dev
 # http://localhost:8787
 ```
 
-Re-run `npm run build` after editing source files to refresh the assets used by Wrangler.
+Wrangler automatically builds the public assets before development or deployment. Local development watches the site source files and rebuilds on changes.
 
 ## Deploy to Cloudflare Workers
 
@@ -39,7 +39,7 @@ In Cloudflare, go to **Workers & Pages → Create application → Import a repos
 
 - Production branch: `main`
 - Root directory: repository root
-- Build command: `npm run build`
+- Build command: leave empty (Wrangler runs `npm run build` automatically)
 - Deploy command: `npx wrangler deploy`
 
 The build system installs dependencies from `package-lock.json`. Keep the Cloudflare Worker name aligned with `eray-site` in `wrangler.jsonc`. This is a **Workers** setup, not a Pages output-directory setup.
@@ -50,7 +50,7 @@ The build system installs dependencies from `package-lock.json`. Keep the Cloudf
 npm run check:deploy
 ```
 
-This builds the site and validates the Worker deployment without publishing it.
+This builds the site and validates the Worker deployment without publishing it. The custom build in `wrangler.jsonc` also runs when Cloudflare invokes `npx wrangler deploy` directly, so `dist/` does not need to exist in Git.
 
 `scripts/build.mjs` copies only `index.html`, `styles.css`, and `script.js` into `dist/`. Wrangler uploads only that directory, never the repository root. Private `agent_docs/`, credentials, source tooling, and Git files are excluded. Add future public assets explicitly to the build allowlist.
 
