@@ -10,6 +10,7 @@ let clip = null,
   started = 0,
   busy = false,
   hasTranscript = false;
+let submission = null, guessSaved = false, savingGuess = false;
 const maxBytes = 8 * 1024 * 1024;
 function status(message, error = false) {
   $("status").textContent = message;
@@ -214,9 +215,42 @@ document.querySelectorAll("[data-size]").forEach((b) =>
     updateGuess();
   }),
 );
-$("reveal").addEventListener("click", () => {
-  if (!hasTranscript) return;
-  const n = guess(),
+$("reveal").addEventListener("click", async () => {
+  if (!hasTranscript || savingGuess) return;
+  submission ||= {
+    submission_id: crypto.randomUUID(),
+    active_parameters: Math.round(guess() * 1_000_000),
+  };
+  if (!guessSaved) {
+    savingGuess = true;
+    setBusy(true);
+    $("reveal").disabled = true;
+    $("reveal").textContent = "Saving your guess…";
+    $("size").disabled = true;
+    document.querySelectorAll("[data-size]").forEach(b => b.disabled = true);
+    try {
+      const response = await fetch(`${API}/guess`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Guess-Size": "1" },
+        credentials: "omit",
+        signal: AbortSignal.timeout(15000),
+        body: JSON.stringify(submission),
+      });
+      if (!response.ok || !(await response.json()).saved) throw new Error("Save failed");
+      guessSaved = true;
+      $("guess-hint").textContent = "Your guess is saved.";
+    } catch {
+      $("guess-hint").textContent = "Could not save your guess. Wait a moment, then retry.";
+      $("reveal").textContent = "Retry saving my guess ↗";
+      return;
+    } finally {
+      savingGuess = false;
+      setBusy(false);
+      $("reveal").disabled = false;
+    }
+  }
+  $("reveal").textContent = "Guess locked ✓";
+  const n = submission.active_parameters / 1_000_000,
     ratio = n / 15.4;
   let verdict =
     ratio >= 0.8 && ratio <= 1.2
