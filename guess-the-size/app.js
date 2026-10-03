@@ -162,9 +162,7 @@ $("transcribe").addEventListener("click", async () => {
     $("duration").textContent =
       `${Number(result.duration_seconds).toFixed(1)}s`;
     $("speed").textContent = Number.isFinite(speed)
-      ? speed >= 20
-        ? "20×+"
-        : `${Math.min(speed, 20).toFixed(1)}×`
+      ? `${speed.toFixed(1)}×`
       : "—";
     $("metrics").hidden = false;
     $("speed-note").hidden = false;
