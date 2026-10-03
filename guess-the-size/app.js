@@ -20,7 +20,6 @@ function resetTranscript() {
   $("reveal").disabled = true;
   $("copy").hidden = true;
   $("metrics").hidden = true;
-  $("speed-note").hidden = true;
   $("transcript").textContent = "Your words will appear here.";
   $("transcript").classList.add("empty");
   $("answer").hidden = true;
@@ -158,14 +157,9 @@ $("transcribe").addEventListener("click", async () => {
     $("transcript").classList.remove("empty");
     $("transcript").textContent =
       result.text || "No speech was recognized. Try a clearer recording.";
-    const speed = Number(result.realtime_factor);
     $("duration").textContent =
       `${Number(result.duration_seconds).toFixed(1)}s`;
-    $("speed").textContent = Number.isFinite(speed)
-      ? `${speed.toFixed(1)}×`
-      : "—";
     $("metrics").hidden = false;
-    $("speed-note").hidden = false;
     hasTranscript = Boolean(result.text?.trim());
     $("copy").hidden = !hasTranscript;
     $("reveal").disabled = !hasTranscript;
