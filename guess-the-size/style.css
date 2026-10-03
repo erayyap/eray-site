@@ -335,6 +335,17 @@ audio {
   margin-top: 18px;
   padding: 30px 36px;
 }
+.guess-callout {
+  margin: 30px 0 24px;
+  font-size: clamp(32px, 5vw, 58px);
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+}
+.guess-callout span {
+  color: var(--green);
+}
 .guess-heading {
   display: flex;
   align-items: center;
