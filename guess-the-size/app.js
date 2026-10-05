@@ -12,6 +12,23 @@ let clip = null,
   hasTranscript = false;
 let submission = null, guessSaved = false, savingGuess = false;
 const maxBytes = 8 * 1024 * 1024;
+const tr = (x, digits = 1) => x.toFixed(digits).replace(".", ",");
+// Server messages are English; show Turkish ones (unknown messages get a generic Turkish line).
+const SERVER_ERRORS = {
+  "The server is temporarily unavailable. Please try again.": "Sunucu geçici olarak kullanılamıyor. Lütfen tekrar dene.",
+  "Please use the demo on erayy.com.": "Lütfen erayy.com üzerindeki demoyu kullan.",
+  "Choose an audio file smaller than 8 MB.": "8 MB’tan küçük bir ses dosyası seç.",
+  "The model is warming up. Please try again shortly.": "Model ısınıyor. Lütfen birazdan tekrar dene.",
+  "Someone else is transcribing. Please try again in a moment.": "Şu an başka biri yazıya döküyor. Lütfen birazdan tekrar dene.",
+  "Incomplete upload. Please try again.": "Yükleme tamamlanmadı. Lütfen tekrar dene.",
+  "That audio could not be read. Try WAV, MP3, M4A, OGG or WebM.": "Bu ses okunamadı. WAV, MP3, M4A, OGG ya da WebM dene.",
+  "Please use a clip between 0.25 and 30 seconds.": "Lütfen 0,25 ile 30 saniye arasında bir kayıt kullan.",
+  "Invalid audio samples.": "Geçersiz ses verisi.",
+  "The recording is silent. Please try speaking closer to the microphone.": "Kayıt sessiz. Lütfen mikrofona daha yakın konuş.",
+  "Audio processing timed out. Please try a shorter clip.": "Ses işleme zaman aşımına uğradı. Daha kısa bir kayıt dene.",
+};
+const turkishError = (message) =>
+  SERVER_ERRORS[message] || "Yazıya dökme başarısız oldu. Lütfen tekrar dene.";
 function status(message, error = false) {
   $("status").textContent = message;
   $("status").classList.toggle("error", error);
@@ -21,13 +38,13 @@ function resetTranscript() {
   $("reveal").disabled = true;
   $("copy").hidden = true;
   $("metrics").hidden = true;
-  $("transcript").textContent = "Your words will appear here.";
+  $("transcript").textContent = "Sözlerin burada görünecek.";
   $("transcript").classList.add("empty");
   $("answer").hidden = true;
 }
 function setClip(blob) {
   if (blob.size > maxBytes) {
-    status("Please choose a file smaller than 8 MB.", true);
+    status("Lütfen 8 MB’tan küçük bir dosya seç.", true);
     return;
   }
   clip = blob;
@@ -37,12 +54,12 @@ function setClip(blob) {
   $("playback").hidden = false;
   $("transcribe").hidden = false;
   resetTranscript();
-  status("Ready. Listen back or transcribe your clip.");
+  status("Hazır. Kaydı dinleyebilir ya da yazıya dökebilirsin.");
 }
 function setBusy(value) {
   busy = value;
   for (const id of ["record", "upload", "transcribe"]) $(id).disabled = value;
-  $("transcribe").textContent = value ? "Listening…" : "Transcribe this clip →";
+  $("transcribe").textContent = value ? "Dinliyor…" : "Bu kaydı yazıya dök →";
 }
 function releaseMic() {
   clearTimeout(timer);
@@ -50,9 +67,9 @@ function releaseMic() {
   if (stream) stream.getTracks().forEach((t) => t.stop());
   stream = null;
   document.body.classList.remove("recording");
-  $("record").textContent = "● Record your voice";
+  $("record").textContent = "● Sesini kaydet";
   $("upload").disabled = false;
-  $("voice-prompt").textContent = "Your voice, its best guess.";
+  $("voice-prompt").textContent = "Senin sesin, onun en iyi tahmini.";
 }
 function stopRecording() {
   if (recorder && recorder.state === "recording") recorder.stop();
@@ -65,7 +82,7 @@ $("record").addEventListener("click", async () => {
   if (busy) return;
   if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
     status(
-      "Recording is unavailable in this browser. You can upload an audio file instead.",
+      "Bu tarayıcıda kayıt yapılamıyor. Bunun yerine bir ses dosyası yükleyebilirsin.",
       true,
     );
     return;
@@ -86,7 +103,7 @@ $("record").addEventListener("click", async () => {
     };
     recorder.onerror = () => {
       releaseMic();
-      status("Recording failed. Please try again.", true);
+      status("Kayıt başarısız oldu. Lütfen tekrar dene.", true);
     };
     recorder.onstop = () => {
       const blob = new Blob(chunks, { type: recorder.mimeType });
@@ -96,21 +113,21 @@ $("record").addEventListener("click", async () => {
     recorder.start();
     started = Date.now();
     document.body.classList.add("recording");
-    $("record").textContent = "■ Stop recording";
+    $("record").textContent = "■ Kaydı durdur";
     $("upload").disabled = true;
     $("transcribe").hidden = true;
-    status("Recording… tap Stop when you’re done.");
+    status("Kaydediliyor… bitince Durdur’a dokun.");
     ticker = setInterval(() => {
       $("voice-prompt").textContent =
-        `Recording · ${Math.floor((Date.now() - started) / 1000)} / 30s`;
+        `Kaydediliyor · ${Math.floor((Date.now() - started) / 1000)} / 30s`;
     }, 250);
     timer = setTimeout(stopRecording, 30000);
   } catch (e) {
     releaseMic();
     status(
       e.name === "NotAllowedError"
-        ? "Microphone permission was denied. Allow it in your browser, or upload audio."
-        : "Could not open the microphone. Try uploading a recording.",
+        ? "Mikrofon izni reddedildi. Tarayıcında izin ver ya da bir ses dosyası yükle."
+        : "Mikrofon açılamadı. Bir kayıt yüklemeyi dene.",
       true,
     );
   } finally {
@@ -129,7 +146,7 @@ $("transcribe").addEventListener("click", async () => {
   if (!clip || busy) return;
   setBusy(true);
   resetTranscript();
-  status("Uploading and transcribing…");
+  status("Yükleniyor ve yazıya dökülüyor…");
   try {
     const response = await fetch(`${API}/transcribe`, {
       method: "POST",
@@ -147,35 +164,35 @@ $("transcribe").addEventListener("click", async () => {
     } catch {
       throw new Error(
         response.status === 429
-          ? "Too many requests. Please wait a minute and try again."
-          : "The transcription server is unavailable. Please try again shortly.",
+          ? "Çok fazla istek. Lütfen bir dakika bekleyip tekrar dene."
+          : "Yazıya dökme sunucusuna şu an ulaşılamıyor. Lütfen birazdan tekrar dene.",
       );
     }
     if (!response.ok)
       throw new Error(
-        result.error || "Transcription failed. Please try again.",
+        turkishError(result.error),
       );
     $("transcript").classList.remove("empty");
     $("transcript").textContent =
-      result.text || "No speech was recognized. Try a clearer recording.";
+      result.text || "Konuşma algılanamadı. Daha net, Türkçe bir kayıt dene.";
     $("duration").textContent =
-      `${Number(result.duration_seconds).toFixed(1)}s`;
+      `${Number(result.duration_seconds).toFixed(1).replace(".", ",")} sn`;
     $("metrics").hidden = false;
     hasTranscript = Boolean(result.text?.trim());
     $("copy").hidden = !hasTranscript;
     $("reveal").disabled = !hasTranscript;
     $("guess-hint").textContent = hasTranscript
-      ? "You’ve heard it. Now, what’s your guess?"
-      : "Try a clip with audible Turkish speech.";
+      ? "Duydun. Peki kaç aktif parametre sence?"
+      : "Net duyulan Türkçe konuşma içeren bir kayıt dene.";
     status(
-      hasTranscript ? "Done. Make your guess below." : "Try another recording.",
+      hasTranscript ? "Tamam. Tahminini aşağıda yap." : "Başka bir kayıt dene.",
     );
   } catch (e) {
     status(
       e.name === "TimeoutError"
-        ? "The request took too long. Try a shorter recording."
-        : e.message === "Failed to fetch"
-          ? "Could not reach the transcription server. Please try again shortly."
+        ? "İstek çok uzun sürdü. Daha kısa bir kayıt dene."
+        : e.name === "TypeError"
+          ? "Yazıya dökme sunucusuna ulaşılamadı. Lütfen birazdan tekrar dene."
           : e.message,
       true,
     );
@@ -192,18 +209,18 @@ function updateGuess() {
   $("guess-value").replaceChildren(
     document.createTextNode(
       big
-        ? (value / 1000).toFixed(2)
+        ? tr(value / 1000, 2)
         : value < 20
-          ? value.toFixed(1)
+          ? tr(value)
           : Math.round(value).toString(),
     ),
   );
   const unit = document.createElement("span");
-  unit.textContent = big ? "billion" : "million";
+  unit.textContent = big ? "milyar" : "milyon";
   $("guess-value").append(unit);
   $("size").setAttribute(
     "aria-valuetext",
-    `${value.toFixed(1)} million active parameters`,
+    `${value.toFixed(1).replace(".", ",")} milyon aktif parametre`,
   );
 }
 $("size").addEventListener("input", updateGuess);
@@ -225,7 +242,7 @@ $("reveal").addEventListener("click", async () => {
     savingGuess = true;
     setBusy(true);
     $("reveal").disabled = true;
-    $("reveal").textContent = "Saving your guess…";
+    $("reveal").textContent = "Tahminin kaydediliyor…";
     $("size").disabled = true;
     document.querySelectorAll("[data-size]").forEach(b => b.disabled = true);
     try {
@@ -238,10 +255,10 @@ $("reveal").addEventListener("click", async () => {
       });
       if (!response.ok || !(await response.json()).saved) throw new Error("Save failed");
       guessSaved = true;
-      $("guess-hint").textContent = "Your guess is saved.";
+      $("guess-hint").textContent = "Tahminin kaydedildi.";
     } catch {
-      $("guess-hint").textContent = "Could not save your guess. Wait a moment, then retry.";
-      $("reveal").textContent = "Retry saving my guess ↗";
+      $("guess-hint").textContent = "Tahminin kaydedilemedi. Biraz bekleyip tekrar dene.";
+      $("reveal").textContent = "Tahminimi tekrar kaydet ↗";
       return;
     } finally {
       savingGuess = false;
@@ -249,17 +266,17 @@ $("reveal").addEventListener("click", async () => {
       $("reveal").disabled = false;
     }
   }
-  $("reveal").textContent = "Guess locked ✓";
+  $("reveal").textContent = "Tahmin kilitlendi ✓";
   const n = submission.active_parameters / 1_000_000,
     ratio = n / 15.4;
   let verdict =
     ratio >= 0.8 && ratio <= 1.2
-      ? "That’s a very close guess."
+      ? "Çok yakın bir tahmin."
       : ratio > 1
-        ? `Your guess was ${ratio.toFixed(1)}× larger than its active size.`
-        : `It uses about ${(1 / ratio).toFixed(1)}× as many active parameters as you guessed.`;
+        ? `Tahminin, aktif boyutunun ${tr(ratio)} katıydı.`
+        : `Model, tahmininin yaklaşık ${tr(1 / ratio)} katı aktif parametre kullanıyor.`;
   $("verdict").textContent =
-    `You guessed ${n >= 1000 ? (n / 1000).toFixed(2) + "B" : n.toFixed(1) + "M"}. ${verdict}`;
+    `Tahminin: ${n >= 1000 ? tr((n / 1000), 2) + " milyar" : tr(n) + " milyon"} aktif parametre. ${verdict}`;
   $("answer").hidden = false;
   $("answer").focus({ preventScroll: true });
   $("answer").scrollIntoView({
@@ -276,12 +293,12 @@ $("again").addEventListener("click", () => {
 $("copy").addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText($("transcript").textContent);
-    $("copy").textContent = "Copied";
+    $("copy").textContent = "Kopyalandı";
     setTimeout(() => {
-      $("copy").textContent = "Copy";
+      $("copy").textContent = "Kopyala";
     }, 1500);
   } catch {
-    status("Select the transcript to copy it.", true);
+    status("Kopyalamak için yazıyı seç.", true);
   }
 });
 window.addEventListener("pagehide", () => {
@@ -295,9 +312,9 @@ async function health() {
       credentials: "omit",
     });
     const s = await r.json();
-    $("connection").textContent = s.ready ? "Ready to listen" : "Warming up";
+    $("connection").textContent = s.ready ? "Dinlemeye hazır" : "Isınıyor";
   } catch {
-    $("connection").textContent = "Server unavailable";
+    $("connection").textContent = "Sunucuya ulaşılamıyor";
   }
 }
 updateGuess();

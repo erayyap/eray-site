@@ -358,6 +358,17 @@ audio {
   font-size: 27px;
   margin: 0;
 }
+.guess-heading p small {
+  display: block;
+  margin-top: 6px;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--muted);
+}
+.guess-heading p strong {
+  color: var(--green);
+  font-weight: inherit;
+}
 output {
   font-size: 38px;
   font-weight: 500;
