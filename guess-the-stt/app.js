@@ -1,6 +1,6 @@
 "use strict";
-// Temporary (2026-10-06): the VPS relay is down; served through a Cloudflare quick tunnel on the ASR host.
-const API = "https://laptops-ecommerce-dairy-bowl.trycloudflare.com/guess-size-api";
+// Cloudflare named tunnel (guess-stt) to the ASR host; replaced the VPS relay on 2026-10-06.
+const API = "https://stt-api.erayy.com/guess-size-api";
 const $ = (id) => document.getElementById(id);
 let clip = null,
   clipURL = null,
