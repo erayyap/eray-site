@@ -46,7 +46,7 @@
             ><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
           </div>
           <p class="voice-prompt" id="voice-prompt">Kayda hazır.</p>
-          <p class="muted">Herhangi bir Türkçe cümle söyleyebilirsin.</p>
+          <p class="muted">3 kayıt dene; ardından tahmin bölümü açılır.</p>
           <div class="actions">
             <button id="record" class="primary" type="button">
               <span aria-hidden="true">●</span> Sesini kaydet</button
@@ -94,14 +94,14 @@
           </div>
         </section>
       </div>
-      <section class="panel guess" aria-labelledby="guess-title">
+      <section class="panel guess" id="guess" aria-labelledby="guess-title" hidden>
         <div class="panel-head">
           <h2 id="guess-title"><span>3</span> Aktif parametre sayısını tahmin et</h2>
           <span class="pill">AKTİF BOYUT</span>
         </div>
         <div class="guess-body">
           <div class="guess-heading">
-            <p class="guess-callout">3 kez dene.<br /><span>Tahminini kilitle.</span></p>
+            <p class="guess-callout">3 kez denedin.<br /><span>Tahminini kilitle.</span></p>
             <p>
               Bu model kaç <strong>aktif parametre</strong> kullanıyor?
               <small>Toplam depolanan değil: her ses karesi işlenirken gerçekten kullanılan parametreler.</small>
@@ -130,11 +130,11 @@
           Ölçek için <span>bilinen yoğun (dense) konuşma modelleri; bunlarda aktif ve toplam parametre aynıdır.</span>
         </p>
         <div id="landmarks" class="landmarks">
-          <button type="button" data-size="39"><img src="/guess-the-size/img/balbal.webp" alt="" />Whisper Tiny <b>39 mn</b></button
-          ><button type="button" data-size="74"><img src="/guess-the-size/img/balbal.webp" alt="" />Whisper Base <b>74 mn</b></button
-          ><button type="button" data-size="244"><img src="/guess-the-size/img/balbal.webp" alt="" />Whisper Small <b>244 mn</b></button
-          ><button type="button" data-size="809"><img src="/guess-the-size/img/balbal.webp" alt="" />Whisper Turbo <b>809 mn</b></button
-          ><button type="button" data-size="1550"><img src="/guess-the-size/img/balbal.webp" alt="" />Whisper Large <b>1,55 milyar</b></button>
+          <button type="button" data-size="39"><img src="/guess-the-size/img/balbal.webp" alt="" /><span class="family">Whisper </span>Tiny <b>39 mn</b></button
+          ><button type="button" data-size="74"><img src="/guess-the-size/img/balbal.webp" alt="" /><span class="family">Whisper </span>Base <b>74 mn</b></button
+          ><button type="button" data-size="244"><img src="/guess-the-size/img/balbal.webp" alt="" /><span class="family">Whisper </span>Small <b>244 mn</b></button
+          ><button type="button" data-size="809"><img src="/guess-the-size/img/balbal.webp" alt="" /><span class="family">Whisper </span>Turbo <b>809 mn</b></button
+          ><button type="button" data-size="1550"><img src="/guess-the-size/img/balbal.webp" alt="" /><span class="family">Whisper </span>Large <b>1,55 milyar</b></button>
         </div>
         <div class="guess-footer">
           <p id="guess-hint">Önce yazıya dökmeyi dene, sonra tahminini kilitle.</p>

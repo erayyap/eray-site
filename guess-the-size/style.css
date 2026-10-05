@@ -237,6 +237,7 @@ button {
 button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+  filter: grayscale(0.6);
 }
 .primary {
   color: #1d1408;
@@ -565,6 +566,7 @@ input[type="range"]::-moz-range-thumb {
 }
 .answer h3 strong {
   color: var(--gold-light);
+  white-space: nowrap;
 }
 #verdict {
   margin: 0 0 6px;
@@ -635,10 +637,10 @@ noscript .panel {
     grid-template-columns: 1fr;
   }
   .scale-art {
-    height: 130px;
+    height: 112px;
   }
   .scale-art img {
-    max-height: 130px;
+    max-height: 112px;
   }
 }
 @media (max-width: 720px) {
@@ -679,11 +681,20 @@ noscript .panel {
     display: none;
   }
   .landmarks {
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 2px;
   }
   .landmarks button {
-    flex: 0 0 31%;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .landmarks .family {
+    display: none;
+  }
+  .landmarks button img {
+    height: calc(30px + var(--s, 0.5) * 84px);
+  }
+  .answer h3 {
+    font-size: 26px;
   }
   .guess-footer {
     flex-direction: column;

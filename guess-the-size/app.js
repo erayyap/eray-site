@@ -39,6 +39,18 @@ const clientId = (() => {
 let guessHistory = store.get("guessSize.history", []);
 if (!Array.isArray(guessHistory)) guessHistory = [];
 let revealedBefore = store.get("guessSize.revealed", false) === true;
+// The guess section opens after 3 successful transcriptions (remembered across refreshes).
+const TRIES_TO_GUESS = 3;
+let tries = Number(store.get("guessSize.tries", 0)) || 0;
+function openGuess(scroll) {
+  if (!$("guess").hidden) return;
+  $("guess").hidden = false;
+  if (scroll)
+    $("guess").scrollIntoView({
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      block: "start",
+    });
+}
 let locked = false;
 const maxBytes = 8 * 1024 * 1024;
 const tr = (x, digits = 1) => x.toFixed(digits).replace(".", ",");
@@ -214,9 +226,16 @@ $("transcribe").addEventListener("click", async () => {
     if (!locked) $("guess-hint").textContent = hasTranscript
       ? "Duydun. Peki kaç aktif parametre sence?"
       : "Net duyulan Türkçe konuşma içeren bir kayıt dene.";
-    status(
-      hasTranscript ? "Tamam. Tahminini aşağıda yap." : "Başka bir kayıt dene.",
-    );
+    if (hasTranscript) {
+      tries += 1;
+      store.set("guessSize.tries", tries);
+    }
+    if (!hasTranscript) status("Başka bir kayıt dene.");
+    else if (tries < TRIES_TO_GUESS) status(`Tamam. ${tries}/${TRIES_TO_GUESS} deneme.`);
+    else {
+      status("Tamam. Şimdi tahminini yap.");
+      openGuess(true);
+    }
   } catch (e) {
     status(
       e.name === "TimeoutError"
@@ -392,6 +411,7 @@ async function health() {
   }
 }
 updateGuess();
+if (tries >= TRIES_TO_GUESS || revealedBefore) openGuess(false);
 restoreLockedGuess();
 health();
 setInterval(health, 60000);
