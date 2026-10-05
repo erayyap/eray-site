@@ -70,11 +70,10 @@
             Bu kaydı yazıya dök →
           </button>
           <p class="privacy">
-            Sesin Eray’ın yazıya dökme sunucusuna gönderilir, yalnızca bu istek
-            için kullanılır ve ardından silinir. İsteklerin anonim zaman damgasını
-            ve sonucunu kaydediyoruz; ses ya da yazı dökümü kaydedilmez. Eğitim
-            için kullanılmaz. Yalnızca paylaşmaktan rahatsız olmayacağın sesleri
-            gönder.
+            Sesin yalnızca bu istek için kullanılır, ardından silinir ve eğitimde
+            kullanılmaz. Her istek için zaman damgası, sonuç, ses süresi ve yazı
+            dökümünün harf ve kelime sayısı kaydedilir; sesin ya da yazının
+            kendisi kaydedilmez.
           </p>
           <p id="status" role="status" aria-live="polite"></p>
         </section>
@@ -143,7 +142,8 @@
             Tahminimi kilitle ↗
           </button>
         </div>
-        <p class="privacy">Gönderdiğin aktif parametre tahmini ve zaman damgası anonim olarak kaydedilir. Tahmininle birlikte ses ya da yazı dökümü kaydedilmez.</p>
+        <p id="history" class="history" hidden>Önceki tahminlerin: <span id="history-list"></span></p>
+        <p class="privacy">Tahminin; zaman damgası, tarayıcına özel rastgele bir kimlik ve IP adresinden türetilen geri döndürülemez bir kodla kaydedilir. IP adresinin kendisi kaydedilmez. Tahminlerin bu tarayıcıda da saklanır.</p>
         <div id="answer" class="answer" hidden tabindex="-1">
           <img class="answer-art" src="/guess-the-size/img/stag.webp" alt="" width="480" height="351" />
           <div class="answer-text">

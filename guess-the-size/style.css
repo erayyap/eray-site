@@ -515,6 +515,15 @@ input[type="range"]::-moz-range-thumb {
   margin: 0;
   color: var(--muted);
 }
+.history {
+  margin: 16px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+.history span {
+  color: var(--gold-light);
+  font-weight: 500;
+}
 .guess .privacy {
   text-align: center;
 }
