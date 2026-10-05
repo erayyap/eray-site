@@ -1,5 +1,6 @@
 "use strict";
-const API = "https://94.249.207.221/guess-size-api";
+// Temporary (2026-10-06): the VPS relay is down; served through a Cloudflare quick tunnel on the ASR host.
+const API = "https://laptops-ecommerce-dairy-bowl.trycloudflare.com/guess-size-api";
 const $ = (id) => document.getElementById(id);
 let clip = null,
   clipURL = null,
@@ -68,6 +69,7 @@ const SERVER_ERRORS = {
   "The recording is silent. Please try speaking closer to the microphone.": "Kayıt sessiz. Lütfen mikrofona daha yakın konuş.",
   "Audio processing timed out. Please try a shorter clip.": "Ses işleme zaman aşımına uğradı. Daha kısa bir kayıt dene.",
   "Please reload the page and try again.": "Lütfen sayfayı yenileyip tekrar dene.",
+  "Too many requests. Please wait a minute and try again.": "Çok fazla istek. Lütfen bir dakika bekleyip tekrar dene.",
   "Daily limit reached: 100 transcriptions per day. Try again tomorrow, or contact Eray for more: hello@erayy.com":
     "Günlük sınıra ulaştın: günde 100 kayıt. Yarın tekrar dene ya da daha fazlası için Eray’a yaz: hello@erayy.com",
 };
