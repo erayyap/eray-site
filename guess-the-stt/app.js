@@ -40,7 +40,7 @@ let guessHistory = store.get("guessSize.history", []);
 if (!Array.isArray(guessHistory)) guessHistory = [];
 let revealedBefore = store.get("guessSize.revealed", false) === true;
 // The guess section opens after 3 successful transcriptions (remembered across refreshes).
-const TRIES_TO_GUESS = 3;
+const TRIES_TO_GUESS = 1;
 let tries = Number(store.get("guessSize.tries", 0)) || 0;
 function openGuess(scroll) {
   if (!$("guess").hidden) return;
