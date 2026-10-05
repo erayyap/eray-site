@@ -49,7 +49,7 @@ img {
   background:
     linear-gradient(90deg, rgba(12, 9, 8, 0.9) 0%, rgba(12, 9, 8, 0.62) 38%, rgba(12, 9, 8, 0.05) 72%),
     linear-gradient(180deg, rgba(12, 9, 8, 0.35) 0%, transparent 25%, transparent 70%, var(--bg) 100%),
-    url("/guess-the-size/img/hero.webp") 68% 60% / cover no-repeat,
+    url("/guess-the-stt/img/hero.webp") 68% 60% / cover no-repeat,
     #1a1420;
 }
 header,
@@ -328,7 +328,7 @@ audio {
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(18, 13, 10, 0.86), rgba(18, 13, 10, 0.94)),
-    url("/guess-the-size/img/logs.webp") 0 0 / 360px repeat,
+    url("/guess-the-stt/img/logs.webp") 0 0 / 360px repeat,
     var(--panel);
 }
 .guess-callout {
@@ -659,7 +659,7 @@ noscript .panel {
     min-height: 640px;
     background:
       linear-gradient(180deg, rgba(12, 9, 8, 0.55) 0%, rgba(12, 9, 8, 0.25) 35%, rgba(12, 9, 8, 0.85) 75%, var(--bg) 100%),
-      url("/guess-the-size/img/hero.webp") 72% 50% / cover no-repeat,
+      url("/guess-the-stt/img/hero.webp") 72% 50% / cover no-repeat,
       #1a1420;
   }
   .intro {
