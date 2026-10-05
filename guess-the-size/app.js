@@ -38,7 +38,7 @@ function resetTranscript() {
   $("reveal").disabled = true;
   $("copy").hidden = true;
   $("metrics").hidden = true;
-  $("transcript").textContent = "Sözlerin burada görünecek.";
+  $("transcript").textContent = "Sözlerin burada taşa kazınacak.";
   $("transcript").classList.add("empty");
   $("answer").hidden = true;
 }
@@ -218,12 +218,18 @@ function updateGuess() {
   const unit = document.createElement("span");
   unit.textContent = big ? "milyar" : "milyon";
   $("guess-value").append(unit);
+  // The kurgan grows with the guess.
+  document.querySelector(".kurgan")?.style.setProperty("--g", Number($("size").value) / 1000);
   $("size").setAttribute(
     "aria-valuetext",
     `${value.toFixed(1).replace(".", ",")} milyon aktif parametre`,
   );
 }
 $("size").addEventListener("input", updateGuess);
+// Balbal stone heights follow each reference model's size on the same log scale as the slider.
+document.querySelectorAll("[data-size] .stone").forEach((stone) =>
+  stone.style.setProperty("--s", Math.log(Number(stone.parentElement.dataset.size)) / Math.log(2000)),
+);
 document.querySelectorAll("[data-size]").forEach((b) =>
   b.addEventListener("click", () => {
     $("size").value = Math.round(

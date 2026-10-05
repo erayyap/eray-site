@@ -8,42 +8,98 @@
       name="description"
       content="Türkçe konuşma tanıma modelini dene. Sözlerinin yazıya dönüşünü gör, sonra modelin kaç aktif parametre kullandığını tahmin et."
     />
-    <meta name="theme-color" content="#f6f5f0" />
+    <meta name="theme-color" content="#14121c" />
     <link rel="canonical" href="https://erayy.com/guess-the-size" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Cinzel:wght@500;700&family=Noto+Sans+Old+Turkic&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/guess-the-size/style.css" />
     <script src="/guess-the-size/app.js" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Demoya geç</a>
+    <div class="hero">
+    <div class="steppe" aria-hidden="true">
+      <svg viewBox="0 0 1200 460" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#100e18" />
+            <stop offset="0.55" stop-color="#2a2133" />
+            <stop offset="0.82" stop-color="#6a4335" />
+            <stop offset="1" stop-color="#b9783f" />
+          </linearGradient>
+          <radialGradient id="sun" cx="0.5" cy="1" r="0.5">
+            <stop offset="0" stop-color="#f6d27a" stop-opacity="0.9" />
+            <stop offset="0.35" stop-color="#e09a45" stop-opacity="0.45" />
+            <stop offset="1" stop-color="#e09a45" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="mound" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#5a3f2a" />
+            <stop offset="1" stop-color="#22170f" />
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="460" fill="url(#sky)" />
+        <g class="stars" fill="#f1e6cf">
+          <circle cx="80" cy="60" r="1.4" /><circle cx="160" cy="130" r="1" /><circle cx="230" cy="40" r="1.8" />
+          <circle cx="300" cy="100" r="1.1" /><circle cx="390" cy="30" r="1.3" /><circle cx="450" cy="150" r="0.9" />
+          <circle cx="520" cy="70" r="1.6" /><circle cx="610" cy="25" r="1.1" /><circle cx="680" cy="110" r="1.4" />
+          <circle cx="740" cy="55" r="1" /><circle cx="820" cy="140" r="1.2" /><circle cx="880" cy="35" r="1.7" />
+          <circle cx="950" cy="95" r="1" /><circle cx="1020" cy="50" r="1.3" /><circle cx="1090" cy="120" r="1.1" />
+          <circle cx="1150" cy="70" r="1.5" /><circle cx="40" cy="170" r="0.9" /><circle cx="1180" cy="180" r="0.9" />
+          <circle cx="350" cy="190" r="0.8" /><circle cx="990" cy="200" r="0.8" />
+        </g>
+        <circle cx="600" cy="400" r="330" fill="url(#sun)" />
+        <path d="M0 330 L90 288 L170 312 L260 262 L340 300 L420 270 L500 305 L560 284 L640 310 L720 268 L800 298 L880 258 L960 300 L1040 276 L1120 304 L1200 286 L1200 460 L0 460 Z" fill="#3b2b33" />
+        <path d="M0 360 Q300 330 600 352 T1200 348 L1200 460 L0 460 Z" fill="#2a1d1c" />
+        <path d="M410 392 Q600 236 790 392 Z" fill="url(#mound)" />
+        <path d="M430 384 Q600 252 770 384" fill="none" stroke="#7d9a52" stroke-opacity="0.35" stroke-width="3" />
+        <g fill="#8f8172">
+          <ellipse cx="420" cy="394" rx="9" ry="5" /><ellipse cx="452" cy="397" rx="8" ry="5" /><ellipse cx="486" cy="399" rx="9" ry="5" />
+          <ellipse cx="520" cy="400" rx="8" ry="4.5" /><ellipse cx="556" cy="401" rx="9" ry="5" /><ellipse cx="644" cy="401" rx="9" ry="5" />
+          <ellipse cx="680" cy="400" rx="8" ry="4.5" /><ellipse cx="714" cy="399" rx="9" ry="5" /><ellipse cx="748" cy="397" rx="8" ry="5" />
+          <ellipse cx="780" cy="394" rx="9" ry="5" />
+        </g>
+        <g class="balbal">
+          <path d="M880 404 L880 346 Q880 322 900 322 Q920 322 920 346 L920 404 Z" fill="#7a6d61" />
+          <path d="M891 342 h6 M903 342 h6 M896 356 q4 4 8 0 M893 376 h14" stroke="#3a3029" stroke-width="2" fill="none" />
+          <path d="M945 404 L945 372 Q945 360 955 360 Q965 360 965 372 L965 404 Z" fill="#6b5f55" />
+          <path d="M985 404 L985 380 Q985 371 993 371 Q1001 371 1001 380 L1001 404 Z" fill="#62574e" />
+        </g>
+        <rect y="400" width="1200" height="60" fill="#1e1610" />
+      </svg>
+    </div>
     <header>
       <a class="wordmark" href="/">erayy<span> / lab</span></a
-      ><span class="edition">DENEY 001 · KONUŞMA</span
+      ><span class="edition">DENEY 001 · KURGAN</span
       ><a href="/">Eray hakkında ↗</a>
     </header>
+    <section class="intro">
+      <p class="runes" aria-hidden="true">𐰀𐰃𐰆𐰇𐰉𐰋𐰍𐰏𐰑𐰓𐰖𐰘𐰚𐰜𐰞𐰠𐰢𐰣𐰤𐰨𐰭𐰯𐰱𐰲𐰴𐰸𐰺𐰼𐰽𐰾𐱁𐱃𐱅𐱈</p>
+      <p class="eyebrow">KÜÇÜK BİR MODEL · KÖR BİR TAHMİN</p>
+      <h1>Bir ses, bir kurgan.<br /><em>Ne kadar küçük bir model?</em></h1>
+      <p class="lede">
+        Türkçe konuş, ne duyduğunu gör. Sonra kaç
+      <strong>aktif parametre</strong> kullandığını tahmin et.
+      </p>
+      <p class="only-turkish">
+      <strong>Bu model yalnızca Türkçe içindir.</strong> Başka dillerde
+        konuşursan anlamsız sonuçlar verir.
+      </p>
+      <ol class="steps" aria-label="Nasıl çalışır">
+      <li><b>I</b> Sesini bırak</li>
+      <li><b>II</b> Yazıyı oku</li>
+      <li><b>III</b> Kurganı tahmin et</li>
+      </ol>
+    </section>
+    </div>
     <main id="main">
-      <section class="intro">
-        <p class="eyebrow">
-          <span class="dot"></span> KÜÇÜK BİR MODEL. KÖR BİR TAHMİN.
-        </p>
-        <h1>Güçlü ses.<br /><em>Ne kadar küçük bir model?</em></h1>
-        <p class="lede">
-          Türkçe konuş, ne duyduğunu gör.<br />Sonra kaç
-          <strong>aktif parametre</strong> kullandığını tahmin et.
-        </p>
-        <p class="lede">
-          <strong>Bu model yalnızca Türkçe içindir.</strong> Başka dillerde
-          konuşursan anlamsız sonuçlar verir.
-        </p>
-        <div class="steps" aria-label="Nasıl çalışır">
-          <span><b>01</b> Sesini ekle</span
-          ><span><b>02</b> Yazıyı oku</span
-          ><span><b>03</b> Boyutu tahmin et</span>
-        </div>
-      </section>
       <div class="workspace">
         <section class="card voice" aria-labelledby="voice-title">
           <div class="card-head">
-            <h2 id="voice-title"><span>01</span> Sesini duysun</h2>
+            <h2 id="voice-title"><span>I</span> Sesini bırak</h2>
             <span id="connection" class="pill">Bağlanıyor…</span>
           </div>
           <div class="sound-art" aria-hidden="true">
@@ -90,13 +146,13 @@
         </section>
         <section class="card transcript" aria-labelledby="transcript-title">
           <div class="card-head">
-            <h2 id="transcript-title"><span>02</span> Ne duydu</h2>
+            <h2 id="transcript-title"><span>II</span> Ne duydu</h2>
             <button id="copy" type="button" class="text-button" hidden>
               Kopyala
             </button>
           </div>
           <div id="transcript" class="transcript-text empty" aria-live="polite">
-            Sözlerin burada görünecek.<span
+            Sözlerin burada taşa kazınacak.<span
               >Önce dinle, boyutu sonra yargıla.</span
             >
           </div>
@@ -109,7 +165,7 @@
       </div>
       <section class="card guess" aria-labelledby="guess-title">
         <div class="card-head">
-          <h2 id="guess-title"><span>03</span> Aktif parametre sayısını tahmin et</h2>
+          <h2 id="guess-title"><span>III</span> Aktif parametre sayısını tahmin et</h2>
           <span class="pill">AKTİF BOYUT</span>
         </div>
         <p class="guess-callout">3 kez dene.<br /><span>Tahminini kilitle.</span></p>
@@ -120,6 +176,23 @@
           </p>
           <output id="guess-value" for="size">100<span>milyon</span></output>
         </div>
+        <figure class="kurgan" aria-hidden="true">
+          <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMax meet">
+            <defs>
+              <linearGradient id="earth" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8a6240" />
+                <stop offset="1" stop-color="#3b2717" />
+              </linearGradient>
+            </defs>
+            <g class="mound">
+              <path d="M40 140 Q200 -10 360 140 Z" fill="url(#earth)" />
+              <path d="M58 132 Q200 6 342 132" fill="none" stroke="#9fb36a" stroke-opacity="0.4" stroke-width="3" />
+              <rect x="186" y="104" width="28" height="20" rx="2" fill="#d4a541" />
+            </g>
+            <line x1="0" y1="140" x2="400" y2="140" stroke="#c9b79a" stroke-opacity="0.45" stroke-width="2" />
+          </svg>
+          <figcaption>Tahminin büyüdükçe kurgan da büyür.</figcaption>
+        </figure>
         <label class="sr-only" for="size"
           >Aktif parametre tahminin (milyon)</label
         ><input
@@ -135,18 +208,14 @@
           <span>1 milyon</span><span>10 milyon</span><span>100 milyon</span><span>2 milyar</span>
         </div>
         <div class="landmark-title">
-          Ölçek için <span>· bilinen yoğun (dense) konuşma modelleri; hepsi aktif = toplam</span>
+          Ölçek için <span>· bilinen yoğun (dense) konuşma modelleri, balbal taşları gibi dizili; hepsinde aktif = toplam</span>
         </div>
         <div id="landmarks" class="landmarks">
-          <button type="button" data-size="39">Whisper Tiny <b>39 mn</b></button
-          ><button type="button" data-size="74">Whisper Base <b>74 mn</b></button
-          ><button type="button" data-size="244">
-            Whisper Small <b>244 mn</b></button
-          ><button type="button" data-size="809">
-            Whisper Turbo <b>809 mn</b></button
-          ><button type="button" data-size="1550">
-            Whisper Large <b>1,55 milyar</b>
-          </button>
+          <button type="button" data-size="39"><span class="stone" aria-hidden="true"></span>Whisper Tiny <b>39 mn</b></button
+          ><button type="button" data-size="74"><span class="stone" aria-hidden="true"></span>Whisper Base <b>74 mn</b></button
+          ><button type="button" data-size="244"><span class="stone" aria-hidden="true"></span>Whisper Small <b>244 mn</b></button
+          ><button type="button" data-size="809"><span class="stone" aria-hidden="true"></span>Whisper Turbo <b>809 mn</b></button
+          ><button type="button" data-size="1550"><span class="stone" aria-hidden="true"></span>Whisper Large <b>1,55 milyar</b></button>
         </div>
         <div class="guess-footer">
           <p id="guess-hint">Önce yazıya dökmeyi dene, sonra tahminini kilitle.</p>
@@ -156,7 +225,7 @@
         </div>
         <p class="privacy">Gönderdiğin aktif parametre tahmini ve zaman damgası anonim olarak kaydedilir. Tahmininle birlikte ses ya da yazı dökümü kaydedilmez.</p>
         <div id="answer" class="answer" hidden tabindex="-1">
-          <p class="eyebrow">CEVAP</p>
+          <p class="eyebrow">MEZAR ODASI AÇILDI</p>
           <h3>Yaklaşık <strong>15,4 milyon</strong><br />aktif parametre.</h3>
           <p id="verdict"></p>
           <div class="answer-detail">
@@ -194,12 +263,14 @@
               </p>
             </details>
           </div>
+          <p class="coming-soon">Daha fazla ayrıntı çok yakında.</p>
           <button type="button" id="again" class="secondary">
             Başka bir kayıt dene ↑
           </button>
         </div>
       </section>
       <footer>
+        <p class="runes" aria-hidden="true">𐱈𐱅𐱃𐱁𐰾𐰽𐰼𐰺𐰸𐰴𐰲𐰱𐰯𐰭𐰨𐰤𐰣𐰢𐰠𐰞𐰜𐰚𐰘𐰖𐰓𐰑𐰏𐰍𐰋𐰉𐰇𐰆𐰃𐰀</p>
         <p>
           <a href="/">Eray Yapağcı</a> tarafından yapıldı. Küçük modellerin neler
           yapabildiğini merak ediyor.
