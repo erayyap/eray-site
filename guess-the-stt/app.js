@@ -152,9 +152,12 @@ $("record").addEventListener("click", async () => {
     recorder.onstop = () => {
       const blob = new Blob(chunks, { type: recorder.mimeType });
       releaseMic();
-      if (blob.size) setClip(blob);
+      // A header-only file (~100 bytes) means the mic delivered no audio; don't upload it.
+      if (blob.size < 1024)
+        status("Kayıt boş görünüyor. Mikrofonunu kontrol et ya da bir ses dosyası yükle.", true);
+      else setClip(blob);
     };
-    recorder.start();
+    recorder.start(1000); // flush data every second; some browsers return empty files otherwise
     started = Date.now();
     document.body.classList.add("recording");
     $("record").textContent = "■ Kaydı durdur";
