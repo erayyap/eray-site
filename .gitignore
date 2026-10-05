@@ -9,3 +9,4 @@ dist/
 .env.*
 .dev.vars
 .dev.vars.*
+guess-the-size/img-src/

@@ -1,4 +1,4 @@
-import { copyFile, mkdir, rm } from "node:fs/promises";
+import { copyFile, mkdir, readdir, rm } from "node:fs/promises";
 
 const output = new URL("../dist/", import.meta.url);
 await rm(output, { recursive: true, force: true });
@@ -15,6 +15,15 @@ for (const name of ["index.html", "style.css", "app.js"]) {
   await copyFile(
     new URL(`../guess-the-size/${name}`, import.meta.url),
     new URL(`guess-the-size/${name}`, output),
+  );
+}
+// Optimized page images only (.webp); raw generations in img-src/ are never published.
+await mkdir(new URL("guess-the-size/img/", output), { recursive: true });
+for (const name of await readdir(new URL("../guess-the-size/img/", import.meta.url))) {
+  if (!name.endsWith(".webp")) continue;
+  await copyFile(
+    new URL(`../guess-the-size/img/${name}`, import.meta.url),
+    new URL(`guess-the-size/img/${name}`, output),
   );
 }
 console.log("Built public site files in dist/");
