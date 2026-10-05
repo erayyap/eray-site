@@ -39,7 +39,7 @@ const clientId = (() => {
 let guessHistory = store.get("guessSize.history", []);
 if (!Array.isArray(guessHistory)) guessHistory = [];
 let revealedBefore = store.get("guessSize.revealed", false) === true;
-// The guess section opens after 3 successful transcriptions (remembered across refreshes).
+// The guess section opens after the first successful transcription (remembered across refreshes).
 const TRIES_TO_GUESS = 1;
 let tries = Number(store.get("guessSize.tries", 0)) || 0;
 function openGuess(scroll) {
@@ -67,6 +67,9 @@ const SERVER_ERRORS = {
   "Invalid audio samples.": "Geçersiz ses verisi.",
   "The recording is silent. Please try speaking closer to the microphone.": "Kayıt sessiz. Lütfen mikrofona daha yakın konuş.",
   "Audio processing timed out. Please try a shorter clip.": "Ses işleme zaman aşımına uğradı. Daha kısa bir kayıt dene.",
+  "Please reload the page and try again.": "Lütfen sayfayı yenileyip tekrar dene.",
+  "Daily limit reached: 100 transcriptions per day. Try again tomorrow, or contact Eray for more: hello@erayy.com":
+    "Günlük sınıra ulaştın: günde 100 kayıt. Yarın tekrar dene ya da daha fazlası için Eray’a yaz: hello@erayy.com",
 };
 const turkishError = (message) =>
   SERVER_ERRORS[message] || "Yazıya dökme başarısız oldu. Lütfen tekrar dene.";
