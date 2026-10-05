@@ -20,7 +20,7 @@ for (const name of ["index.html", "style.css", "app.js"]) {
 // Optimized page images only (.webp); raw generations in img-src/ are never published.
 await mkdir(new URL("guess-the-size/img/", output), { recursive: true });
 for (const name of await readdir(new URL("../guess-the-size/img/", import.meta.url))) {
-  if (!name.endsWith(".webp")) continue;
+  if (!name.endsWith(".webp") && name !== "og.jpg") continue;  // og.jpg: link-preview card
   await copyFile(
     new URL(`../guess-the-size/img/${name}`, import.meta.url),
     new URL(`guess-the-size/img/${name}`, output),
