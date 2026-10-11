@@ -10,7 +10,13 @@ export default {
     }
     if (url.pathname.startsWith("/petville/")) {
       const target = PETVILLE_ORIGIN + url.pathname + url.search;
-      return fetch(new Request(target, request));
+      const res = await fetch(new Request(target, request));
+      if (res.status === 101 || res.webSocket) return res;
+      // the zone's browser-cache TTL rewrites the origin's no-cache to max-age=14400, which kept players on stale game
+      // scripts for hours after a deploy; revalidate every load instead (unchanged files come back as cheap 304s)
+      const out = new Response(res.body, res);
+      out.headers.set("Cache-Control", url.pathname.startsWith("/petville/api") ? "no-store" : "no-cache");
+      return out;
     }
     return env.ASSETS.fetch(request);
   },
