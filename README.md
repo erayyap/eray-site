@@ -2,7 +2,7 @@
 
 Personal homepage for **Eray Yapağcı** — a short introduction, publications, and selected projects.
 
-Plain static HTML / CSS / JS. No frontend framework or runtime dependencies. Deployed as static assets on Cloudflare Workers; no Worker script is needed.
+Plain static HTML / CSS / JS. No frontend framework or runtime dependencies. Deployed as static assets on Cloudflare Workers. A small Worker (`worker/index.js`) runs only for `/petville/*` and proxies it (HTTP + WebSocket) to the PetVille server on Predator through the `guess-stt` tunnel (`petville-origin.erayy.com`); every other path is served straight from assets.
 
 ## Local preview
 

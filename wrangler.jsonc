@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "eray-site",
   "compatibility_date": "2025-09-01",
+  "main": "worker/index.js",
   "workers_dev": true,
   "build": {
     "command": "npm run build",
@@ -12,10 +13,14 @@
       "scripts/build.mjs",
       "guess-the-stt",
       "redirects",
+      "worker",
     ],
   },
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "not_found_handling": "none",
+    // Only /petville runs the Worker; everything else is served straight from assets.
+    "run_worker_first": ["/petville", "/petville/*"],
   },
 }
