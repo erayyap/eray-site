@@ -126,6 +126,12 @@ td small, th small { color: var(--muted); font-weight: 400; }
 .btn.secondary:hover { border-color: var(--gold); }
 footer { width: min(1080px, 100%); margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font: 15px var(--data); color: var(--muted); border-top: 1px solid var(--edge-soft); }
 
+table.scores { min-width: 700px; }
+table.scores td:first-child { white-space: nowrap; }
+.legend { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 18px; margin: -8px 0 28px; padding: 16px 18px; border-left: 2px solid var(--edge); font: 15px/1.5 var(--data); color: var(--muted); }
+.legend dt { color: var(--bone); font-weight: 700; }
+.legend dd { margin: 0; }
+@media (max-width: 560px) { .legend { grid-template-columns: minmax(0, 1fr); gap: 2px; } .legend dd { margin-bottom: 10px; } .legend dd:last-child { margin-bottom: 0; } }
 @media (max-width: 860px) {
   figure { margin-inline: 0; }
   figcaption { margin-inline: 0; }
@@ -208,7 +214,6 @@ document.addEventListener('click', e => {
       <li>balbal-v1, 45,4 milyon parametre saklayan ama ses karesi başına yalnızca <strong>15,4 milyonunu</strong> kullanan bir CTC modeli.</li>
       <li>Mu-Bench'in resmi değerlendirmesinde <strong>%11,93</strong> kelime hata oranı (WER) aldı. FLEURS Türkçe testinde %6,54.</li>
       <li>8 işlemci çekirdeğinde, tek tek kliplerle, <strong>gerçek zamanın ~96 katı</strong> hızla çalışıyor.</li>
-      <li>Model ağırlıkları şimdilik açık değil.</li>
     </ul>
   </section>
 
@@ -407,8 +412,8 @@ document.addEventListener('click', e => {
   <h3>Tüm skorlar</h3>
   <p>Ölçtüğüm her model, Mu-Bench (846 klip) ve FLEURS Türkçe testi (743 klip) üzerinde. Bizim modellerden yalnızca en iyisini, balbal-v1'i koydum. Satırlar Mu-Bench v2 WER'ine göre sıralı.</p>
   <div class="table-wrap">
-    <table>
-      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th>Mu-Bench LLM WER</th><th>Significant WER</th><th>FLEURS</th></tr></thead>
+    <table class="scores">
+      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
       <tbody>
         <tr><td>Google Chirp 3</td><td>8,45</td><td>8,03<small>*</small></td><td>14,30<small>*</small></td><td>—</td></tr>
         <tr><td>ElevenLabs Scribe v2</td><td>8,72</td><td>9,43<small>*</small></td><td>19,15<small>*</small></td><td>—</td></tr>
@@ -440,7 +445,13 @@ document.addEventListener('click', e => {
       </tbody>
     </table>
   </div>
-  <p>Tüm değerler yüzde. <b>Mu-Bench v2</b> ve <b>FLEURS</b>: v2 puanlamasıyla WER, ITN'siz; her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım. <b>Mu-Bench LLM WER</b>: resmi değerlendirmede gpt-4.1'in referansı ve çıktıyı normalleştirdikten sonra hesaplanan WER. <b>Significant WER</b>: gpt-4.1 hakeme göre anlamı bozan en az bir hata içeren cümlelerin oranı. Bu iki sütunu balbal-v1, Freya, PatientDesk Duyu ve MihuAI turkish-stt için resmi düzeneği kendim çalıştırarak hesapladım; <small>*</small> işaretliler Mu-Bench'in yayımladığı tablodan. "—": ölçülmedi.</p>
+  <dl class="legend">
+    <dt>Birim</dt><dd>Kelime hata oranı (WER), yüzde; düşük olan daha iyi. "—": ölçülmedi.</dd>
+    <dt>Mu-Bench v2, FLEURS</dt><dd>v2 puanlaması, ITN'siz. Her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım.</dd>
+    <dt>Mu-Bench LLM WER</dt><dd>Resmi değerlendirme: gpt-4.1 referansı ve çıktıyı normalleştiriyor, WER ondan sonra hesaplanıyor.</dd>
+    <dt>Significant WER</dt><dd>gpt-4.1 hakeme göre anlamı bozan en az bir hata içeren cümlelerin oranı.</dd>
+    <dt>Kaynak</dt><dd>Son iki sütunu balbal-v1, Freya, PatientDesk Duyu ve MihuAI turkish-stt için resmi düzeneği kendim çalıştırarak hesapladım. <b>*</b> işaretli değerler Mu-Bench'in yayımladığı tablodan.</dd>
+  </dl>
 
   <h2 id="hiz"><span class="n">8</span>Hız</h2>
   <p>Hızı tüm modeller için aynı yöntemle ölçtüm. 100 klip kullandım (50 FLEURS, 50 Mu-Bench). Her model 8 işlemci çekirdeğinde, batch boyutu 1 ile, klipleri tek tek işledi. Ölçülen süre, ham sesin girmesinden metnin çıkmasına kadar geçen süre: öznitelik çıkarma, ağ ve (balbal için) dil modelli ışın araması dahil. Makinenin hızı günden güne değişebildiği için bütün modelleri aynı oturumda ölçtüm.</p>
@@ -529,7 +540,6 @@ document.addEventListener('click', e => {
       <li>balbal-v1 is a CTC model that stores 45.4 million parameters but uses only <strong>15.4 million</strong> of them per audio frame.</li>
       <li>It scored <strong>11.93%</strong> word error rate (WER) in Mu-Bench's official evaluation, and 6.54% on the FLEURS Turkish test.</li>
       <li>It runs at <strong>~96× real time</strong> on 8 CPU cores, one clip at a time.</li>
-      <li>The model weights are not open for now.</li>
     </ul>
   </section>
 
@@ -728,8 +738,8 @@ document.addEventListener('click', e => {
   <h3>All scores</h3>
   <p>Every model I measured, on Mu-Bench (846 clips) and the FLEURS Turkish test (743 clips). Of our own models I list only the best one, balbal-v1. Rows are sorted by Mu-Bench v2 WER.</p>
   <div class="table-wrap">
-    <table>
-      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th>Mu-Bench LLM WER</th><th>Significant WER</th><th>FLEURS</th></tr></thead>
+    <table class="scores">
+      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
       <tbody>
         <tr><td>Google Chirp 3</td><td>8.45</td><td>8.03<small>*</small></td><td>14.30<small>*</small></td><td>—</td></tr>
         <tr><td>ElevenLabs Scribe v2</td><td>8.72</td><td>9.43<small>*</small></td><td>19.15<small>*</small></td><td>—</td></tr>
@@ -761,7 +771,13 @@ document.addEventListener('click', e => {
       </tbody>
     </table>
   </div>
-  <p>All values are percentages. <b>Mu-Bench v2</b> and <b>FLEURS</b>: WER under v2 scoring, no ITN; I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself. <b>Mu-Bench LLM WER</b>: the official evaluation's WER, computed after gpt-4.1 normalizes the reference and the output. <b>Significant WER</b>: the share of sentences with at least one meaning-changing error according to the gpt-4.1 judge. I computed these two columns for balbal-v1, Freya, PatientDesk Duyu and MihuAI turkish-stt by running the official harness myself; values marked <small>*</small> come from the table Mu-Bench publishes. "—": not measured.</p>
+  <dl class="legend">
+    <dt>Unit</dt><dd>Word error rate (WER), percent; lower is better. "—": not measured.</dd>
+    <dt>Mu-Bench v2, FLEURS</dt><dd>v2 scoring, no ITN. I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself.</dd>
+    <dt>Mu-Bench LLM WER</dt><dd>The official evaluation: gpt-4.1 normalizes the reference and the output, then WER is computed.</dd>
+    <dt>Significant WER</dt><dd>The share of sentences with at least one meaning-changing error according to the gpt-4.1 judge.</dd>
+    <dt>Source</dt><dd>I computed the last two columns for balbal-v1, Freya, PatientDesk Duyu and MihuAI turkish-stt by running the official harness myself. Values marked <b>*</b> come from the table Mu-Bench publishes.</dd>
+  </dl>
 
   <h2 id="speed"><span class="n">8</span>Speed</h2>
   <p>I measured speed the same way for every model. I used 100 clips (50 FLEURS, 50 Mu-Bench). Each model processed the clips one by one on 8 CPU cores with batch size 1. The measured time runs from raw audio in to text out: feature extraction, the network and (for balbal) the beam search with the language model included. Because the machine's speed can vary from day to day, I measured all models in the same session.</p>
