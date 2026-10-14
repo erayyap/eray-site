@@ -232,7 +232,7 @@ document.addEventListener('click', e => {
 
   <figure>
     <img src="/balbal/img/5-rttf-cpu.webp" alt="Mu-Bench hata oranı ile işlemcide hız (gerçek zaman katı, logaritmik) grafiği; balbal-v1 sağ altta, hem hızlı hem doğru. Freya ve PatientDesk API'leri de grafikte." width="1800" height="1012">
-    <figcaption><b>Hız ve doğruluk.</b> Yerel modeller aynı oturumda, 8 işlemci çekirdeğinde ve batch 1 ile ölçüldü. Freya ve PatientDesk (elmaslar) kendi sunucularının bildirdiği işlem süresiyle. Yatay eksen logaritmik; sağ alt köşe en iyisi.</figcaption>
+    <figcaption><b>Hız ve doğruluk.</b> Yerel modeller aynı oturumda, 8 işlemci çekirdeğinde ve batch 1 ile ölçüldü. Freya ve PatientDesk (elmaslar) kendi sunucularının bildirdiği işlem süresiyle. Yatay eksen logaritmik; sağ alt köşe en iyisi. omniASR'ın LLM'li modelleri işlemcide bitmek bilmeyeceği için grafikte yok.</figcaption>
   </figure>
 
   <h2 id="mimari"><span class="n">2</span>Mimari</h2>
@@ -514,7 +514,7 @@ document.addEventListener('click', e => {
 
   <figure>
     <img src="/balbal/img/5-rttf-cpu.webp" alt="Mu-Bench error rate versus CPU speed (multiple of real time, log scale); balbal-v1 sits bottom right, both fast and accurate. The Freya and PatientDesk APIs are also on the chart." width="1800" height="1012">
-    <figcaption><b>Speed and accuracy.</b> Local models were measured in the same session on 8 CPU cores with batch 1. Freya and PatientDesk (diamonds) use the processing time reported by their own servers. The horizontal axis is logarithmic; bottom right is best.</figcaption>
+    <figcaption><b>Speed and accuracy.</b> Local models were measured in the same session on 8 CPU cores with batch 1. Freya and PatientDesk (diamonds) use the processing time reported by their own servers. The horizontal axis is logarithmic; bottom right is best. omniASR's LLM models are not on the chart: on a CPU they would take forever.</figcaption>
   </figure>
 
   <h2 id="architecture"><span class="n">2</span>Architecture</h2>

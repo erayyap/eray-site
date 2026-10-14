@@ -250,7 +250,7 @@ document.addEventListener('click', e => {
     <h2 id="hd-baslik">Hem hızlı hem doğru</h2>
     <p class="sub">Mu-Bench hatası ve hız. Sağ alt köşe en iyisi.</p>
     <figure class="plot"><img src="/balbal/img/5-rttf-cpu.webp" alt="Mu-Bench hata oranı ile işlemcide hız (gerçek zaman katı, logaritmik) grafiği. balbal-v1 sağ altta: hem en hızlılardan hem en az hata yapanlardan; Freya ve PatientDesk API'leri de grafikte." width="1800" height="1012"></figure>
-    <p class="note">Yerel modeller aynı işlemcide, 8 çekirdek ve batch 1 ile ölçüldü. Freya ve PatientDesk (elmaslar) kendi sunucularının bildirdiği işlem süresiyle.</p>
+    <p class="note">Yerel modeller aynı işlemcide, 8 çekirdek ve batch 1 ile ölçüldü. Freya ve PatientDesk (elmaslar) kendi sunucularının bildirdiği işlem süresiyle. omniASR'ın LLM'li modelleri işlemcide bitmek bilmeyeceği için grafikte yok.</p>
   </section>
 
   <section class="block" id="apiler" aria-labelledby="apiler-baslik">
@@ -384,7 +384,7 @@ document.addEventListener('click', e => {
     <h2 id="sa-title">Fast and accurate</h2>
     <p class="sub">Mu-Bench error versus speed. Bottom right is best.</p>
     <figure class="plot"><img src="/balbal/img/5-rttf-cpu.webp" alt="Mu-Bench error rate versus CPU speed (multiple of real time, log scale). balbal-v1 sits bottom right: among the fastest and among the most accurate; the Freya and PatientDesk APIs are also on the chart." width="1800" height="1012"></figure>
-    <p class="note">Local models were measured on the same CPU with 8 cores and batch 1. Freya and PatientDesk (diamonds) use the processing time reported by their own servers.</p>
+    <p class="note">Local models were measured on the same CPU with 8 cores and batch 1. Freya and PatientDesk (diamonds) use the processing time reported by their own servers. omniASR's LLM models are not on the chart: on a CPU they would take forever.</p>
   </section>
 
   <section class="block" id="apis" aria-labelledby="apis-title">
