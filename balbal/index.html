@@ -83,6 +83,7 @@ h1 { margin: 0 0 20px; font: 700 clamp(46px, 8vw, 92px) / 1 var(--display); lett
 section.block { padding-block: 88px 0; }
 .block h2 { margin: 0 0 10px; font: 700 clamp(28px, 3.6vw, 40px) / 1.15 var(--display); text-wrap: balance; }
 .block .sub { margin: 0 0 30px; max-width: 680px; color: var(--muted); font-size: 19px; }
+code { font: .86em/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; background: var(--panel-2); border: 1px solid var(--edge-soft); border-radius: 4px; padding: .08em .35em; color: var(--bone); overflow-wrap: anywhere; }
 .note { margin: 16px 0 0; max-width: 760px; font: 15px/1.5 var(--data); color: var(--muted); }
 .panel { border: 1px solid var(--edge); border-radius: 10px; background: linear-gradient(180deg, var(--panel-2), var(--panel)); padding: 26px 28px; }
 
@@ -319,7 +320,7 @@ document.addEventListener('click', e => {
     <div class="limits">
       <div><h3>Yalnızca Türkçe</h3><p>Eğitimde biraz İngilizce de vardı, ama İngilizce konuşmada iyi sonuç vermez.</p></div>
       <div><h3>Kısa kayıtlar</h3><p>API istek başına en fazla 30 saniye ses yazar. Daha uzun kayıtları parçalayıp gönder.</p></div>
-      <div><h3>API gecikmesi</h3><p>API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe yaklaşık 100–200 ms ekliyor. Modelin gerçek hızını şimdilik API'den ölçemezsin.</p></div>
+      <div><h3>API gecikmesi</h3><p>API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe yaklaşık 100–200 ms ekliyor. Bu yüzden modelin gerçek hızını yanıtın ne kadar sürede geldiğinden ölçemezsin; ama sunucu, modelin işlem süresini yanıttaki <code>inference_seconds</code> alanında döner.</p></div>
     </div>
   </section>
 </main>
@@ -453,7 +454,7 @@ document.addEventListener('click', e => {
     <div class="limits">
       <div><h3>Turkish only</h3><p>There was some English in training, but it does not do well on English speech.</p></div>
       <div><h3>Short recordings</h3><p>The API transcribes at most 30 seconds of audio per request. Split longer recordings before sending them.</p></div>
-      <div><h3>API latency</h3><p>The API is served through a Cloudflare tunnel, which adds roughly 100–200 ms to each request. For now you cannot measure the model's real speed through the API.</p></div>
+      <div><h3>API latency</h3><p>The API is served through a Cloudflare tunnel, which adds roughly 100–200 ms to each request. So you cannot measure the model's real speed from how long the response takes, but the server returns the model's processing time in the response's <code>inference_seconds</code> field.</p></div>
     </div>
   </section>
 </main>

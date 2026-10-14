@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>balbal-v1 nasıl yapıldı</title>
-<meta name="description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma, tek bir masaüstü makinede nasıl eğittim.">
+<meta name="description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma nasıl eğittim: mimari, veri, eğitim, değerlendirme.">
 <meta property="og:title" content="balbal-v1 nasıl yapıldı">
-<meta property="og:description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma, tek bir masaüstü makinede nasıl eğittim.">
+<meta property="og:description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma nasıl eğittim: mimari, veri, eğitim, değerlendirme.">
 <meta property="og:url" content="https://erayy.com/balbal-blog">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="erayy.com">
@@ -196,7 +196,7 @@ document.addEventListener('click', e => {
   <div class="head">
     <p class="eyebrow">Teknik yazı · 14 Ekim 2026</p>
     <h1>balbal-v1 nasıl yapıldı</h1>
-    <p class="standfirst">15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma, tek bir masaüstü makinede eğittim. Mimari, veri, eğitim, değerlendirme ve yol boyunca yaptığım hatalar.</p>
+    <p class="standfirst">15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma eğittim. İlk Türkçe model RunPod'da, kiralık bir NVIDIA RTX PRO 4500 Blackwell üzerinde yaklaşık 35,6 saat eğitildi; sonraki aşamaların hepsi tek bir masaüstü makinede. Mimari, veri, eğitim, değerlendirme ve yol boyunca yaptığım hatalar.</p>
     <p class="byline">Eray Yapağcı</p>
   </div>
 </div>
@@ -368,14 +368,14 @@ document.addEventListener('click', e => {
     <img src="/balbal/img/1-mubench-vs-apis.webp" alt="Mu-Bench resmi WER çubuk grafiği: balbal-v1 yüzde 11,93 ile ticari API'lerin arasında." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench, resmi değerlendirme.</b> API puanları Mu-Bench tablosundan. balbal-v1 aynı düzenekle, gpt-4.1 hakemle ve ITN uygulanarak puanlandı.</figcaption>
   </figure>
-  <h3>Açık ağırlıklı modellerle karşılaştırma</h3>
+  <h3>Diğer modellerle karşılaştırma</h3>
   <p>Açık ağırlıklı modellerin hepsini aynı klipler ve v2 kuralıyla kendim çalıştırdım. Mu-Bench'te (v2, ITN'siz) balbal-v1 <strong>%11,78</strong> ile hepsinin önünde. En yakın rakipler Qwen3-ASR 1.7B (%13,95) ve Whisper large-v3 (%14,92); ikisi de yüz kat büyük. FLEURS'ta durum farklı: Whisper large-v3 (%3,71) ve turbo (%4,07) açık ara önde. balbal-v1'in %6,54'ü Qwen3-ASR 1.7B (%6,52) ile aynı düzeyde. FLEURS temiz, okunmuş Wikipedia cümlelerinden oluşuyor ve büyük modellerin geniş dünya bilgisi burada daha çok işe yarıyor.</p>
   <figure>
-    <img src="/balbal/img/2-mubench-open-models.webp" alt="Mu-Bench'te açık modellerin v2 WER karşılaştırması; balbal-v1 en düşük hata oranıyla en üstte." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench, açık ağırlıklı modeller (v2 puanlama).</b> Her model aynı 846 klip üzerinde aynı kuralla puanlandı.</figcaption>
+    <img src="/balbal/img/2-mubench-open-models.webp" alt="Mu-Bench'te diğer modellerin v2 WER karşılaştırması; balbal-v1 en düşük hata oranıyla en üstte." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, diğer modeller (v2 puanlama).</b> Her model aynı 846 klip üzerinde aynı kuralla puanlandı.</figcaption>
   </figure>
   <figure>
-    <img src="/balbal/img/3-fleurs-open-models.webp" alt="FLEURS Türkçe test kümesinde açık modellerin WER karşılaştırması; Whisper large-v3 en iyi, balbal-v1 Qwen3-ASR ile yakın." loading="lazy" width="1800" height="1012">
+    <img src="/balbal/img/3-fleurs-open-models.webp" alt="FLEURS Türkçe test kümesinde diğer modellerin WER karşılaştırması; Whisper large-v3 en iyi, balbal-v1 Qwen3-ASR ile yakın." loading="lazy" width="1800" height="1012">
     <figcaption><b>FLEURS Türkçe testi, 743 klip.</b> Temiz, okunmuş konuşma; büyük modellerin en güçlü olduğu alan.</figcaption>
   </figure>
   <h3>MihuAI'nin kendi testi</h3>
@@ -403,6 +403,44 @@ document.addEventListener('click', e => {
     <img src="/balbal/img/6-beta-to-v1.webp" alt="balbal-v1-beta, balbal-v2-beta ve balbal-v1 arasında Mu-Bench ve FLEURS ilerlemesi." loading="lazy" width="1800" height="1012">
     <figcaption><b>Sürümden sürüme.</b> İlerlemenin büyük kısmı Mu-Bench tarzı zor seste geldi. FLEURS'taki fark gürültü içinde.</figcaption>
   </figure>
+
+  <h3>Tüm skorlar</h3>
+  <p>Ölçtüğüm her model, Mu-Bench (846 klip) ve FLEURS Türkçe testi (743 klip) üzerinde. Bizim modellerden yalnızca en iyisini, balbal-v1'i koydum. Satırlar Mu-Bench v2 WER'ine göre sıralı.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th>Mu-Bench LLM WER</th><th>Significant WER</th><th>FLEURS</th></tr></thead>
+      <tbody>
+        <tr><td>Google Chirp 3</td><td>8,45</td><td>8,03<small>*</small></td><td>14,30<small>*</small></td><td>—</td></tr>
+        <tr><td>ElevenLabs Scribe v2</td><td>8,72</td><td>9,43<small>*</small></td><td>19,15<small>*</small></td><td>—</td></tr>
+        <tr><td>Google Gemini 3.5 Transcribe</td><td>8,75</td><td>8,68<small>*</small></td><td>18,20<small>*</small></td><td>—</td></tr>
+        <tr><td>Freya</td><td>9,72</td><td>9,27</td><td>21,28</td><td>6,61</td></tr>
+        <tr><td>PatientDesk Duyu</td><td>10,02</td><td>10,94</td><td>25,30</td><td>3,62</td></tr>
+        <tr><td>OpenAI GPT-4o Mini Transcribe</td><td>11,30</td><td>12,82<small>*</small></td><td>28,61<small>*</small></td><td>—</td></tr>
+        <tr class="sum"><td>balbal-v1</td><td>11,78</td><td>11,93</td><td>25,18</td><td>6,54</td></tr>
+        <tr><td>Deepgram Nova-3</td><td>12,37</td><td>13,37<small>*</small></td><td>24,35<small>*</small></td><td>—</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Baseten)</td><td>13,82</td><td>15,03<small>*</small></td><td>31,91<small>*</small></td><td>—</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Modal)</td><td>13,91</td><td>14,76<small>*</small></td><td>30,61<small>*</small></td><td>—</td></tr>
+        <tr><td>Qwen3-ASR 1.7B</td><td>13,95</td><td>—</td><td>—</td><td>6,52</td></tr>
+        <tr><td>Whisper large-v3</td><td>14,92</td><td>—</td><td>—</td><td>3,71</td></tr>
+        <tr><td>xAI Grok STT</td><td>15,69</td><td>15,94<small>*</small></td><td>34,04<small>*</small></td><td>—</td></tr>
+        <tr><td>omniASR LLM 7B</td><td>18,35</td><td>—</td><td>—</td><td>5,31</td></tr>
+        <tr><td>Microsoft Azure Speech</td><td>18,65</td><td>14,02<small>*</small></td><td>30,73<small>*</small></td><td>—</td></tr>
+        <tr><td>omniASR LLM 3B</td><td>19,21</td><td>—</td><td>—</td><td>6,49</td></tr>
+        <tr><td>omniASR LLM 1B</td><td>19,53</td><td>—</td><td>—</td><td>6,95</td></tr>
+        <tr><td>MihuAI turkish-stt</td><td>22,59</td><td>24,59</td><td>49,53</td><td>8,16</td></tr>
+        <tr><td>omniASR CTC 3B</td><td>24,02</td><td>—</td><td>—</td><td>8,30</td></tr>
+        <tr><td>Whisper small</td><td>24,72</td><td>—</td><td>—</td><td>12,17</td></tr>
+        <tr><td>Whisper large-v3-turbo</td><td>26,77</td><td>—</td><td>—</td><td>4,07</td></tr>
+        <tr><td>omniASR CTC 7B</td><td>27,57</td><td>—</td><td>—</td><td>7,71</td></tr>
+        <tr><td>omniASR CTC 1B</td><td>28,99</td><td>—</td><td>—</td><td>11,33</td></tr>
+        <tr><td>Whisper medium</td><td>33,51</td><td>—</td><td>—</td><td>6,29</td></tr>
+        <tr><td>omniASR CTC 300M</td><td>45,56</td><td>—</td><td>—</td><td>20,88</td></tr>
+        <tr><td>Whisper base</td><td>55,81</td><td>—</td><td>—</td><td>25,99</td></tr>
+        <tr><td>Whisper tiny</td><td>94,66</td><td>—</td><td>—</td><td>42,43</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Tüm değerler yüzde. <b>Mu-Bench v2</b> ve <b>FLEURS</b>: v2 puanlamasıyla WER, ITN'siz; her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım. <b>Mu-Bench LLM WER</b>: resmi değerlendirmede gpt-4.1'in referansı ve çıktıyı normalleştirdikten sonra hesaplanan WER. <b>Significant WER</b>: gpt-4.1 hakeme göre anlamı bozan en az bir hata içeren cümlelerin oranı. Bu iki sütunu balbal-v1, Freya, PatientDesk Duyu ve MihuAI turkish-stt için resmi düzeneği kendim çalıştırarak hesapladım; <small>*</small> işaretliler Mu-Bench'in yayımladığı tablodan. "—": ölçülmedi.</p>
 
   <h2 id="hiz"><span class="n">8</span>Hız</h2>
   <p>Hızı tüm modeller için aynı yöntemle ölçtüm. 100 klip kullandım (50 FLEURS, 50 Mu-Bench). Her model 8 işlemci çekirdeğinde, batch boyutu 1 ile, klipleri tek tek işledi. Ölçülen süre, ham sesin girmesinden metnin çıkmasına kadar geçen süre: öznitelik çıkarma, ağ ve (balbal için) dil modelli ışın araması dahil. Makinenin hızı günden güne değişebildiği için bütün modelleri aynı oturumda ölçtüm.</p>
@@ -433,7 +471,7 @@ document.addEventListener('click', e => {
     <li><strong>Sayılar yazıyla çıkar.</strong> Rakam isteyen uygulamaların ayrı bir ITN adımı eklemesi gerekiyor.</li>
     <li><strong>Yalnızca Türkçe.</strong> Eğitimde bir miktar İngilizce (LibriSpeech) var, ama model İngilizce için ayarlanmadı ve bu yazıda İngilizce ölçülmedi.</li>
     <li><strong>Uzun kayıtlar.</strong> API istek başına en fazla 30 saniye ses yazıyor; daha uzun kayıtları parçalayıp göndermek gerekiyor. Konuşma algılama (VAD) yok.</li>
-    <li><strong>API gecikmesi.</strong> API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe yaklaşık 100–200 ms ekliyor. 8. bölümdeki hızı şimdilik API üzerinden göremezsiniz.</li>
+    <li><strong>API gecikmesi.</strong> API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe yaklaşık 100–200 ms ekliyor. Bu yüzden 8. bölümdeki hızı yanıtın gelme süresinde göremezsiniz; ama sunucu, modelin işlem süresini yanıttaki <code>inference_seconds</code> alanında döner.</li>
     <li><strong>İsimler ve harf harf okuma</strong> hâlâ en zayıf kategoriler. Bir sonraki veri turunun hedefi bunlar.</li>
     <li><strong>Ağırlıklar şimdilik kapalı.</strong></li>
   </ul>
@@ -479,7 +517,7 @@ document.addEventListener('click', e => {
   <div class="head">
     <p class="eyebrow">Technical post · 14 October 2026</p>
     <h1>How balbal-v1 was built</h1>
-    <p class="standfirst">I trained a Turkish speech recognition model with 15 million active parameters on my own, on a single desktop machine. Architecture, data, training, evaluation and the mistakes I made along the way.</p>
+    <p class="standfirst">I trained a Turkish speech recognition model with 15 million active parameters on my own. The first Turkish model trained for about 35.6 hours on a rented NVIDIA RTX PRO 4500 Blackwell on RunPod; every later stage ran on a single desktop machine. Architecture, data, training, evaluation and the mistakes I made along the way.</p>
     <p class="byline">Eray Yapağcı</p>
   </div>
 </div>
@@ -651,14 +689,14 @@ document.addEventListener('click', e => {
     <img src="/balbal/img/1-mubench-vs-apis.webp" alt="Mu-Bench official WER bar chart: balbal-v1 at 11.93 percent among the commercial APIs." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench, official evaluation.</b> API scores from the Mu-Bench leaderboard. balbal-v1 was scored with the same harness, the gpt-4.1 judge and ITN applied.</figcaption>
   </figure>
-  <h3>Against open-weight models</h3>
+  <h3>Against other models</h3>
   <p>I ran all the open-weight models myself on the same clips with the v2 rule. On Mu-Bench (v2, no ITN) balbal-v1 leads them all with <strong>11.78%</strong>. The closest are Qwen3-ASR 1.7B (13.95%) and Whisper large-v3 (14.92%), both a hundred times larger. FLEURS is a different story: Whisper large-v3 (3.71%) and turbo (4.07%) are clearly ahead. balbal-v1's 6.54% is on par with Qwen3-ASR 1.7B (6.52%). FLEURS consists of clean, read Wikipedia sentences, where the broad world knowledge of large models helps more.</p>
   <figure>
-    <img src="/balbal/img/2-mubench-open-models.webp" alt="v2 WER of open models on Mu-Bench; balbal-v1 at the top with the lowest error rate." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench, open-weight models (v2 scoring).</b> Every model was scored on the same 846 clips with the same rule.</figcaption>
+    <img src="/balbal/img/2-mubench-open-models.webp" alt="v2 WER of other models on Mu-Bench; balbal-v1 at the top with the lowest error rate." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, other models (v2 scoring).</b> Every model was scored on the same 846 clips with the same rule.</figcaption>
   </figure>
   <figure>
-    <img src="/balbal/img/3-fleurs-open-models.webp" alt="WER of open models on the FLEURS Turkish test set; Whisper large-v3 best, balbal-v1 close to Qwen3-ASR." loading="lazy" width="1800" height="1012">
+    <img src="/balbal/img/3-fleurs-open-models.webp" alt="WER of other models on the FLEURS Turkish test set; Whisper large-v3 best, balbal-v1 close to Qwen3-ASR." loading="lazy" width="1800" height="1012">
     <figcaption><b>FLEURS Turkish test, 743 clips.</b> Clean, read speech; where large models are strongest.</figcaption>
   </figure>
   <h3>MihuAI's own test</h3>
@@ -686,6 +724,44 @@ document.addEventListener('click', e => {
     <img src="/balbal/img/6-beta-to-v1.webp" alt="Mu-Bench and FLEURS progress across balbal-v1-beta, balbal-v2-beta and balbal-v1." loading="lazy" width="1800" height="1012">
     <figcaption><b>Release to release.</b> Most of the progress came on hard, Mu-Bench-style audio. The FLEURS difference is within noise.</figcaption>
   </figure>
+
+  <h3>All scores</h3>
+  <p>Every model I measured, on Mu-Bench (846 clips) and the FLEURS Turkish test (743 clips). Of our own models I list only the best one, balbal-v1. Rows are sorted by Mu-Bench v2 WER.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th>Mu-Bench LLM WER</th><th>Significant WER</th><th>FLEURS</th></tr></thead>
+      <tbody>
+        <tr><td>Google Chirp 3</td><td>8.45</td><td>8.03<small>*</small></td><td>14.30<small>*</small></td><td>—</td></tr>
+        <tr><td>ElevenLabs Scribe v2</td><td>8.72</td><td>9.43<small>*</small></td><td>19.15<small>*</small></td><td>—</td></tr>
+        <tr><td>Google Gemini 3.5 Transcribe</td><td>8.75</td><td>8.68<small>*</small></td><td>18.20<small>*</small></td><td>—</td></tr>
+        <tr><td>Freya</td><td>9.72</td><td>9.27</td><td>21.28</td><td>6.61</td></tr>
+        <tr><td>PatientDesk Duyu</td><td>10.02</td><td>10.94</td><td>25.30</td><td>3.62</td></tr>
+        <tr><td>OpenAI GPT-4o Mini Transcribe</td><td>11.30</td><td>12.82<small>*</small></td><td>28.61<small>*</small></td><td>—</td></tr>
+        <tr class="sum"><td>balbal-v1</td><td>11.78</td><td>11.93</td><td>25.18</td><td>6.54</td></tr>
+        <tr><td>Deepgram Nova-3</td><td>12.37</td><td>13.37<small>*</small></td><td>24.35<small>*</small></td><td>—</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Baseten)</td><td>13.82</td><td>15.03<small>*</small></td><td>31.91<small>*</small></td><td>—</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Modal)</td><td>13.91</td><td>14.76<small>*</small></td><td>30.61<small>*</small></td><td>—</td></tr>
+        <tr><td>Qwen3-ASR 1.7B</td><td>13.95</td><td>—</td><td>—</td><td>6.52</td></tr>
+        <tr><td>Whisper large-v3</td><td>14.92</td><td>—</td><td>—</td><td>3.71</td></tr>
+        <tr><td>xAI Grok STT</td><td>15.69</td><td>15.94<small>*</small></td><td>34.04<small>*</small></td><td>—</td></tr>
+        <tr><td>omniASR LLM 7B</td><td>18.35</td><td>—</td><td>—</td><td>5.31</td></tr>
+        <tr><td>Microsoft Azure Speech</td><td>18.65</td><td>14.02<small>*</small></td><td>30.73<small>*</small></td><td>—</td></tr>
+        <tr><td>omniASR LLM 3B</td><td>19.21</td><td>—</td><td>—</td><td>6.49</td></tr>
+        <tr><td>omniASR LLM 1B</td><td>19.53</td><td>—</td><td>—</td><td>6.95</td></tr>
+        <tr><td>MihuAI turkish-stt</td><td>22.59</td><td>24.59</td><td>49.53</td><td>8.16</td></tr>
+        <tr><td>omniASR CTC 3B</td><td>24.02</td><td>—</td><td>—</td><td>8.30</td></tr>
+        <tr><td>Whisper small</td><td>24.72</td><td>—</td><td>—</td><td>12.17</td></tr>
+        <tr><td>Whisper large-v3-turbo</td><td>26.77</td><td>—</td><td>—</td><td>4.07</td></tr>
+        <tr><td>omniASR CTC 7B</td><td>27.57</td><td>—</td><td>—</td><td>7.71</td></tr>
+        <tr><td>omniASR CTC 1B</td><td>28.99</td><td>—</td><td>—</td><td>11.33</td></tr>
+        <tr><td>Whisper medium</td><td>33.51</td><td>—</td><td>—</td><td>6.29</td></tr>
+        <tr><td>omniASR CTC 300M</td><td>45.56</td><td>—</td><td>—</td><td>20.88</td></tr>
+        <tr><td>Whisper base</td><td>55.81</td><td>—</td><td>—</td><td>25.99</td></tr>
+        <tr><td>Whisper tiny</td><td>94.66</td><td>—</td><td>—</td><td>42.43</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>All values are percentages. <b>Mu-Bench v2</b> and <b>FLEURS</b>: WER under v2 scoring, no ITN; I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself. <b>Mu-Bench LLM WER</b>: the official evaluation's WER, computed after gpt-4.1 normalizes the reference and the output. <b>Significant WER</b>: the share of sentences with at least one meaning-changing error according to the gpt-4.1 judge. I computed these two columns for balbal-v1, Freya, PatientDesk Duyu and MihuAI turkish-stt by running the official harness myself; values marked <small>*</small> come from the table Mu-Bench publishes. "—": not measured.</p>
 
   <h2 id="speed"><span class="n">8</span>Speed</h2>
   <p>I measured speed the same way for every model. I used 100 clips (50 FLEURS, 50 Mu-Bench). Each model processed the clips one by one on 8 CPU cores with batch size 1. The measured time runs from raw audio in to text out: feature extraction, the network and (for balbal) the beam search with the language model included. Because the machine's speed can vary from day to day, I measured all models in the same session.</p>
@@ -716,7 +792,7 @@ document.addEventListener('click', e => {
     <li><strong>Numbers come out as words.</strong> Applications that need digits have to add a separate ITN step.</li>
     <li><strong>Turkish only.</strong> Training includes some English (LibriSpeech), but the model was not tuned for English and English was not measured in this post.</li>
     <li><strong>Long recordings.</strong> The API transcribes at most 30 seconds of audio per request; longer recordings have to be split before sending. There is no voice activity detection (VAD).</li>
-    <li><strong>API latency.</strong> The API is served through a Cloudflare tunnel, which adds roughly 100–200 ms to each request. For now you will not see the speed from section 8 through the API.</li>
+    <li><strong>API latency.</strong> The API is served through a Cloudflare tunnel, which adds roughly 100–200 ms to each request. So you will not see the speed from section 8 in how long the response takes, but the server returns the model's processing time in the response's <code>inference_seconds</code> field.</li>
     <li><strong>Names and spelling</strong> are still the weakest categories. They are the target of the next data round.</li>
     <li><strong>The weights are closed for now.</strong></li>
   </ul>
