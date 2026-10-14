@@ -12,6 +12,8 @@
       "script.js",
       "scripts/build.mjs",
       "guess-the-stt",
+      "balbal",
+      "balbal-blog",
       "redirects",
       "worker",
     ],

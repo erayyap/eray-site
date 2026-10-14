@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>balbal-v1 nasıl yapıldı</title>
+<meta name="description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma, tek bir masaüstü makinede nasıl eğittim.">
+<meta property="og:title" content="balbal-v1 nasıl yapıldı">
+<meta property="og:description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma, tek bir masaüstü makinede nasıl eğittim.">
+<meta property="og:url" content="https://erayy.com/balbal-blog">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="erayy.com">
+<meta property="og:image" content="https://erayy.com/balbal/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#120e0b">
+<link rel="canonical" href="https://erayy.com/balbal-blog">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Cinzel:wght@500;700&display=swap">
+<style>
+/* Layout: a single long-read column on the launch site's steppe-night palette; figures break slightly wider than the text. */
+:root {
+  --bg: #120e0b;
+  --panel: #1b1511;
+  --panel-2: #231b15;
+  --edge: rgba(212, 165, 65, 0.28);
+  --edge-soft: rgba(239, 229, 210, 0.09);
+  --bone: #efe5d2;
+  --muted: #b5a389;
+  --stone: #5f5346;
+  --gold: #d4a541;
+  --gold-light: #f0cf7e;
+  --ink: #1d1408;
+  --display: "Cinzel", Georgia, serif;
+  --text: "Alegreya", Georgia, serif;
+  --data: "Alegreya Sans", "Gill Sans", "Trebuchet MS", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); }
+body { font-feature-settings: "lnum" 1; margin: 0; color: var(--bone); font: 19px/1.68 var(--text); overflow-x: hidden; }
+a { color: var(--gold-light); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.masthead {
+  background:
+    linear-gradient(180deg, rgba(12, 9, 8, .55) 0%, rgba(12, 9, 8, .72) 60%, var(--bg) 100%),
+    url("/balbal/img/bg-mound.webp") center 55% / cover no-repeat, #1a1420;
+}
+.top { width: min(1080px, 100%); margin: 0 auto; padding: 26px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; font: 15px var(--data); }
+.wordmark { font: 700 19px var(--display); letter-spacing: .04em; color: var(--bone); text-decoration: none; }
+.wordmark span { font-weight: 500; color: var(--muted); }
+.top a.back { color: var(--muted); text-decoration: none; }
+.top a.back:hover { color: var(--gold-light); }
+.head { width: min(760px, 100%); margin: 0 auto; padding: 64px 24px 72px; }
+.eyebrow { margin: 0 0 14px; font: 700 12px var(--data); letter-spacing: .24em; color: var(--gold); text-transform: uppercase; }
+h1 { margin: 0 0 18px; font: 700 clamp(36px, 6vw, 62px) / 1.08 var(--display); text-wrap: balance; text-shadow: 0 2px 20px rgba(0, 0, 0, .5); }
+.standfirst { margin: 0 0 22px; font-size: clamp(20px, 2.4vw, 24px); line-height: 1.45; text-wrap: pretty; }
+.byline { margin: 0; font: 15px var(--data); color: var(--muted); }
+
+article { width: min(760px, 100%); margin: 0 auto; padding: 0 24px 40px; }
+article h2 { margin: 72px 0 14px; font: 700 clamp(25px, 3.2vw, 32px) / 1.2 var(--display); text-wrap: balance; }
+article h2 .n { color: var(--gold); margin-right: .4em; }
+article h3 { margin: 34px 0 8px; font: 700 20px var(--display); letter-spacing: .02em; }
+article p { margin: 0 0 18px; text-wrap: pretty; }
+article ul, article ol { margin: 0 0 18px; padding-left: 1.3em; }
+article li { margin-bottom: 8px; }
+article li::marker { color: var(--gold); }
+strong { color: var(--gold-light); font-weight: 700; }
+code { font: .86em/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; background: var(--panel-2); border: 1px solid var(--edge-soft); border-radius: 4px; padding: .08em .35em; color: var(--bone); }
+
+.tldr { margin: -32px 0 0; padding: 24px 28px; border: 1px solid var(--edge); border-radius: 10px; background: linear-gradient(180deg, var(--panel-2), var(--panel)); box-shadow: 0 24px 60px rgba(0, 0, 0, .4); position: relative; }
+.tldr h2 { margin: 0 0 10px; font: 700 12px var(--data); letter-spacing: .24em; color: var(--gold); text-transform: uppercase; }
+.tldr ul { margin: 0; font-size: 18px; }
+
+.toc { margin: 40px 0 0; padding: 0; list-style: none; columns: 2; column-gap: 32px; font: 16px/1.5 var(--data); counter-reset: toc; }
+.toc li { counter-increment: toc; margin: 0 0 6px; break-inside: avoid; }
+.toc li::before { content: counter(toc) "."; color: var(--gold); margin-right: .5em; }
+.toc a { color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--gold-light); }
+
+figure { margin: 30px -40px; }
+figure img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--edge); background: var(--panel); }
+figcaption { margin: 10px 40px 0; font: 15px/1.5 var(--data); color: var(--muted); }
+figcaption b { color: var(--bone); font-weight: 500; }
+
+.table-wrap { margin: 24px 0 26px; overflow-x: auto; border: 1px solid var(--edge); border-radius: 10px; background: var(--panel); }
+table { width: 100%; min-width: 520px; border-collapse: collapse; font: 16px/1.4 var(--data); font-variant-numeric: tabular-nums lining-nums; }
+th, td { padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--edge-soft); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font: 700 11.5px var(--data); letter-spacing: .14em; color: var(--gold); text-transform: uppercase; background: var(--panel-2); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+tr.sum td { color: var(--gold-light); font-weight: 700; background: rgba(212, 165, 65, .07); }
+tr.group td { font: 700 11.5px var(--data); letter-spacing: .14em; color: var(--muted); text-transform: uppercase; background: var(--panel-2); }
+td.better { color: var(--gold-light); }
+td small, th small { color: var(--muted); font-weight: 400; }
+
+.callout { margin: 26px 0; padding: 18px 22px; border-left: 3px solid var(--gold); background: var(--panel); border-radius: 0 8px 8px 0; font-size: 18px; }
+.callout p:last-child { margin-bottom: 0; }
+
+.lineage { list-style: none; margin: 22px 0 26px; padding: 0; display: grid; gap: 0; }
+.lineage li { position: relative; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 2px 14px; padding-bottom: 18px; margin: 0; }
+.lineage li > * { grid-column: 2; }
+.lineage li::before { content: ""; grid-column: 1; grid-row: 1 / span 2; width: 12px; height: 12px; margin: 9px 0 0 7px; border: 2px solid var(--gold); border-radius: 50%; background: var(--bg); position: relative; z-index: 1; }
+.lineage li::after { content: ""; position: absolute; left: 12px; top: 22px; bottom: -6px; width: 2px; background: var(--edge); }
+.lineage li:last-child::after { display: none; }
+.lineage li:last-child::before { background: var(--gold); }
+.lineage b { display: block; font: 700 16px var(--display); color: var(--bone); letter-spacing: .02em; }
+.lineage span { display: block; font: 16px/1.5 var(--data); color: var(--muted); }
+
+.lessons { display: grid; gap: 18px; margin: 22px 0; }
+.lessons div { padding: 18px 22px; border: 1px solid var(--edge-soft); border-radius: 10px; background: var(--panel); }
+.lessons h3 { margin: 0 0 6px; font-size: 18px; color: var(--gold-light); }
+.lessons p { margin: 0; font-size: 17.5px; }
+
+.end { margin-top: 80px; padding: 72px 24px; background: linear-gradient(180deg, var(--bg) 0%, rgba(18, 14, 11, .5) 35%, rgba(18, 14, 11, .7) 100%), url("/balbal/img/bg-steppe.webp") center 60% / cover no-repeat; }
+.end .in { width: min(760px, 100%); margin: 0 auto; }
+.end h2 { margin: 0 0 12px; font: 700 clamp(26px, 3.4vw, 36px) / 1.15 var(--display); }
+.end p { margin: 0 0 22px; max-width: 560px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font: 700 16px var(--data); letter-spacing: .02em; text-decoration: none; margin: 0 10px 10px 0; }
+.btn.primary { background: var(--gold); color: var(--ink); }
+.btn.primary:hover { background: var(--gold-light); }
+.btn.secondary { border: 1px solid var(--edge); color: var(--bone); background: rgba(12, 9, 8, .55); }
+.btn.secondary:hover { border-color: var(--gold); }
+footer { width: min(1080px, 100%); margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font: 15px var(--data); color: var(--muted); border-top: 1px solid var(--edge-soft); }
+
+@media (max-width: 860px) {
+  figure { margin-inline: 0; }
+  figcaption { margin-inline: 0; }
+}
+@media (max-width: 560px) {
+  body { font-size: 18px; }
+  .top, .head, article { padding-inline: 16px; }
+  .head { padding-block: 40px 60px; }
+  .tldr { padding: 20px 18px; }
+  .toc { columns: 1; }
+  .end { padding-inline: 16px; }
+  footer { padding-inline: 16px; }
+}
+/* Cinzel draws lowercase as small caps, so a lowercase i loses its dot; uppercase with lang=tr gives İ */
+h1, h2, h3, .lineage b, .tagline-caps { text-transform: uppercase; }
+.refs { font: 15px/1.55 var(--data); color: var(--muted); }
+.refs-title { margin: 28px 0 8px; font: 700 13px/1.4 var(--data); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+ol.refs { margin: 0; padding-left: 1.6em; }
+ol.refs li { margin: 0 0 6px; padding-left: 4px; }
+ol.refs cite { font-style: italic; }
+
+/* language: <html lang> is set before first paint; only the matching copy is shown */
+html[lang="en"] [data-lang="tr"], html:not([lang="en"]) [data-lang="en"] { display: none !important; }
+.lang-btn { font: 700 13px var(--data); letter-spacing: .06em; color: var(--muted); background: rgba(12, 9, 8, .45); border: 1px solid var(--edge); border-radius: 999px; padding: 6px 14px; cursor: pointer; white-space: nowrap; }
+.lang-btn:hover { color: var(--gold-light); border-color: var(--gold); }
+.top-r { display: flex; align-items: center; gap: 18px; }
+</style>
+<script>
+// Language: ?lang= / #lang= in the URL, else the visitor's saved choice, else Turkish for visitors in Turkey
+// (Istanbul time zone) or with Turkish among their browser languages; everyone else gets English.
+const TITLES = { tr: "balbal-v1 nasıl yapıldı", en: "How balbal-v1 was built" };
+(function () {
+  let l = null;
+  const m = /[?&#]lang=(tr|en)\b/.exec(location.search + location.hash);
+  if (m) l = m[1];
+  if (!l) { try { const s = localStorage.getItem('balbal-lang'); if (s === 'tr' || s === 'en') l = s; } catch (e) {} }
+  if (!l) {
+    let tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
+    l = (/^(Europe|Asia)\/Istanbul$/.test(tz) || langs.some(x => /^tr\b/i.test(x))) ? 'tr' : 'en';
+  }
+  document.documentElement.lang = l;   // also drives casing: i -> İ under text-transform only with lang=tr
+  document.title = TITLES[l];
+})();
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-set-lang]');
+  if (!b) return;
+  const l = b.dataset.setLang;
+  document.documentElement.lang = l;
+  document.title = TITLES[l];
+  try { localStorage.setItem('balbal-lang', l); } catch (err) {}
+  window.scrollTo(0, 0);
+});
+</script>
+</head>
+<body>
+<div data-lang="tr">
+
+<div class="masthead">
+  <div class="top">
+    <a class="wordmark" href="https://erayy.com/">erayy <span>/ lab</span></a>
+    <span class="top-r">
+      <a class="back js-site" href="#">← balbal-v1 tanıtım sayfası</a>
+      <button class="lang-btn" type="button" data-set-lang="en" lang="en">English</button>
+    </span>
+  </div>
+  <div class="head">
+    <p class="eyebrow">Teknik yazı · 14 Ekim 2026</p>
+    <h1>balbal-v1 nasıl yapıldı</h1>
+    <p class="standfirst">15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma, tek bir masaüstü makinede eğittim. Mimari, veri, eğitim, değerlendirme ve yol boyunca yaptığım hatalar.</p>
+    <p class="byline">Eray Yapağcı</p>
+  </div>
+</div>
+
+<article>
+  <section class="tldr" aria-labelledby="ozet">
+    <h2 id="ozet">Kısaca</h2>
+    <ul>
+      <li>balbal-v1, 45,4 milyon parametre saklayan ama ses karesi başına yalnızca <strong>15,4 milyonunu</strong> kullanan bir CTC modeli.</li>
+      <li>Mu-Bench'in resmi değerlendirmesinde <strong>%11,93</strong> kelime hata oranı (WER) aldı. FLEURS Türkçe testinde %6,54.</li>
+      <li>8 işlemci çekirdeğinde, tek tek kliplerle, <strong>gerçek zamanın ~96 katı</strong> hızla çalışıyor.</li>
+      <li>Son eğitim aşaması tek bir AMD Ryzen AI Max+ 395 makinesinin entegre GPU'sunda <strong>84 dakika</strong> sürdü.</li>
+      <li>Model ağırlıkları şimdilik açık değil.</li>
+    </ul>
+  </section>
+
+  <ol class="toc" aria-label="İçindekiler">
+    <li><a href="#neden">Neden küçük bir model</a></li>
+    <li><a href="#mimari">Mimari</a></li>
+    <li><a href="#veri">Veri</a></li>
+    <li><a href="#egitim">Eğitim</a></li>
+    <li><a href="#cozucu">Çözücü ve dil modeli</a></li>
+    <li><a href="#olcum">Nasıl ölçtüm</a></li>
+    <li><a href="#sonuclar">Sonuçlar</a></li>
+    <li><a href="#hiz">Hız</a></li>
+    <li><a href="#dersler">Hatalar ve dersler</a></li>
+    <li><a href="#sinirlar">Sınırlar ve sonraki adımlar</a></li>
+    <li><a href="#kaynaklar">Kaynaklar</a></li>
+  </ol>
+
+  <h2 id="neden"><span class="n">1</span>Neden küçük bir model</h2>
+  <p>Türkçe konuşma tanımada iki seçenek öne çıkıyor. Birincisi ticari API'ler: iyiler, ama ses dışarıya gidiyor ve dakika başı ücret ödeniyor. İkincisi büyük açık modeller (Whisper large-v3, Qwen3-ASR, omniASR): doğrulukları yüksek, ama bir milyardan fazla parametreleri var ve işlemcide gerçek zamana ancak yetişiyorlar.</p>
+  <p>Hedefim bu ikisinin arasındaki boşluktu. GPU gerektirmeyen, telefon görüşmesi gibi zor seslerde ticari API'lerle yarışabilen ve bir dizüstü bilgisayarda bile rahat çalışan bir model istedim. Bu yüzden her tasarım kararında doğruluğu hesaplama maliyetiyle birlikte tarttım.</p>
+
+  <figure>
+    <img src="/balbal/img/5-rttf-cpu.webp" alt="Mu-Bench hata oranı ile işlemcide hız (gerçek zaman katı, logaritmik) grafiği; balbal-v1 sağ altta, hem hızlı hem doğru. Freya ve PatientDesk API'leri de grafikte." width="1800" height="1012">
+    <figcaption><b>Hız ve doğruluk.</b> Yerel modeller aynı oturumda, 8 işlemci çekirdeğinde ve batch 1 ile ölçüldü. Freya ve PatientDesk (elmaslar) kendi sunucularının bildirdiği işlem süresiyle. Yatay eksen logaritmik; sağ alt köşe en iyisi.</figcaption>
+  </figure>
+
+  <h2 id="mimari"><span class="n">2</span>Mimari</h2>
+  <p>Model üç parçadan oluşuyor.</p>
+  <h3>Kodlayıcı: Conformer-CTC</h3>
+  <p>16 kHz ses önce 80 kanallı log-mel spektrogramına çevriliyor. 16 katmanlı bir Conformer bunu işliyor (model boyutu 176, 4 dikkat başı, 31'lik evrişim çekirdeği) ve 40 milisaniyede bir çıktı karesi üretiyor. Başlangıç noktası NVIDIA'nın İngilizce <code>stt_en_conformer_ctc_small</code> modeliydi. Türkçe için 1024 parçalı bir SentencePiece (unigram) sözlüğüyle yeniden eğittim.</p>
+  <h3>İyileştirici ve ürün-anahtarlı bellek</h3>
+  <p>Kodlayıcının üstünde 2 katmanlı, 192 genişliğinde küçük bir iyileştirici var. Aynı ağırlıklarla üç kez çalışıyor; her geçişte çıktı biraz daha düzeltiliyor. İyileştiricinin içinde <strong>ürün-anahtarlı bir bellek</strong> (product-key memory) bulunuyor. İki adet 500'lük alt anahtar kümesinin çarpımı 250.000 bellek yuvası veriyor; her yuva 120 boyutlu bir vektör tutuyor. Bu tablo 30 milyon parametre ediyor, ama her ses karesi yalnızca 64 yuvaya bakıyor (4 baş × en iyi 16). Böylece model çok şey ezberleyebiliyor, ancak her kare için az hesap yapıyor.</p>
+  <figure>
+    <img src="/balbal/img/4-active-params-vs-wer.webp" alt="Aktif parametre sayısına karşı Mu-Bench kelime hata oranı grafiği. balbal-v1, 15,4 milyon aktif parametreyle sol altta; büyük açık modeller sağda." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Aktif parametreye karşı hata.</b> Bellek tablosu saklanıyor ama her karede yalnızca küçük bir kısmı okunuyor. Bu yüzden yatay eksende aktif parametre var.</figcaption>
+  </figure>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parça</th><th>Saklanan</th><th>Kare başına kullanılan</th></tr></thead>
+      <tbody>
+        <tr><td>Conformer kodlayıcı (16 katman)</td><td>12,97 mn</td><td>12,97 mn</td></tr>
+        <tr><td>CTC çıkış katmanı</td><td>0,18 mn</td><td>0,18 mn</td></tr>
+        <tr><td>İyileştirici (bellek hariç)</td><td>2,2 mn</td><td>2,2 mn</td></tr>
+        <tr><td>Bellek tablosu (250.000 × 120)</td><td>30,0 mn</td><td>≤ 0,02 mn <small>(3 geçişte 23.040 değer)</small></td></tr>
+        <tr class="sum"><td>Toplam</td><td>45,4 mn</td><td>15,4 mn</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Dil modeli</h3>
+  <p>Çıktı, SentencePiece parçaları üzerinde eğitilmiş 6-gram bir KenLM dil modeliyle çözülüyor. Ayrıntılar <a href="#cozucu">5. bölümde</a>.</p>
+
+  <h3>Bu mimariye nasıl vardım</h3>
+  <p>Eylül sonunda düz bir Conformer-CTC (13,2 mn parametre) ile başladım. Her fikri aynı küçük düzenekte denedim: 200 saat veri, 3 epoch, aynı dil modeli. Aşağıdaki sayılar FLEURS ve iki başka Türkçe test kümesinin birleşik WER'i (15.610 klip), o dönemki eski puanlama kuralıyla. Bu yüzden yukarıdaki sonuçlarla doğrudan karşılaştırılamaz. Önemli olan aralarındaki farklar.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Deney (200 saat, 3 epoch)</th><th>Birleşik WER</th><th>Karar</th></tr></thead>
+      <tbody>
+        <tr><td>Düz Conformer-CTC</td><td>23,78</td><td>başlangıç</td></tr>
+        <tr><td>Self-conditioning CTC</td><td>23,52</td><td>küçük kazanç</td></tr>
+        <tr><td>Dikkat tabanlı çözücü (AED)</td><td>23,90</td><td>elendi</td></tr>
+        <tr><td>Yalnızca ürün-anahtarlı bellek (4 baş × 16)</td><td>22,23</td><td>umut verici</td></tr>
+        <tr><td>Döngülü iyileştirici, 3 geçiş</td><td>22,18</td><td>kaldı</td></tr>
+        <tr><td>6 geçiş + derinlik koşullama</td><td>22,02</td><td>3 geçişe değmedi</td></tr>
+        <tr><td>Döngü + iki görünüm tutarlılık kaybı</td><td>20,43</td><td>kaldı</td></tr>
+        <tr><td>Döngü + bellek + tutarlılık</td><td>19,72</td><td>kaldı</td></tr>
+        <tr class="sum"><td>+ Muon/AdamW optimizasyonu</td><td>18,43</td><td>temel mimari</td></tr>
+        <tr><td>+ uzman karışımı (4 uzman, en iyi 2)</td><td>18,37</td><td>fark gürültüde, eklenmedi</td></tr>
+        <tr><td>+ WavLM öğretmenden damıtma</td><td>18,80</td><td>elendi</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Yol boyunca öğrendiklerim:</p>
+  <ul>
+    <li><strong>Bellek fikri Engram'dan geldi.</strong> Engram (<a href="https://arxiv.org/abs/2601.07372" target="_blank" rel="noopener">Cheng ve ark., 2026</a>), dil modellerine kelime parçalarının n-gramlarıyla adreslenen büyük bir arama tablosu ekliyor: hesaplama artmadan parametre sayısı artıyor. Bunu konuşma tanımaya uyarladım. Ara katmandaki CTC tahminlerinin ikili ve üçlü dizileri, toplam 30 mn parametrelik dört tabloya anahtar oldu. Üç deneme yaptım. Önceki Conformer modelimin üzerine 100 saatlik ince ayarda Engram'lı model DEV'de 30,06 WER verdi; aynı düzenekteki self-conditioning kontrolü (<a href="https://arxiv.org/abs/2104.02724" target="_blank" rel="noopener">Nozaki ve Komatsu, 2021</a>) 30,13, başlangıç noktası 30,18. Fark vardı ama küçüktü. 200 saatlik eğitimde makaledeki ayarı da denedim: tablolara 5 kat öğrenme oranı, ağırlık sönümü yok. Dil modeli ağırlıkları DEV'de ayarlandıktan sonra iki Engram modeli de test kümelerinde tutarlılık kaybıyla eğitilmiş düz modelin gerisinde kaldı. Belleği kapatınca neredeyse hiçbir şey değişmiyordu: 100 klipte 470 yerine 469 hata. Model tabloyu pek kullanmıyordu. Muhtemel neden, anahtarların modelin kendi gürültülü tahminlerinden gelmesiydi.</li>
+    <li><strong>Akustik sorguya geçince bellek işe yaradı.</strong> Anahtarı tahmin edilen parçalardan değil sesin kendisinden üretmeye karar verdim. Bunun için Lample ve arkadaşlarının ürün-anahtarlı belleğini (<a href="https://arxiv.org/abs/1907.05242" target="_blank" rel="noopener">Lample ve ark., 2019</a>) ardışık üç ses karesinden üretilen bir sorguyla kullandım. Değer tablosunun 5 kat öğrenme oranı ve sönümsüz eğitimi Engram'dan kaldı. İlk denemede erişim birkaç yuvaya çöktü: en çok kullanılan 100 yuva ağırlığın %95'ini alıyordu. Sorguya batch normalizasyonu ekleyince bellek dengeli kullanılmaya başladı. Aynı 100 klipte belleği kapatmak hata oranını 36,27'den 38,96'ya çıkarıyordu. Üstelik ucuzdu: parametre sayısını üç katına çıkarmasına rağmen aynı düzenekte eğitim adımı yalnızca yaklaşık %10 uzadı (güncelleme başına 1,00 yerine 1,10 saniye). Her karede tablonun tamamı değil, yalnızca seçilen 64 satır okunuyor ve güncelleniyor.</li>
+    <li><strong>Daha çok geçiş daha iyi değil.</strong> Çıkarım sırasında geçiş sayısını 2'den 10'a çıkardığımda DEV hatası düzenli olarak arttı (37,08'den 38,05'e). 6 geçişli bir eğitim de 3 geçişe göre anlamlı bir kazanç vermedi. Bu yüzden 3 geçişte kaldım.</li>
+    <li><strong>Optimizasyon, mimari kadar önemliydi.</strong> Muon'u denememin sebebi Qwen3.8-Next'in teknik raporuydu (<a href="https://arxiv.org/abs/2608.30320" target="_blank" rel="noopener">Qiu ve ark., 2026</a>). Qwen ekibi bu modelde Qwen3 ailesinin AdamW'sinden Muon'a geçmiş ve bunun daha yüksek öğrenme oranına izin verip eğitimi kararlı hale getirdiğini yazıyor. Muon'un kendisi Keller Jordan'ın modded-nanogpt speedrun'ında ortaya çıktı (<a href="https://kellerjordan.github.io/posts/muon/" target="_blank" rel="noopener">Jordan, 2024</a>). Yine de tamamen Muon'a geçmedim, karma bir düzen kurdum. Muon'un kendi yazısı da gömme ve çıkış katmanlarının en iyi sonuç için AdamW ile eğitilmesini öneriyor; son dönemde modeller de çoğunlukla bu karma düzenle, Muon gizli katmanlarda, AdamW geri kalanında olacak şekilde eğitiliyor. Son dönemde tüm parametreleri Muon'la eğitilen modellerin daha kolay yakınsadığını anlatan yazılar da çıktı, ama ben yaygınlaşan karma düzende kaldım. Bende dikkat katmanlarındaki Q/K/V (her baş ayrı) ve ileri beslemeli katmanların doğrusal ağırlıkları Muon ile, evrişimler, normalizasyonlar, çıkış katmanı ve bellek tablosu AdamW ile güncelleniyor. Aynı modelde bu geçiş tek başına hatayı %6,5 azalttı. Bu, eklediğim çoğu mimari parçadan daha büyük bir kazançtı.</li>
+    <li><strong>Sonradan sadeleştirdim.</strong> İki görünüm tutarlılık kaybı (CR-CTC, <a href="https://arxiv.org/abs/2410.05101" target="_blank" rel="noopener">Yao ve ark., 2025</a>) eğitimi yaklaşık 1,7 kat yavaşlatıyordu. Speedrun ölçümlerinde onsuz eğitimin aynı sürede daha iyi sonuç verdiğini görünce kaldırdım. Uzman karışımı, damıtma, SwiGLU ve birkaç başka ek de ya fayda vermedi ya da eğitimi bozdu.</li>
+  </ul>
+  <p>Son modelde parçaların katkısını görmek için önceki sürümde (balbal-v2-beta) belleği ve döngüyü çıkarım sırasında kapattım. Bu, yeniden eğitilmiş bir karşılaştırma değil; yalnızca eğitilmiş modelin bu parçalara ne kadar dayandığını gösteriyor.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>balbal-v2-beta, v2 WER</th><th>Tam model</th><th>Bellek kapalı</th><th>Döngü yok</th></tr></thead>
+      <tbody>
+        <tr><td>FLEURS</td><td>6,59</td><td>8,79</td><td>8,81</td></tr>
+        <tr><td>Mu-Bench</td><td>13,39</td><td>16,05</td><td>15,90</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Dil modeliyle birlikte, belleği olmayan döngü neredeyse hiç döngü olmamasıyla aynı sonucu veriyor. Yani iyileştiricinin kazancı büyük ölçüde bellekten geliyor.</p>
+  <h2 id="veri"><span class="n">3</span>Veri</h2>
+  <p>Model, eğitimin başından sonuna kadar en az bir kez toplam 1.722 saat farklı ses gördü. Tekrarlarla birlikte bu yaklaşık 14.450 saat ediyor; 12.100 saati ilk Türkçe modelin 10 epoch'undan geliyor. Aynı ses birden fazla aşamada kullanıldıysa bir kez sayıldı (kod çözülmüş sesin özeti, yani hash ile). NVIDIA'nın İngilizce başlangıç modelinin ön eğitim verisi tabloda yok.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Kaynak</th><th>Saat</th><th>Pay</th></tr></thead>
+      <tbody>
+        <tr class="group"><td>Gerçek Türkçe konuşma <small>(açık veri setleri ve web'den derlenmiş doğal konuşma)</small></td><td>455,6</td><td>%26,5</td></tr>
+        <tr class="group"><td>Sentetik Türkçe konuşma (TTS)</td><td>1.195,7</td><td>%69,4</td></tr>
+        <tr><td>Okunan web ve haber metinleri, kısa cümleler</td><td>714,4</td><td>%41,5</td></tr>
+        <tr><td>Gündelik konuşma ve diyaloglar</td><td>329,4</td><td>%19,1</td></tr>
+        <tr><td>Harf harf kodlama, e-posta</td><td>50,0</td><td>%2,9</td></tr>
+        <tr><td>Sayılar, telefon numaraları, tutarlar</td><td>40,7</td><td>%2,4</td></tr>
+        <tr><td>İsimler ve ekler</td><td>24,5</td><td>%1,4</td></tr>
+        <tr><td>Çağrı merkezi diyalogları</td><td>20,4</td><td>%1,2</td></tr>
+        <tr><td>Kısa cevaplar</td><td>16,2</td><td>%0,9</td></tr>
+        <tr class="group"><td>Diğer</td><td>70,5</td><td>%4,1</td></tr>
+        <tr><td>İngilizce konuşma (LibriSpeech)</td><td>61,3</td><td>%3,6</td></tr>
+        <tr><td>Konuşma olmayan sesler (gürültü, müzik, sessizlik)</td><td>9,3</td><td>%0,5</td></tr>
+        <tr class="sum"><td>Toplam: 1.075.680 klip</td><td>1.721,9</td><td>%100</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Son eğitim aşamasında yeni ses eklemedim. Daha önce görülmüş kayıtlardan 702 saatlik bir karışım kurdum ve gerçek konuşmanın payını %64'e çıkardım.</p>
+  <p>Sentetik konuşmayı açık TTS modelleriyle ürettim. Gerçek veride az bulunan durumlara ağırlık verdim: harf harf okunan kodlar, telefon numaraları, isimler ve kısa "evet / hayır / tamam" cevapları. Çağrı merkezi konuşmalarının asıl zorluğu bu durumlarda.</p>
+  <h3>Gerçek kayıtları Moonshine gibi kesip birleştirdim</h3>
+  <p>Son eğitim aşamasında gerçek kayıtları Moonshine'ın eğitim verisini hazırlama biçimine göre yeniden düzenledim (<a href="https://arxiv.org/abs/2410.15608" target="_blank" rel="noopener">Jeffries ve ark., 2024</a>). Moonshine, aynı kayıttaki ardışık parçaları aralarında en fazla 2 saniye boşluk kalacak şekilde birleştirip 4 ile 30 saniye arası örnekler oluşturuyor. Bu yüzden süre dağılımı iki tepeli: bir tepe 3–6 saniyede, diğeri 27–30 saniyede. Ben de gerçek kayıtları böyle birleştirdim. Kısa sentetik klipleri ve aşağıdaki kesitleri bilerek kısa bıraktığım için karışımın yalnızca %5,7'si 25–31 saniye aralığında (Moonshine'da %23).</p>
+  <p>Ayrıca gerçek kayıtlardan kısa kalıp ifadeler kestim. Eğitim metinlerinde "iyi günler", "kolay gelsin", "rica ederim" gibi 35 sık konuşma ifadesini buldum. Önceki modelin CTC hizalamasıyla bu ifadelerin seste nerede başlayıp bittiğini çıkardım, kelime sınırlarından 80 ms pay bırakarak kestim. Yalnızca modelin kesilmiş sesi tam olarak o ifade diye okuduğu kesitleri tuttum: 11.476 kesit, toplam 2 saat. Nadir ifadeler daha sık tekrarlansın diye her ifadeyi 3 ile 15 kat arasında çoğalttım. Amaç, çağrı merkezlerinde çok geçen ama uzun kayıtların içinde kaybolan kısa cevapları modele ayrı ayrı göstermekti.</p>
+  <p>Birkaç kural koydum:</p>
+  <ul>
+    <li><strong>Etiketlerde rakam yok.</strong> Sayılar konuşulduğu gibi yazıyla yazılıyor ("sıfır beş yüz otuz iki"). Karışımda rakam içeren tek bir etiket bile yok. Bunun nedenini <a href="#dersler">9. bölümde</a> anlatıyorum.</li>
+    <li><strong>Test verisi eğitime girmiyor.</strong> FLEURS'tan yalnızca eğitim bölümünü kullandım. Test kümeleriyle metin, ses dosyası ve ses özeti (hash) düzeyinde örtüşme olmadığını kontrol ettim. Mu-Bench'in hiçbir içeriği eğitime ya da dil modeline girmedi.</li>
+    <li><strong>Ses kenarları.</strong> Mu-Bench klipleri konuşmaya sıkı kesilmiş ve iki ucunda yaklaşık 0,5 saniye tam sessizlik var. Eğitim kliplerinin çoğu böyle değildi. Bu yüzden eğitimde kenarları rastgele kırpıp 0–0,6 saniye sessizlik ekleyen bir artırma (EDGE_P = 0,5) kullandım. Taklit edilen şey yalnızca bu biçim; içerik değil. Ayrıca kliplerin yarısına telefon hattı benzetimi uygulandı (TEL_P = 0,5).</li>
+  </ul>
+
+  <h2 id="egitim"><span class="n">4</span>Eğitim</h2>
+  <p>balbal-v1 tek seferde eğitilmedi; birkaç aşamalık bir soy ağacının son halkası.</p>
+  <ol class="lineage">
+    <li><b>İngilizce başlangıç</b><span>NVIDIA <code>stt_en_conformer_ctc_small</code> (Conformer-CTC, ~13 mn parametre).</span></li>
+    <li><b>İlk Türkçe model</b><span>RunPod'da, NVIDIA RTX PRO 4500 Blackwell üzerinde 10 epoch, yaklaşık 35,6 saat.</span></li>
+    <li><b>Genel Türkçe model</b><span>İlk Türkçe modelden devam: 203 saatlik yeni veriyle 3 epoch.</span></li>
+    <li><b>balbal-v1-beta</b><span>Ağırlık çorbası: genel Türkçe model %75, ilk Türkçe model %25.</span></li>
+    <li><b>balbal-v2-beta</b><span>İyileştirici ve ürün-anahtarlı bellek eklendi. E-posta ve harf harf kodlama verisiyle 27.024 güncelleme, ardından 0,6 oranlı ağırlık çorbası.</span></li>
+    <li><b>balbal-v1</b><span>v2-beta'dan başlayarak 702 saatlik karışımla 6000 güncelleme (yaklaşık 0,57 epoch). Yerel iGPU'da 5.024 saniye (84 dakika). Çorba yapılmadı; ham ağırlıklar kullanıldı.</span></li>
+  </ol>
+  <p>Son aşamanın ayarları: batch 32; öğrenme hızı 1e-4 (bellek tablosu için 5e-4). Matris ağırlıklarında Muon, geri kalan ağırlıklarda AdamW kullandım.</p>
+  <h3>Speedrun yaklaşımı</h3>
+  <p>Eğitim değişikliklerini Keller Jordan'ın modded-nanogpt "speedrun" yaklaşımıyla değerlendirdim. Bir değişikliğin değeri, adım başına süreyle değil, <strong>sabit bir kalite hedefine ulaşma süresiyle</strong> ölçüldü. Hedef, ayrı tutulan kontrol kümelerinde Türkçe, İngilizce ve konuşma olmayan ses grupları için belirlenen eşiklerdi. Geliştirme kümesinde (DEV) gerileme olmaması şart koşuldu. İki model arasındaki farkları eşleştirilmiş bootstrap ile sınadım. Kontrol noktası seçimi yalnızca DEV ve kontrol kümelerine bakılarak yapıldı; test kümelerine ve Mu-Bench'e bakılmadı.</p>
+  <h3>Donanım</h3>
+  <p>İlk Türkçe model (10 epoch, yaklaşık 35,6 saat) RunPod'da kiraladığım bir NVIDIA RTX PRO 4500 Blackwell (32 GB) GPU'sunda eğitildi. Sonraki aşamaların hepsi kendi makinemde devam etti: tek bir AMD Ryzen AI Max+ 395, Radeon 8060S entegre GPU, ROCm ve 121 GB ortak bellek. Mimari denemelerin ve speedrun ölçümlerinin bir kısmı için de RunPod'dan RTX 5090 ve A40 kiraladım. Radeon'un kendine özgü sorunlarını 9. bölümde anlatıyorum.</p>
+
+  <h2 id="cozucu"><span class="n">5</span>Çözücü ve dil modeli</h2>
+  <p>CTC çıktısı, flashlight'ın sözlüksüz (lexicon-free) ışın aramasıyla çözülüyor. Dil modeli SentencePiece parçaları üzerinde çalışan 6-gram bir KenLM. 45 milyon parça üzerinde eğitildi ve 124 MB tutuyor. Dil modeli metni, bu modelin soy ağacındaki tüm eğitim metinlerinden oluşuyor. DEV, test ve kontrol cümleleri bu metinden çıkarıldı. Her model sürümü için dil modelini o sürümün gördüğü veriyle yeniden kuruyorum.</p>
+  <p>Çözücü ayarları DEV kümesinde kalibre edildi: dil modeli ağırlığı α = 0,75, kelime bonusu β = 1,5, sıcaklık 1,2, ışın genişliği 64, kare başına en iyi 12 parça, budama eşiği 8. Dil modeli FLEURS'ta WER'i %9,35'ten %6,54'e, Mu-Bench'te %13,86'dan %11,78'e indiriyor.</p>
+  <p>Çıktıda büyük harf ve noktalama var. Sayılar yazıyla çıkıyor; rakama çeviren bir son işlem (ITN) modelin içinde yok.</p>
+
+  <h2 id="olcum"><span class="n">6</span>Nasıl ölçtüm</h2>
+  <p>Kendi ölçümlerimde tek bir puanlama kuralı kullandım (v2). Harf büyüklüğü ve noktalama yok sayılıyor. Sayılar rakam rakam karşılaştırılıyor; "doksan", "dokuz sıfır" ve "90" aynı sayılıyor. Bitişik yazılmış kodlar harf ve rakamlarına ayrılıyor. Kural yalnızca aynı kelimelerin farklı yazımlarını affediyor; farklı bir kelime her zaman hata. Tablodaki bütün açık modeller aynı klipler ve aynı kuralla puanlandı. Puanlama kodu GitHub'da: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. Normalizer, çıkarım ve eğitim kodunun tamamı da <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> deposunda.</p>
+  <p>Mu-Bench için resmi değerlendirme düzeneğini de çalıştırdım (sierra-research/mu-bench, gpt-4.1 hakem). Gönderimden önce yazıyla çıkan sayılar rakama çevrildi (ITN). Ticari API'lerin puanları Mu-Bench'in kendi tablosundan alındı. Maliyeti azaltmak için bir önlem aldım: 846 cümlenin 342'sinde balbal-v1, balbal-v2-beta ile birebir aynı metni üretiyordu. Bunlar için v2-beta'nın hakem kararlarını tekrar kullandım; kalan 504 cümle yeniden değerlendirildi.</p>
+  <div class="callout">
+    <p>Mu-Bench yalnızca sonuç okumak için kullanıldı. Eğitim verisine, dil modeline ya da kontrol noktası seçimine hiçbir şekilde girmedi.</p>
+  </div>
+
+  <h2 id="sonuclar"><span class="n">7</span>Sonuçlar</h2>
+  <h3>Mu-Bench: ticari API'lerle karşılaştırma</h3>
+  <p>Mu-Bench, 8 kHz kalitesinde müşteri hizmetleri görüşmelerinden 846 Türkçe cümle içeriyor. Resmi değerlendirmede balbal-v1'in WER'i <strong>%11,93</strong>, anlamı bozan hata oranı (significant WER) <strong>%25,18</strong>. Bu sonuçla Azure, Deepgram, OpenAI ve xAI'nin önünde, Google ve ElevenLabs'in arkasında yer alıyor. Anlamı bozan hatalarda Deepgram Nova-3 (%24,35) biraz daha iyi.</p>
+  <figure>
+    <img src="/balbal/img/1-mubench-vs-apis.webp" alt="Mu-Bench resmi WER çubuk grafiği: balbal-v1 yüzde 11,93 ile ticari API'lerin arasında." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, resmi değerlendirme.</b> API puanları Mu-Bench tablosundan. balbal-v1 aynı düzenekle, gpt-4.1 hakemle ve ITN uygulanarak puanlandı.</figcaption>
+  </figure>
+  <h3>Açık ağırlıklı modellerle karşılaştırma</h3>
+  <p>Açık ağırlıklı modellerin hepsini aynı klipler ve v2 kuralıyla kendim çalıştırdım. Mu-Bench'te (v2, ITN'siz) balbal-v1 <strong>%11,78</strong> ile hepsinin önünde. En yakın rakipler Qwen3-ASR 1.7B (%13,95) ve Whisper large-v3 (%14,92); ikisi de yüz kat büyük. FLEURS'ta durum farklı: Whisper large-v3 (%3,71) ve turbo (%4,07) açık ara önde. balbal-v1'in %6,54'ü Qwen3-ASR 1.7B (%6,52) ile aynı düzeyde. FLEURS temiz, okunmuş Wikipedia cümlelerinden oluşuyor ve büyük modellerin geniş dünya bilgisi burada daha çok işe yarıyor.</p>
+  <figure>
+    <img src="/balbal/img/2-mubench-open-models.webp" alt="Mu-Bench'te açık modellerin v2 WER karşılaştırması; balbal-v1 en düşük hata oranıyla en üstte." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, açık ağırlıklı modeller (v2 puanlama).</b> Her model aynı 846 klip üzerinde aynı kuralla puanlandı.</figcaption>
+  </figure>
+  <figure>
+    <img src="/balbal/img/3-fleurs-open-models.webp" alt="FLEURS Türkçe test kümesinde açık modellerin WER karşılaştırması; Whisper large-v3 en iyi, balbal-v1 Qwen3-ASR ile yakın." loading="lazy" width="1800" height="1012">
+    <figcaption><b>FLEURS Türkçe testi, 743 klip.</b> Temiz, okunmuş konuşma; büyük modellerin en güçlü olduğu alan.</figcaption>
+  </figure>
+  <h3>MihuAI'nin kendi testi</h3>
+  <p>MihuAI, <a href="https://huggingface.co/mihuai/turkish-stt" target="_blank" rel="noopener">turkish-stt</a> modeliyle birlikte 81 klipten oluşan bir <a href="https://github.com/mihu-ai/turkish-stt/tree/main/eval" target="_blank" rel="noopener">test</a> yayımladı. Kayıtlar TTS ile üretilmiş, 24 kHz. Bu testi MihuAI'nin kendi puanlama koduyla, hiçbir değişiklik yapmadan çalıştırdım. balbal-v1'in WER'i <strong>%7,94</strong>. MihuAI turkish-stt, kendi önerdiği ayarlarla aynı testte %15,20 alıyor (yayımladıkları değer %15,37).</p>
+  <h3>Kategori bazında</h3>
+  <p>Kategoriler Mu-Bench'in kendisinden gelmiyor. Freya'nın aynı ses ve metinleri içeren <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener">sierra-benchmark</a> veri setindeki kategori etiketlerini kullandım. balbal-v1 telefon numaralarında (%3,96), adreslerde (%4,53) ve kod dizilerinde (%5,34) güçlü. İsimler (%24,84), harf harf okuma (%20,06) ve istek cümleleri (%19,98) hâlâ zayıf noktaları.</p>
+  <figure>
+    <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench kategorilerine göre WER: balbal-v1, Qwen3-ASR ve Whisper large-v3 karşılaştırması." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench kategorileri (v2 puanlama).</b> Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Grafikte yalnızca en az 20 klibi olan kategoriler var; parantez içindeki sayılar klip sayısı. E-posta, telefon, adres ve kısa cevaplarda balbal-v1 önde; kalanların çoğunda Whisper large-v3.</figcaption>
+  </figure>
+  <h3>Önceki sürüme göre</h3>
+  <p>balbal-v1'i önceki sürüm balbal-v2-beta ile eşleştirilmiş bootstrap ile karşılaştırdım. Hiçbir kümede gerilemedi.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Test kümesi</th><th>v2-beta</th><th>balbal-v1</th><th>Fark</th><th>Dil modelsiz</th></tr></thead>
+      <tbody>
+        <tr><td>Mu-Bench (v2, ITN'siz)</td><td>12,95</td><td class="better">11,78</td><td>daha iyi</td><td>13,86</td></tr>
+        <tr><td>Ayrı tutulan kontrol cümleleri</td><td>21,84</td><td class="better">18,94</td><td>daha iyi</td><td>29,00</td></tr>
+        <tr><td>FLEURS</td><td>6,47</td><td>6,54</td><td>anlamsız</td><td>9,35</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Tablodaki değerler v2 puanlamasıyla WER (%). "Anlamsız", farkın güven aralığının sıfırı kapsadığı anlamına geliyor.</p>
+  <figure>
+    <img src="/balbal/img/6-beta-to-v1.webp" alt="balbal-v1-beta, balbal-v2-beta ve balbal-v1 arasında Mu-Bench ve FLEURS ilerlemesi." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Sürümden sürüme.</b> İlerlemenin büyük kısmı Mu-Bench tarzı zor seste geldi. FLEURS'taki fark gürültü içinde.</figcaption>
+  </figure>
+
+  <h2 id="hiz"><span class="n">8</span>Hız</h2>
+  <p>Hızı tüm modeller için aynı yöntemle ölçtüm. 100 klip kullandım (50 FLEURS, 50 Mu-Bench). Her model 8 işlemci çekirdeğinde, batch boyutu 1 ile, klipleri tek tek işledi. Ölçülen süre, ham sesin girmesinden metnin çıkmasına kadar geçen süre: öznitelik çıkarma, ağ ve (balbal için) dil modelli ışın araması dahil. Makinenin hızı günden güne değişebildiği için bütün modelleri aynı oturumda ölçtüm.</p>
+  <p>balbal-v1, ONNX Runtime (fp32) ile <strong>gerçek zamanın ~96 katı</strong> hızda çalışıyor; dört ayrı ölçüm 95,8× ile 97,3× arasında çıktı. Aynı koşullarda Whisper large-v3 0,91×, Qwen3-ASR 1.7B 0,84× hızda. Yani bu iki model işlemcide gerçek zamana bile yetişemiyor. Karşılaştırmanın tamamı yazının başındaki grafikte.</p>
+
+  <h2 id="dersler"><span class="n">9</span>Hatalar ve dersler</h2>
+  <div class="lessons">
+    <div>
+      <h3>"Doksan" → "9"</h3>
+      <p>İlk karışımlarla eğitilen modeller, Mu-Bench'teki "sıfır doksan kırk beş" gibi telefon numaralarını "0 9 4 5" diye yazıyordu. Sorun etiketlerdeydi. Gerçek veri sayıları rakamla yazıyordu. Sentetik sayı setinde ise etiketler rakamları tek tek yazarken TTS sesi sayıları gruplar halinde okuyordu; bu setteki rakamlı satırların %66'sı yanlış etiketlenmişti. Çözüm iki adımdı: tüm etiketlerde sayıları konuşulduğu gibi yazıyla yazmak ve bir daha eğitime başlamadan önce veriyi sistemli olarak denetlemek.</p>
+    </div>
+    <div>
+      <h3>MIOpen'i eğitimde kapatmak: %41 daha hızlı</h3>
+      <p>Uzunlukları farklı kliplerle eğitim yaparken AMD'nin MIOpen kütüphanesi her yeni giriş boyutu için en iyi çekirdeği yeniden arıyordu. Bir epoch'taki adım süresinin %44'ü 5 saniyeden uzun süren güncellemelere gidiyordu. Eğitim adımlarında MIOpen'i kapatıp PyTorch'un kendi çekirdeklerini kullanınca güncelleme başına süre 2,37 saniyeden 1,40 saniyeye indi. Bu sorun tek bir süreç içinde yapılan karşılaştırmalarda görünmüyor, çünkü MIOpen aynı boyutları önbellekte tutuyor. Hız ölçümlerini bu yüzden her seferinde yeni bir süreçte yaptım.</p>
+    </div>
+    <div>
+      <h3>Gürültü tabanını bilmek</h3>
+      <p>Mu-Bench'te yaklaşık 0,6 puanlık farklar gürültü içinde kalıyor. Bu yüzden her karşılaştırmayı eşleştirilmiş bootstrap güven aralığıyla raporluyorum. Tek bir sayıya bakarak karar vermiyorum.</p>
+    </div>
+    <div>
+      <h3>İşe yaramayanlar</h3>
+      <p>Sinir ağı tabanlı bir dil modeliyle yeniden puanlama, birkaç modelin olasılıklarını birleştirme, ses seviyesi normalizasyonu ve CTC ön olasılık düzeltmesi ölçülebilir bir kazanç getirmedi. Kazanç en çok veriyi düzeltmekten ve ses biçimini test koşullarına uydurmaktan geldi.</p>
+    </div>
+  </div>
+
+  <h2 id="sinirlar"><span class="n">10</span>Sınırlar ve sonraki adımlar</h2>
+  <ul>
+    <li><strong>Sayılar yazıyla çıkar.</strong> Rakam isteyen uygulamaların ayrı bir ITN adımı eklemesi gerekiyor.</li>
+    <li><strong>Yalnızca Türkçe.</strong> Eğitimde bir miktar İngilizce (LibriSpeech) var, ama model İngilizce için ayarlanmadı ve bu yazıda İngilizce ölçülmedi.</li>
+    <li><strong>Uzun kayıtlar.</strong> API istek başına en fazla 30 saniye ses yazıyor; daha uzun kayıtları parçalayıp göndermek gerekiyor. Konuşma algılama (VAD) yok.</li>
+    <li><strong>İsimler ve harf harf okuma</strong> hâlâ en zayıf kategoriler. Bir sonraki veri turunun hedefi bunlar.</li>
+    <li><strong>Ağırlıklar şimdilik kapalı.</strong></li>
+  </ul>
+
+  <h2 id="kaynaklar">Kaynaklar</h2>
+  <ol class="refs">
+    <li>X. Cheng ve ark. <a href="https://arxiv.org/abs/2601.07372" target="_blank" rel="noopener"><cite>Conditional Memory via Scalable Lookup: A New Axis of Sparsity for Large Language Models</cite></a> (Engram). arXiv:2601.07372, 2026.</li>
+    <li>G. Lample, A. Sablayrolles, M. Ranzato, L. Denoyer, H. Jégou. <a href="https://arxiv.org/abs/1907.05242" target="_blank" rel="noopener"><cite>Large Memory Layers with Product Keys</cite></a>. NeurIPS, 2019.</li>
+    <li>Z. Qiu ve ark. <a href="https://arxiv.org/abs/2608.30320" target="_blank" rel="noopener"><cite>On the Design of Qwen3.8-Next Architecture: Evaluation, Efficiency, and Training Stability</cite></a>. arXiv:2608.30320, 2026.</li>
+    <li>K. Jordan. <a href="https://kellerjordan.github.io/posts/muon/" target="_blank" rel="noopener"><cite>Muon: An optimizer for hidden layers in neural networks</cite></a>. Blog yazısı, 2024. Ayrıca <a href="https://github.com/KellerJordan/modded-nanogpt" target="_blank" rel="noopener">modded-nanogpt</a> deposu.</li>
+    <li>Z. Yao ve ark. <a href="https://arxiv.org/abs/2410.05101" target="_blank" rel="noopener"><cite>CR-CTC: Consistency Regularization on CTC for Improved Speech Recognition</cite></a>. ICLR, 2025.</li>
+    <li>J. Nozaki, T. Komatsu. <a href="https://arxiv.org/abs/2104.02724" target="_blank" rel="noopener"><cite>Relaxing the Conditional Independence Assumption of CTC-based ASR by Conditioning on Intermediate Predictions</cite></a>. Interspeech, 2021.</li>
+    <li>N. Jeffries, E. King, M. Kudlur, G. Nicholson, J. Wang, P. Warden. <a href="https://arxiv.org/abs/2410.15608" target="_blank" rel="noopener"><cite>Moonshine: Speech Recognition for Live Transcription and Voice Commands</cite></a>. arXiv:2410.15608, 2024.</li>
+  </ol>
+</article>
+
+<section class="end" aria-labelledby="son">
+  <div class="in">
+    <h2 id="son">Kendi kulağınla dene</h2>
+    <p>Ücretsiz API anahtarı al ya da demo sayfasında kendi kulağınla dene.</p>
+    <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Ücretsiz API anahtarı al ↗</a>
+    <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Demoyu dene ↗</a>
+    <a class="btn secondary" href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Kod (GitHub) ↗</a>
+    <a class="btn secondary js-site" href="#">Tanıtım sayfası</a>
+  </div>
+</section>
+
+<footer>
+  <span>balbal-v1 · Eray Yapağcı · erayy / lab</span>
+  <span>hello@erayy.com</span>
+</footer>
+</div>
+
+<div data-lang="en">
+<div class="masthead">
+  <div class="top">
+    <a class="wordmark" href="https://erayy.com/">erayy <span>/ lab</span></a>
+    <span class="top-r">
+      <a class="back js-site" href="#">← balbal-v1 launch page</a>
+      <button class="lang-btn" type="button" data-set-lang="tr" lang="tr">Türkçe</button>
+    </span>
+  </div>
+  <div class="head">
+    <p class="eyebrow">Technical post · 14 October 2026</p>
+    <h1>How balbal-v1 was built</h1>
+    <p class="standfirst">I trained a Turkish speech recognition model with 15 million active parameters on my own, on a single desktop machine. Architecture, data, training, evaluation and the mistakes I made along the way.</p>
+    <p class="byline">Eray Yapağcı</p>
+  </div>
+</div>
+
+<article>
+  <section class="tldr" aria-labelledby="summary">
+    <h2 id="summary">In short</h2>
+    <ul>
+      <li>balbal-v1 is a CTC model that stores 45.4 million parameters but uses only <strong>15.4 million</strong> of them per audio frame.</li>
+      <li>It scored <strong>11.93%</strong> word error rate (WER) in Mu-Bench's official evaluation, and 6.54% on the FLEURS Turkish test.</li>
+      <li>It runs at <strong>~96× real time</strong> on 8 CPU cores, one clip at a time.</li>
+      <li>The last training stage took <strong>84 minutes</strong> on the integrated GPU of a single AMD Ryzen AI Max+ 395 machine.</li>
+      <li>The model weights are not open for now.</li>
+    </ul>
+  </section>
+
+  <ol class="toc" aria-label="Contents">
+    <li><a href="#why">Why a small model</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#decoder">Decoder and language model</a></li>
+    <li><a href="#measurement">How I measured</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#speed">Speed</a></li>
+    <li><a href="#lessons">Mistakes and lessons</a></li>
+    <li><a href="#limits">Limits and next steps</a></li>
+    <li><a href="#references">References</a></li>
+  </ol>
+
+  <h2 id="why"><span class="n">1</span>Why a small model</h2>
+  <p>Two options stand out for Turkish speech recognition. The first is commercial APIs: they are good, but the audio leaves your hands and you pay per minute. The second is large open models (Whisper large-v3, Qwen3-ASR, omniASR): they are accurate, but they have over a billion parameters and barely keep up with real time on a CPU.</p>
+  <p>My goal was the gap between the two. I wanted a model that needs no GPU, competes with commercial APIs on hard audio such as phone calls, and runs comfortably even on a laptop. So I weighed every design decision on accuracy and compute cost together.</p>
+
+  <figure>
+    <img src="/balbal/img/5-rttf-cpu.webp" alt="Mu-Bench error rate versus CPU speed (multiple of real time, log scale); balbal-v1 sits bottom right, both fast and accurate. The Freya and PatientDesk APIs are also on the chart." width="1800" height="1012">
+    <figcaption><b>Speed and accuracy.</b> Local models were measured in the same session on 8 CPU cores with batch 1. Freya and PatientDesk (diamonds) use the processing time reported by their own servers. The horizontal axis is logarithmic; bottom right is best.</figcaption>
+  </figure>
+
+  <h2 id="architecture"><span class="n">2</span>Architecture</h2>
+  <p>The model has three parts.</p>
+  <h3>Encoder: Conformer-CTC</h3>
+  <p>16 kHz audio is first turned into an 80-channel log-mel spectrogram. A 16-layer Conformer processes it (model size 176, 4 attention heads, convolution kernel 31) and produces an output frame every 40 milliseconds. The starting point was NVIDIA's English <code>stt_en_conformer_ctc_small</code> model. I retrained it for Turkish with a 1024-piece SentencePiece (unigram) vocabulary.</p>
+  <h3>Refiner and product-key memory</h3>
+  <p>On top of the encoder sits a small refiner: 2 layers, width 192. It runs three times with the same weights, and each pass corrects the output a little more. Inside the refiner is a <strong>product-key memory</strong>. The product of two sets of 500 sub-keys gives 250,000 memory slots, and each slot holds a 120-dimensional vector. The table adds up to 30 million parameters, but each audio frame looks at only 64 slots (4 heads × top 16). So the model can memorize a lot while doing little compute per frame.</p>
+  <figure>
+    <img src="/balbal/img/4-active-params-vs-wer.webp" alt="Mu-Bench word error rate versus active parameter count. balbal-v1 is bottom left with 15.4 million active parameters; large open models are on the right." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Error versus active parameters.</b> The memory table is stored, but only a small part of it is read per frame. That is why the horizontal axis shows active parameters.</figcaption>
+  </figure>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Part</th><th>Stored</th><th>Used per frame</th></tr></thead>
+      <tbody>
+        <tr><td>Conformer encoder (16 layers)</td><td>12.97M</td><td>12.97M</td></tr>
+        <tr><td>CTC output layer</td><td>0.18M</td><td>0.18M</td></tr>
+        <tr><td>Refiner (excluding memory)</td><td>2.2M</td><td>2.2M</td></tr>
+        <tr><td>Memory table (250,000 × 120)</td><td>30.0M</td><td>≤ 0.02M <small>(23,040 values over 3 passes)</small></td></tr>
+        <tr class="sum"><td>Total</td><td>45.4M</td><td>15.4M</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Language model</h3>
+  <p>The output is decoded with a 6-gram KenLM language model trained on SentencePiece pieces. Details in <a href="#decoder">section 5</a>.</p>
+
+  <h3>How I arrived at this architecture</h3>
+  <p>At the end of September I started with a plain Conformer-CTC (13.2M parameters). I tried every idea on the same small setup: 200 hours of data, 3 epochs, the same language model. The numbers below are the combined WER of FLEURS and two other Turkish test sets (15,610 clips) under the older scoring rule of the time, so they cannot be compared directly with the results above. What matters is the differences between them.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Experiment (200 h, 3 epochs)</th><th>Combined WER</th><th>Decision</th></tr></thead>
+      <tbody>
+        <tr><td>Plain Conformer-CTC</td><td>23.78</td><td>baseline</td></tr>
+        <tr><td>Self-conditioning CTC</td><td>23.52</td><td>small gain</td></tr>
+        <tr><td>Attention-based decoder (AED)</td><td>23.90</td><td>dropped</td></tr>
+        <tr><td>Product-key memory only (4 heads × 16)</td><td>22.23</td><td>promising</td></tr>
+        <tr><td>Looped refiner, 3 passes</td><td>22.18</td><td>kept</td></tr>
+        <tr><td>6 passes + depth conditioning</td><td>22.02</td><td>not worth it over 3 passes</td></tr>
+        <tr><td>Loop + two-view consistency loss</td><td>20.43</td><td>kept</td></tr>
+        <tr><td>Loop + memory + consistency</td><td>19.72</td><td>kept</td></tr>
+        <tr class="sum"><td>+ Muon/AdamW optimization</td><td>18.43</td><td>base architecture</td></tr>
+        <tr><td>+ mixture of experts (4 experts, top 2)</td><td>18.37</td><td>within noise, not added</td></tr>
+        <tr><td>+ distillation from a WavLM teacher</td><td>18.80</td><td>dropped</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>What I learned along the way:</p>
+  <ul>
+    <li><strong>The memory idea came from Engram.</strong> Engram (<a href="https://arxiv.org/abs/2601.07372" target="_blank" rel="noopener">Cheng et al., 2026</a>) adds a large lookup table to language models, addressed by n-grams of word pieces: the parameter count grows without more compute. I adapted this to speech recognition. Bigrams and trigrams of the intermediate CTC predictions became keys into four tables with 30M parameters in total. I made three attempts. In a 100-hour fine-tune on top of my earlier Conformer model, the Engram model reached 30.06 WER on DEV; the self-conditioning control in the same setup (<a href="https://arxiv.org/abs/2104.02724" target="_blank" rel="noopener">Nozaki and Komatsu, 2021</a>) reached 30.13, and the starting point 30.18. There was a difference, but it was small. In 200-hour training I also tried the paper's settings: 5× learning rate for the tables and no weight decay. After the language model weights were tuned on DEV, both Engram models fell behind the plain model trained with the consistency loss on the test sets. Turning the memory off changed almost nothing: 469 errors instead of 470 on 100 clips. The model was barely using the table. The likely reason was that the keys came from the model's own noisy predictions.</li>
+    <li><strong>The memory started working once the query was acoustic.</strong> I decided to build the key from the audio itself rather than from predicted pieces. For this I used the product-key memory of Lample and colleagues (<a href="https://arxiv.org/abs/1907.05242" target="_blank" rel="noopener">Lample et al., 2019</a>) with a query built from three consecutive audio frames. The 5× learning rate and no-decay training of the value table stayed from Engram. In the first attempt, access collapsed onto a few slots: the 100 most used slots took 95% of the weight. Adding batch normalization to the query made the memory usage balanced. On the same 100 clips, turning the memory off raised the error rate from 36.27 to 38.96. It was also cheap: although it tripled the parameter count, a training step in the same setup got only about 10% longer (1.10 instead of 1.00 seconds per update). Each frame reads and updates only the 64 selected rows, not the whole table.</li>
+    <li><strong>More passes are not better.</strong> When I raised the number of passes at inference from 2 to 10, the DEV error rose steadily (from 37.08 to 38.05). Training with 6 passes did not give a meaningful gain over 3 either, so I stayed with 3.</li>
+    <li><strong>Optimization mattered as much as architecture.</strong> I tried Muon because of the Qwen3.8-Next technical report (<a href="https://arxiv.org/abs/2608.30320" target="_blank" rel="noopener">Qiu et al., 2026</a>). The Qwen team moved from the AdamW of the Qwen3 family to Muon for this model and writes that it allowed higher learning rates and made training stable. Muon itself came out of Keller Jordan's modded-nanogpt speedrun (<a href="https://kellerjordan.github.io/posts/muon/" target="_blank" rel="noopener">Jordan, 2024</a>). Still, I did not switch fully to Muon; I set up a hybrid. The Muon post itself recommends training the embedding and output layers with AdamW for best results, and recent models are mostly trained with this hybrid setup, Muon on the hidden layers and AdamW on the rest. Recently there have also been posts saying that models trained with Muon on all parameters converge more easily, but I stayed with the hybrid setup that has become common. In my model the attention Q/K/V (each head separately) and the linear weights of the feed-forward layers are updated with Muon; convolutions, normalizations, the output layer and the memory table with AdamW. On the same model, this switch alone cut the error by 6.5%. That was a bigger gain than most of the architecture pieces I added.</li>
+    <li><strong>Later I simplified.</strong> The two-view consistency loss (CR-CTC, <a href="https://arxiv.org/abs/2410.05101" target="_blank" rel="noopener">Yao et al., 2025</a>) slowed training down by about 1.7×. When speedrun measurements showed that training without it gave better results in the same time, I removed it. Mixture of experts, distillation, SwiGLU and a few other additions either did not help or broke training.</li>
+  </ul>
+  <p>To see what the parts contribute in the final design, I turned the memory and the loop off at inference in the previous release (balbal-v2-beta). This is not a retrained comparison; it only shows how much the trained model relies on these parts.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>balbal-v2-beta, v2 WER</th><th>Full model</th><th>Memory off</th><th>No loop</th></tr></thead>
+      <tbody>
+        <tr><td>FLEURS</td><td>6.59</td><td>8.79</td><td>8.81</td></tr>
+        <tr><td>Mu-Bench</td><td>13.39</td><td>16.05</td><td>15.90</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>With the language model, the loop without memory gives almost the same result as no loop at all. So the refiner's gain comes mostly from the memory.</p>
+  <h2 id="data"><span class="n">3</span>Data</h2>
+  <p>From the start of training to the end, the model saw 1,722 hours of distinct audio at least once. With repeats this comes to about 14,450 hours; 12,100 of them come from the 10 epochs of the first Turkish model. Audio used in more than one stage was counted once (by a hash of the decoded audio). The pre-training data of NVIDIA's English starting model is not in the table.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Source</th><th>Hours</th><th>Share</th></tr></thead>
+      <tbody>
+        <tr class="group"><td>Real Turkish speech <small>(open datasets and natural speech collected from the web)</small></td><td>455.6</td><td>26.5%</td></tr>
+        <tr class="group"><td>Synthetic Turkish speech (TTS)</td><td>1,195.7</td><td>69.4%</td></tr>
+        <tr><td>Read web and news text, short sentences</td><td>714.4</td><td>41.5%</td></tr>
+        <tr><td>Everyday speech and dialogues</td><td>329.4</td><td>19.1%</td></tr>
+        <tr><td>Letter-by-letter codes, email</td><td>50.0</td><td>2.9%</td></tr>
+        <tr><td>Numbers, phone numbers, amounts</td><td>40.7</td><td>2.4%</td></tr>
+        <tr><td>Names and suffixes</td><td>24.5</td><td>1.4%</td></tr>
+        <tr><td>Call-center dialogues</td><td>20.4</td><td>1.2%</td></tr>
+        <tr><td>Short answers</td><td>16.2</td><td>0.9%</td></tr>
+        <tr class="group"><td>Other</td><td>70.5</td><td>4.1%</td></tr>
+        <tr><td>English speech (LibriSpeech)</td><td>61.3</td><td>3.6%</td></tr>
+        <tr><td>Non-speech audio (noise, music, silence)</td><td>9.3</td><td>0.5%</td></tr>
+        <tr class="sum"><td>Total: 1,075,680 clips</td><td>1,721.9</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>I added no new audio in the last training stage. I built a 702-hour mix from recordings seen before and raised the share of real speech to 64%.</p>
+  <p>I generated the synthetic speech with open TTS models. I put weight on cases that are rare in real data: codes read letter by letter, phone numbers, names and short "evet / hayır / tamam" (yes / no / okay) answers. That is where the real difficulty of call-center speech lies.</p>
+  <h3>I cut and merged real recordings the Moonshine way</h3>
+  <p>In the last training stage I rearranged the real recordings following the way Moonshine prepares its training data (<a href="https://arxiv.org/abs/2410.15608" target="_blank" rel="noopener">Jeffries et al., 2024</a>). Moonshine joins consecutive segments of the same recording, with at most 2 seconds of gap between them, into examples of 4 to 30 seconds. That gives a bimodal duration distribution: one peak at 3–6 seconds, the other at 27–30 seconds. I merged the real recordings the same way. Because I deliberately kept the short synthetic clips and the cuts below short, only 5.7% of the mix falls in the 25–31 second range (23% in Moonshine).</p>
+  <p>I also cut short stock phrases out of real recordings. In the training text I found 35 common conversational phrases such as "iyi günler" (have a nice day), "kolay gelsin" (roughly "take it easy") and "rica ederim" (you're welcome). With the previous model's CTC alignment I found where each phrase starts and ends in the audio and cut it with an 80 ms margin around the word boundaries. I kept only the cuts that the model read back as exactly that phrase: 11,476 cuts, 2 hours in total. To repeat rare phrases more often, I multiplied each phrase between 3 and 15 times. The goal was to show the model, one by one, the short answers that are common in call centers but get lost inside long recordings.</p>
+  <p>I set a few rules:</p>
+  <ul>
+    <li><strong>No digits in labels.</strong> Numbers are written out as spoken ("sıfır beş yüz otuz iki", "zero five hundred thirty-two"). Not a single label in the mix contains a digit. I explain why in <a href="#lessons">section 9</a>.</li>
+    <li><strong>Test data stays out of training.</strong> From FLEURS I used only the training split. I checked that there is no overlap with the test sets at the level of text, audio file and audio hash. No Mu-Bench content went into training or the language model.</li>
+    <li><strong>Audio edges.</strong> Mu-Bench clips are cut tight to the speech and have about 0.5 seconds of digital silence at each end. Most training clips were not like that. So in training I used an augmentation that randomly trims the edges and adds 0–0.6 seconds of silence (EDGE_P = 0.5). Only this format is imitated, not the content. Half of the clips also got a phone-line simulation (TEL_P = 0.5).</li>
+  </ul>
+
+  <h2 id="training"><span class="n">4</span>Training</h2>
+  <p>balbal-v1 was not trained in one go; it is the last link in a lineage of several stages.</p>
+  <ol class="lineage">
+    <li><b>English starting point</b><span>NVIDIA <code>stt_en_conformer_ctc_small</code> (Conformer-CTC, ~13M parameters).</span></li>
+    <li><b>First Turkish model</b><span>10 epochs on an NVIDIA RTX PRO 4500 Blackwell on RunPod, about 35.6 hours.</span></li>
+    <li><b>General Turkish model</b><span>Continued from the first Turkish model: 3 epochs on 203 hours of new data.</span></li>
+    <li><b>balbal-v1-beta</b><span>Weight soup: general Turkish model 75%, first Turkish model 25%.</span></li>
+    <li><b>balbal-v2-beta</b><span>Refiner and product-key memory added. 27,024 updates on email and letter-by-letter code data, then a weight soup at 0.6.</span></li>
+    <li><b>balbal-v1</b><span>Starting from v2-beta, 6000 updates on the 702-hour mix (about 0.57 epochs). 5,024 seconds (84 minutes) on the local iGPU. No soup; the raw weights are used.</span></li>
+  </ol>
+  <p>Settings of the last stage: batch 32; learning rate 1e-4 (5e-4 for the memory table). I used Muon on the matrix weights and AdamW on the rest.</p>
+  <h3>The speedrun approach</h3>
+  <p>I evaluated training changes with the "speedrun" approach of Keller Jordan's modded-nanogpt. The value of a change was measured not by time per step but by <strong>time to reach a fixed quality target</strong>. The target was a set of thresholds for the Turkish, English and non-speech groups on held-out control sets, with the condition of no regression on the development set (DEV). I tested differences between two models with a paired bootstrap. Checkpoints were selected by looking only at DEV and the control sets; the test sets and Mu-Bench were not looked at.</p>
+  <h3>Hardware</h3>
+  <p>The first Turkish model (10 epochs, about 35.6 hours) was trained on an NVIDIA RTX PRO 4500 Blackwell (32 GB) GPU that I rented on RunPod. All later stages continued on my own machine: a single AMD Ryzen AI Max+ 395 with the Radeon 8060S integrated GPU, ROCm and 121 GB of unified memory. For some of the architecture trials and speedrun measurements I also rented RTX 5090 and A40 GPUs on RunPod. I describe the Radeon's own quirks in section 9.</p>
+
+  <h2 id="decoder"><span class="n">5</span>Decoder and language model</h2>
+  <p>The CTC output is decoded with flashlight's lexicon-free beam search. The language model is a 6-gram KenLM over SentencePiece pieces. It was trained on 45 million pieces and takes 124 MB. The language model text consists of all training text in this model's lineage, with DEV, test and control sentences removed. For each model release I rebuild the language model on the data that release has seen.</p>
+  <p>The decoder settings were calibrated on the DEV set: language model weight α = 0.75, word bonus β = 1.5, temperature 1.2, beam width 64, top 12 pieces per frame, pruning threshold 8. The language model brings WER down from 9.35% to 6.54% on FLEURS and from 13.86% to 11.78% on Mu-Bench.</p>
+  <p>The output has capitalization and punctuation. Numbers come out as words; there is no inverse text normalization (ITN) step to turn them into digits inside the model.</p>
+
+  <h2 id="measurement"><span class="n">6</span>How I measured</h2>
+  <p>In my own measurements I used a single scoring rule (v2). Case and punctuation are ignored. Numbers are compared digit by digit; "doksan" (ninety), "dokuz sıfır" (nine zero) and "90" count as the same. Codes written as one word are split into their letters and digits. The rule only forgives different spellings of the same words; a different word is always an error. All open models in the tables were scored on the same clips with the same rule. The scoring code is on GitHub: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. The full normalizer, inference and training code is in the <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> repository.</p>
+  <p>For Mu-Bench I also ran the official evaluation harness (sierra-research/mu-bench, gpt-4.1 judge). Before submission, numbers written as words were converted to digits (ITN). Scores for commercial APIs were taken from Mu-Bench's own leaderboard. To cut cost I took one shortcut: for 342 of the 846 sentences, balbal-v1 produced exactly the same text as balbal-v2-beta. For those I reused v2-beta's judge verdicts; the remaining 504 sentences were judged again.</p>
+  <div class="callout">
+    <p>Mu-Bench was used only to read results. It never went into the training data, the language model or checkpoint selection.</p>
+  </div>
+
+  <h2 id="results"><span class="n">7</span>Results</h2>
+  <h3>Mu-Bench: against commercial APIs</h3>
+  <p>Mu-Bench contains 846 Turkish sentences from 8 kHz customer-service calls. In the official evaluation balbal-v1 has <strong>11.93%</strong> WER and <strong>25.18%</strong> significant WER (errors that change the meaning). That puts it ahead of Azure, Deepgram, OpenAI and xAI, and behind Google and ElevenLabs. On meaning-changing errors Deepgram Nova-3 (24.35%) is slightly better.</p>
+  <figure>
+    <img src="/balbal/img/1-mubench-vs-apis.webp" alt="Mu-Bench official WER bar chart: balbal-v1 at 11.93 percent among the commercial APIs." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, official evaluation.</b> API scores from the Mu-Bench leaderboard. balbal-v1 was scored with the same harness, the gpt-4.1 judge and ITN applied.</figcaption>
+  </figure>
+  <h3>Against open-weight models</h3>
+  <p>I ran all the open-weight models myself on the same clips with the v2 rule. On Mu-Bench (v2, no ITN) balbal-v1 leads them all with <strong>11.78%</strong>. The closest are Qwen3-ASR 1.7B (13.95%) and Whisper large-v3 (14.92%), both a hundred times larger. FLEURS is a different story: Whisper large-v3 (3.71%) and turbo (4.07%) are clearly ahead. balbal-v1's 6.54% is on par with Qwen3-ASR 1.7B (6.52%). FLEURS consists of clean, read Wikipedia sentences, where the broad world knowledge of large models helps more.</p>
+  <figure>
+    <img src="/balbal/img/2-mubench-open-models.webp" alt="v2 WER of open models on Mu-Bench; balbal-v1 at the top with the lowest error rate." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, open-weight models (v2 scoring).</b> Every model was scored on the same 846 clips with the same rule.</figcaption>
+  </figure>
+  <figure>
+    <img src="/balbal/img/3-fleurs-open-models.webp" alt="WER of open models on the FLEURS Turkish test set; Whisper large-v3 best, balbal-v1 close to Qwen3-ASR." loading="lazy" width="1800" height="1012">
+    <figcaption><b>FLEURS Turkish test, 743 clips.</b> Clean, read speech; where large models are strongest.</figcaption>
+  </figure>
+  <h3>MihuAI's own test</h3>
+  <p>MihuAI released an 81-clip <a href="https://github.com/mihu-ai/turkish-stt/tree/main/eval" target="_blank" rel="noopener">test</a> together with its <a href="https://huggingface.co/mihuai/turkish-stt" target="_blank" rel="noopener">turkish-stt</a> model. The recordings are TTS-generated, 24 kHz. I ran this test with MihuAI's own scoring code, without changing anything. balbal-v1's WER is <strong>7.94%</strong>. MihuAI turkish-stt, with its own recommended settings, gets 15.20% on the same test (their published figure is 15.37%).</p>
+  <h3>By category</h3>
+  <p>The categories do not come from Mu-Bench itself. I used the category labels from Freya's <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener">sierra-benchmark</a> dataset, which contains the same audio and text. balbal-v1 is strong on phone numbers (3.96%), addresses (4.53%) and code sequences (5.34%). Names (24.84%), spelling (20.06%) and instruction requests (19.98%) are still its weak spots.</p>
+  <figure>
+    <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench WER by category: balbal-v1 versus Qwen3-ASR and Whisper large-v3." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench categories (v2 scoring).</b> Category labels from Freya's sierra-benchmark dataset. Only categories with at least 20 clips are shown; numbers in brackets are clip counts. balbal-v1 leads on email, phone numbers, addresses and short answers; Whisper large-v3 leads most of the rest.</figcaption>
+  </figure>
+  <h3>Against the previous release</h3>
+  <p>I compared balbal-v1 with the previous release, balbal-v2-beta, using a paired bootstrap. It did not regress on any set.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Test set</th><th>v2-beta</th><th>balbal-v1</th><th>Difference</th><th>Without LM</th></tr></thead>
+      <tbody>
+        <tr><td>Mu-Bench (v2, no ITN)</td><td>12.95</td><td class="better">11.78</td><td>better</td><td>13.86</td></tr>
+        <tr><td>Held-out control sentences</td><td>21.84</td><td class="better">18.94</td><td>better</td><td>29.00</td></tr>
+        <tr><td>FLEURS</td><td>6.47</td><td>6.54</td><td>not significant</td><td>9.35</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Values in the table are WER (%) under v2 scoring. "Not significant" means the confidence interval of the difference includes zero.</p>
+  <figure>
+    <img src="/balbal/img/6-beta-to-v1.webp" alt="Mu-Bench and FLEURS progress across balbal-v1-beta, balbal-v2-beta and balbal-v1." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Release to release.</b> Most of the progress came on hard, Mu-Bench-style audio. The FLEURS difference is within noise.</figcaption>
+  </figure>
+
+  <h2 id="speed"><span class="n">8</span>Speed</h2>
+  <p>I measured speed the same way for every model. I used 100 clips (50 FLEURS, 50 Mu-Bench). Each model processed the clips one by one on 8 CPU cores with batch size 1. The measured time runs from raw audio in to text out: feature extraction, the network and (for balbal) the beam search with the language model included. Because the machine's speed can vary from day to day, I measured all models in the same session.</p>
+  <p>balbal-v1 runs at <strong>~96× real time</strong> with ONNX Runtime (fp32); four separate measurements came out between 95.8× and 97.3×. Under the same conditions Whisper large-v3 runs at 0.91× and Qwen3-ASR 1.7B at 0.84×, so these two models cannot even keep up with real time on a CPU. The full comparison is in the chart at the top of this post.</p>
+
+  <h2 id="lessons"><span class="n">9</span>Mistakes and lessons</h2>
+  <div class="lessons">
+    <div>
+      <h3>"Doksan" → "9"</h3>
+      <p>Models trained on the first mixes wrote phone numbers in Mu-Bench such as "sıfır doksan kırk beş" (zero ninety forty-five) as "0 9 4 5". The problem was in the labels. The real data wrote numbers as digits. In the synthetic number set, the labels spelled out digits one by one while the TTS audio read the numbers in groups; 66% of the digit rows in that set were mislabeled. The fix had two steps: write numbers out as spoken in all labels, and audit the data systematically before every new training run.</p>
+    </div>
+    <div>
+      <h3>Turning MIOpen off in training: 41% faster</h3>
+      <p>When training on clips of different lengths, AMD's MIOpen library searched for the best kernel again for every new input shape. 44% of the step time in an epoch went to updates that took longer than 5 seconds. Turning MIOpen off in training steps and using PyTorch's own kernels brought the time per update down from 2.37 to 1.40 seconds. The problem does not show up in comparisons made inside a single process, because MIOpen caches shapes it has already seen. That is why I ran every speed measurement in a fresh process.</p>
+    </div>
+    <div>
+      <h3>Knowing the noise floor</h3>
+      <p>On Mu-Bench, differences of about 0.6 points are within noise. So I report every comparison with a paired bootstrap confidence interval. I do not decide based on a single number.</p>
+    </div>
+    <div>
+      <h3>What did not work</h3>
+      <p>Rescoring with a neural language model, combining the probabilities of several models, loudness normalization and CTC prior correction brought no measurable gain. The gains came mostly from fixing the data and matching the audio format to test conditions.</p>
+    </div>
+  </div>
+
+  <h2 id="limits"><span class="n">10</span>Limits and next steps</h2>
+  <ul>
+    <li><strong>Numbers come out as words.</strong> Applications that need digits have to add a separate ITN step.</li>
+    <li><strong>Turkish only.</strong> Training includes some English (LibriSpeech), but the model was not tuned for English and English was not measured in this post.</li>
+    <li><strong>Long recordings.</strong> The API transcribes at most 30 seconds of audio per request; longer recordings have to be split before sending. There is no voice activity detection (VAD).</li>
+    <li><strong>Names and spelling</strong> are still the weakest categories. They are the target of the next data round.</li>
+    <li><strong>The weights are closed for now.</strong></li>
+  </ul>
+
+  <h2 id="references">References</h2>
+  <ol class="refs">
+    <li>X. Cheng et al. <a href="https://arxiv.org/abs/2601.07372" target="_blank" rel="noopener"><cite>Conditional Memory via Scalable Lookup: A New Axis of Sparsity for Large Language Models</cite></a> (Engram). arXiv:2601.07372, 2026.</li>
+    <li>G. Lample, A. Sablayrolles, M. Ranzato, L. Denoyer, H. Jégou. <a href="https://arxiv.org/abs/1907.05242" target="_blank" rel="noopener"><cite>Large Memory Layers with Product Keys</cite></a>. NeurIPS, 2019.</li>
+    <li>Z. Qiu et al. <a href="https://arxiv.org/abs/2608.30320" target="_blank" rel="noopener"><cite>On the Design of Qwen3.8-Next Architecture: Evaluation, Efficiency, and Training Stability</cite></a>. arXiv:2608.30320, 2026.</li>
+    <li>K. Jordan. <a href="https://kellerjordan.github.io/posts/muon/" target="_blank" rel="noopener"><cite>Muon: An optimizer for hidden layers in neural networks</cite></a>. Blog post, 2024. See also the <a href="https://github.com/KellerJordan/modded-nanogpt" target="_blank" rel="noopener">modded-nanogpt</a> repository.</li>
+    <li>Z. Yao et al. <a href="https://arxiv.org/abs/2410.05101" target="_blank" rel="noopener"><cite>CR-CTC: Consistency Regularization on CTC for Improved Speech Recognition</cite></a>. ICLR, 2025.</li>
+    <li>J. Nozaki, T. Komatsu. <a href="https://arxiv.org/abs/2104.02724" target="_blank" rel="noopener"><cite>Relaxing the Conditional Independence Assumption of CTC-based ASR by Conditioning on Intermediate Predictions</cite></a>. Interspeech, 2021.</li>
+    <li>N. Jeffries, E. King, M. Kudlur, G. Nicholson, J. Wang, P. Warden. <a href="https://arxiv.org/abs/2410.15608" target="_blank" rel="noopener"><cite>Moonshine: Speech Recognition for Live Transcription and Voice Commands</cite></a>. arXiv:2410.15608, 2024.</li>
+  </ol>
+</article>
+
+<section class="end" aria-labelledby="end-en">
+  <div class="in">
+    <h2 id="end-en">Hear it for yourself</h2>
+    <p>Get a free API key, or try it by ear on the demo page.</p>
+    <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Get a free API key ↗</a>
+    <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Try the demo ↗</a>
+    <a class="btn secondary" href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Code (GitHub) ↗</a>
+    <a class="btn secondary js-site" href="#">Launch page</a>
+  </div>
+</section>
+
+<footer>
+  <span>balbal-v1 · Eray Yapağcı · erayy / lab</span>
+  <span>hello@erayy.com</span>
+</footer>
+</div>
+
+<script>
+const SITE_URL = '/balbal/';   // launch page
+for (const a of document.querySelectorAll('.js-site')) { a.href = SITE_URL; }
+</script>
+</body>
+</html>
