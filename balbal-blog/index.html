@@ -342,7 +342,6 @@ document.addEventListener('click', e => {
   <ul>
     <li><strong>Etiketlerde rakam yok.</strong> Sayılar konuşulduğu gibi yazıyla yazılıyor ("sıfır beş yüz otuz iki"). Karışımda rakam içeren tek bir etiket bile yok. Bunun nedenini <a href="#dersler">9. bölümde</a> anlatıyorum.</li>
     <li><strong>Test verisi eğitime girmiyor.</strong> FLEURS'tan yalnızca eğitim bölümünü kullandım. Test kümeleriyle metin, ses dosyası ve ses özeti (hash) düzeyinde örtüşme olmadığını kontrol ettim. Mu-Bench'in hiçbir içeriği eğitime ya da dil modeline girmedi.</li>
-    <li><strong>Ses kenarları.</strong> Mu-Bench klipleri konuşmaya sıkı kesilmiş ve iki ucunda yaklaşık 0,5 saniye tam sessizlik var. Eğitim kliplerinin çoğu böyle değildi. Bu yüzden eğitimde kenarları rastgele kırpıp 0–0,6 saniye sessizlik ekleyen bir artırma (EDGE_P = 0,5) kullandım. Taklit edilen şey yalnızca bu biçim; içerik değil. Ayrıca kliplerin yarısına telefon hattı benzetimi uygulandı (TEL_P = 0,5).</li>
   </ul>
 
   <h2 id="egitim"><span class="n">4</span>Eğitim</h2>
@@ -524,7 +523,7 @@ document.addEventListener('click', e => {
     <li><strong>Sayılar yazıyla çıkar.</strong> Rakam isteyen uygulamaların ayrı bir ITN adımı eklemesi gerekiyor.</li>
     <li><strong>Yalnızca Türkçe.</strong> Eğitimde bir miktar İngilizce (LibriSpeech) var, ama model İngilizce için ayarlanmadı ve bu yazıda İngilizce ölçülmedi.</li>
     <li><strong>Uzun kayıtlar.</strong> API istek başına en fazla 30 saniye ses yazıyor; daha uzun kayıtları parçalayıp göndermek gerekiyor. Konuşma algılama (VAD) yok.</li>
-    <li><strong>API gecikmesi.</strong> API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe yaklaşık 100–200 ms ekliyor. Bu yüzden 8. bölümdeki hızı yanıtın gelme süresinde göremezsiniz; ama sunucu, modelin işlem süresini yanıttaki <code>inference_seconds</code> alanında döner.</li>
+    <li><strong>API gecikmesi.</strong> API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe birkaç yüz milisaniye ekliyor. Bu yüzden 8. bölümdeki hızı yanıtın gelme süresinde göremezsiniz; ama sunucu, modelin işlem süresini yanıttaki <code>inference_seconds</code> alanında döner.</li>
     <li><strong>İsimler ve harf harf okuma</strong> hâlâ en zayıf kategoriler. Bir sonraki veri turunun hedefi bunlar.</li>
     <li><strong>Ağırlıklar şimdilik kapalı.</strong></li>
   </ul>
@@ -706,7 +705,6 @@ document.addEventListener('click', e => {
   <ul>
     <li><strong>No digits in labels.</strong> Numbers are written out as spoken ("sıfır beş yüz otuz iki", "zero five hundred thirty-two"). Not a single label in the mix contains a digit. I explain why in <a href="#lessons">section 9</a>.</li>
     <li><strong>Test data stays out of training.</strong> From FLEURS I used only the training split. I checked that there is no overlap with the test sets at the level of text, audio file and audio hash. No Mu-Bench content went into training or the language model.</li>
-    <li><strong>Audio edges.</strong> Mu-Bench clips are cut tight to the speech and have about 0.5 seconds of digital silence at each end. Most training clips were not like that. So in training I used an augmentation that randomly trims the edges and adds 0–0.6 seconds of silence (EDGE_P = 0.5). Only this format is imitated, not the content. Half of the clips also got a phone-line simulation (TEL_P = 0.5).</li>
   </ul>
 
   <h2 id="training"><span class="n">4</span>Training</h2>
@@ -888,7 +886,7 @@ document.addEventListener('click', e => {
     <li><strong>Numbers come out as words.</strong> Applications that need digits have to add a separate ITN step.</li>
     <li><strong>Turkish only.</strong> Training includes some English (LibriSpeech), but the model was not tuned for English and English was not measured in this post.</li>
     <li><strong>Long recordings.</strong> The API transcribes at most 30 seconds of audio per request; longer recordings have to be split before sending. There is no voice activity detection (VAD).</li>
-    <li><strong>API latency.</strong> The API is served through a Cloudflare tunnel, which adds roughly 100–200 ms to each request. So you will not see the speed from section 8 in how long the response takes, but the server returns the model's processing time in the response's <code>inference_seconds</code> field.</li>
+    <li><strong>API latency.</strong> The API is served through a Cloudflare tunnel, which adds a few hundred milliseconds to each request. So you will not see the speed from section 8 in how long the response takes, but the server returns the model's processing time in the response's <code>inference_seconds</code> field.</li>
     <li><strong>Names and spelling</strong> are still the weakest categories. They are the target of the next data round.</li>
     <li><strong>The weights are closed for now.</strong></li>
   </ul>
