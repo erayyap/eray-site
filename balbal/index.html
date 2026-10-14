@@ -308,6 +308,7 @@ document.addEventListener('click', e => {
         <li><div><h3>Conformer kodlayıcı</h3><p>Sesi 40 ms'lik karelerle dinler.</p></div></li>
         <li><div><h3>Seyrek bellek</h3><p>250 bin kayıtlık bellekten her karede yalnızca 64'ünü okur.</p></div></li>
         <li><div><h3>Dil modeli</h3><p>Türkçe bir KenLM, en olası cümleyi seçer.</p></div></li>
+        <li><div><h3>Sentetik veri ölçekleniyor</h3><p>Modelin gördüğü 1.722 saatlik farklı sesin %69'u TTS ile üretilmiş sentetik konuşma; gerçek konuşmanın payı yalnızca %26. Gerçek kaydın az olduğu yerde sentetik veriyi büyütmek işe yarıyor.</p></div></li>
       </ol>
       <figure>
         <img src="/balbal/img/stag.webp" alt="Bozkırda taş bir geyik figürü" width="480" height="351">
@@ -442,6 +443,7 @@ document.addEventListener('click', e => {
         <li><div><h3>Conformer encoder</h3><p>Listens to the audio in 40 ms frames.</p></div></li>
         <li><div><h3>Sparse memory</h3><p>Reads only 64 of its 250,000 memory slots per frame.</p></div></li>
         <li><div><h3>Language model</h3><p>A Turkish KenLM picks the most likely sentence.</p></div></li>
+        <li><div><h3>Synthetic data scales</h3><p>69% of the 1,722 hours of distinct audio the model saw is synthetic (TTS) speech; only 26% is real. Where real recordings are scarce, scaling up synthetic data works.</p></div></li>
       </ol>
       <figure>
         <img src="/balbal/img/stag.webp" alt="A stone deer figure on the steppe" width="480" height="351">
