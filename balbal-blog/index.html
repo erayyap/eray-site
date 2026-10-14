@@ -128,6 +128,13 @@ footer { width: min(1080px, 100%); margin: 0 auto; padding: 28px 24px 40px; disp
 
 table.scores { min-width: 700px; }
 table.scores td:first-child { white-space: nowrap; }
+table.cats { min-width: 1240px; font-size: 15px; }
+table.cats th, table.cats td { padding: 9px 10px; }
+table.cats td.better { font-weight: 700; }
+table.cats th small { display: block; margin-top: 3px; letter-spacing: .04em; }
+table.cats th:first-child, table.cats td:first-child { position: sticky; left: 0; z-index: 1; background: var(--panel); }
+table.cats thead th:first-child { background: var(--panel-2); }
+table.cats tr.sum td:first-child { background: #281f14; }
 .legend { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 18px; margin: -8px 0 28px; padding: 16px 18px; border-left: 2px solid var(--edge); font: 15px/1.5 var(--data); color: var(--muted); }
 .legend dt { color: var(--bone); font-weight: 700; }
 .legend dd { margin: 0; }
@@ -361,14 +368,14 @@ document.addEventListener('click', e => {
 
   <h2 id="olcum"><span class="n">6</span>Nasıl ölçtüm</h2>
   <p>Kendi ölçümlerimde tek bir puanlama kuralı kullandım (v2). Harf büyüklüğü ve noktalama yok sayılıyor. Sayılar rakam rakam karşılaştırılıyor; "doksan", "dokuz sıfır" ve "90" aynı sayılıyor. Bitişik yazılmış kodlar harf ve rakamlarına ayrılıyor. Kural yalnızca aynı kelimelerin farklı yazımlarını affediyor; farklı bir kelime her zaman hata. Tablodaki bütün açık modeller aynı klipler ve aynı kuralla puanlandı. Puanlama kodu GitHub'da: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. Normalizer, çıkarım ve eğitim kodunun tamamı da <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> deposunda.</p>
-  <p>Mu-Bench için resmi değerlendirme düzeneğini de çalıştırdım (sierra-research/mu-bench, gpt-4.1 hakem). Gönderimden önce yazıyla çıkan sayılar rakama çevrildi (ITN). Ticari API'lerin puanları Mu-Bench'in kendi tablosundan alındı. Maliyeti azaltmak için bir önlem aldım: 846 cümlenin 342'sinde balbal-v1, balbal-v2-beta ile birebir aynı metni üretiyordu. Bunlar için v2-beta'nın hakem kararlarını tekrar kullandım; kalan 504 cümle yeniden değerlendirildi.</p>
+  <p>Mu-Bench için resmi değerlendirme düzeneğini de çalıştırdım (<a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener">sierra-research/mu-bench</a>, gpt-4.1 hakem). Gönderimden önce yazıyla çıkan sayılar rakama çevrildi (ITN). Ticari API'lerin puanları Mu-Bench'in kendi <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">sonuç tablosundan</a> alındı. Maliyeti azaltmak için bir önlem aldım: 846 cümlenin 342'sinde balbal-v1, balbal-v2-beta ile birebir aynı metni üretiyordu. Bunlar için v2-beta'nın hakem kararlarını tekrar kullandım; kalan 504 cümle yeniden değerlendirildi.</p>
   <div class="callout">
     <p>Mu-Bench yalnızca sonuç okumak için kullanıldı. Eğitim verisine, dil modeline ya da kontrol noktası seçimine hiçbir şekilde girmedi.</p>
   </div>
 
   <h2 id="sonuclar"><span class="n">7</span>Sonuçlar</h2>
   <h3>Mu-Bench: ticari API'lerle karşılaştırma</h3>
-  <p>Mu-Bench, 8 kHz kalitesinde müşteri hizmetleri görüşmelerinden 846 Türkçe cümle içeriyor. Resmi değerlendirmede balbal-v1'in WER'i <strong>%11,93</strong>, anlamı bozan hata oranı (significant WER) <strong>%25,18</strong>. Bu sonuçla Azure, Deepgram, OpenAI ve xAI'nin önünde, Google ve ElevenLabs'in arkasında yer alıyor. Anlamı bozan hatalarda Deepgram Nova-3 (%24,35) biraz daha iyi.</p>
+  <p>Mu-Bench (<a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener">Li ve Ray, 2026</a>), 8 kHz kalitesinde müşteri hizmetleri görüşmelerinden 846 Türkçe cümle içeriyor. Resmi değerlendirmede balbal-v1'in WER'i <strong>%11,93</strong>, anlamı bozan hata oranı (significant WER) <strong>%25,18</strong>. Bu sonuçla Azure, Deepgram, OpenAI ve xAI'nin önünde, Google ve ElevenLabs'in arkasında yer alıyor. Anlamı bozan hatalarda Deepgram Nova-3 (%24,35) biraz daha iyi.</p>
   <figure>
     <img src="/balbal/img/1-mubench-vs-apis.webp" alt="Mu-Bench resmi WER çubuk grafiği: balbal-v1 yüzde 11,93 ile ticari API'lerin arasında." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench, resmi değerlendirme.</b> API puanları Mu-Bench tablosundan. balbal-v1 aynı düzenekle, gpt-4.1 hakemle ve ITN uygulanarak puanlandı.</figcaption>
@@ -391,6 +398,41 @@ document.addEventListener('click', e => {
     <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench kategorilerine göre WER: balbal-v1, Qwen3-ASR ve Whisper large-v3 karşılaştırması." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench kategorileri (v2 puanlama).</b> Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Grafikte yalnızca en az 20 klibi olan kategoriler var; parantez içindeki sayılar klip sayısı. E-posta, telefon, adres ve kısa cevaplarda balbal-v1 önde; kalanların çoğunda Whisper large-v3.</figcaption>
   </figure>
+  <div class="table-wrap">
+    <table class="scores cats">
+      <thead><tr><th>Model</th><th>Tümü <small>846</small></th><th>Kısa cevap <small>229</small></th><th>Telefon <small>109</small></th><th>E-posta <small>102</small></th><th>İstek <small>85</small></th><th>Kod dizisi <small>84</small></th><th>Sohbet <small>65</small></th><th>Soru <small>63</small></th><th>İsim <small>55</small></th><th>Harf harf <small>27</small></th><th>Adres <small>21</small></th><th>Tutar <small>5</small></th><th>Tarih/saat <small>1</small></th></tr></thead>
+      <tbody>
+        <tr><td>Google Chirp 3</td><td class="better">8,4</td><td>8,0</td><td class="better">2,1</td><td>15,6</td><td class="better">10,4</td><td class="better">0,9</td><td class="better">7,8</td><td class="better">11,4</td><td>25,5</td><td>14,0</td><td>3,9</td><td>13,6</td><td>0,0</td></tr>
+        <tr><td>ElevenLabs Scribe v2</td><td>8,7</td><td>12,4</td><td>2,8</td><td class="better">10,4</td><td>12,0</td><td>3,1</td><td>9,5</td><td>14,3</td><td>23,6</td><td>12,2</td><td class="better">2,1</td><td>11,4</td><td>0,0</td></tr>
+        <tr><td>Google Gemini 3.5 Transcribe</td><td>8,8</td><td>6,6</td><td>2,7</td><td>13,5</td><td>10,7</td><td>6,4</td><td>9,7</td><td>12,0</td><td>23,0</td><td>12,8</td><td>4,8</td><td>13,6</td><td>0,0</td></tr>
+        <tr><td>Freya</td><td>9,7</td><td class="better">6,1</td><td>4,7</td><td>18,6</td><td>11,8</td><td>1,4</td><td>9,7</td><td>12,8</td><td>19,2</td><td>13,4</td><td>4,2</td><td>13,6</td><td>0,0</td></tr>
+        <tr><td>PatientDesk Duyu</td><td>10,0</td><td>9,6</td><td>4,3</td><td>17,6</td><td>13,5</td><td>4,1</td><td>11,0</td><td>11,9</td><td class="better">18,0</td><td class="better">10,3</td><td>3,9</td><td>9,1</td><td>0,0</td></tr>
+        <tr><td>OpenAI GPT-4o Mini Transcribe</td><td>11,3</td><td>15,7</td><td>3,0</td><td>14,9</td><td>16,0</td><td>7,7</td><td>12,9</td><td>16,0</td><td>30,6</td><td>11,6</td><td>3,6</td><td>4,5</td><td>0,0</td></tr>
+        <tr class="sum"><td>balbal-v1</td><td>11,8</td><td>12,2</td><td>4,0</td><td>12,5</td><td>20,0</td><td>5,3</td><td>13,1</td><td>18,6</td><td>24,8</td><td>20,1</td><td>4,5</td><td>18,2</td><td>0,0</td></tr>
+        <tr><td>Deepgram Nova-3</td><td>12,4</td><td>11,4</td><td>2,7</td><td>27,0</td><td>14,8</td><td>10,0</td><td class="better">7,8</td><td>13,5</td><td>26,1</td><td>14,0</td><td>4,8</td><td>11,4</td><td>0,0</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Baseten)</td><td>13,8</td><td>17,1</td><td>5,5</td><td>21,3</td><td>18,4</td><td>9,0</td><td>11,8</td><td>16,9</td><td>30,4</td><td>15,5</td><td>5,4</td><td>13,6</td><td>0,0</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Modal)</td><td>13,9</td><td>18,0</td><td>5,3</td><td>21,6</td><td>18,9</td><td>8,8</td><td>12,0</td><td>16,9</td><td>29,8</td><td>15,2</td><td>5,1</td><td>13,6</td><td>0,0</td></tr>
+        <tr><td>Qwen3-ASR 1.7B</td><td>13,9</td><td>17,5</td><td>5,5</td><td>22,4</td><td>18,1</td><td>8,3</td><td>11,8</td><td>16,5</td><td>31,1</td><td>15,5</td><td>6,3</td><td>13,6</td><td>0,0</td></tr>
+        <tr><td>Whisper large-v3</td><td>14,9</td><td>13,6</td><td>4,3</td><td>40,0</td><td>14,0</td><td>4,5</td><td>12,2</td><td>16,0</td><td>21,7</td><td>10,9</td><td>5,5</td><td>9,1</td><td>0,0</td></tr>
+        <tr><td>xAI Grok STT</td><td>15,7</td><td>27,9</td><td>5,8</td><td>18,7</td><td>18,9</td><td>12,4</td><td>15,8</td><td>20,0</td><td>28,6</td><td>20,1</td><td>7,2</td><td>15,9</td><td>0,0</td></tr>
+        <tr><td>omniASR LLM 7B</td><td>18,4</td><td>51,3</td><td>5,6</td><td>23,6</td><td>17,2</td><td>14,1</td><td>13,5</td><td>17,1</td><td>42,2</td><td>15,5</td><td>10,2</td><td>16,3</td><td>0,0</td></tr>
+        <tr><td>Microsoft Azure Speech</td><td>18,6</td><td>13,8</td><td>12,1</td><td>35,8</td><td>16,5</td><td>14,7</td><td>10,5</td><td>17,6</td><td>26,1</td><td>31,1</td><td>12,9</td><td>11,4</td><td>0,0</td></tr>
+        <tr><td>omniASR LLM 3B</td><td>19,2</td><td>38,3</td><td>6,9</td><td>22,8</td><td>23,1</td><td>11,2</td><td>14,1</td><td>25,0</td><td>55,3</td><td>18,2</td><td>12,7</td><td>20,4</td><td>0,0</td></tr>
+        <tr><td>omniASR LLM 1B</td><td>19,5</td><td>41,7</td><td>6,7</td><td>23,6</td><td>22,0</td><td>18,3</td><td>13,7</td><td>22,7</td><td>42,9</td><td>18,5</td><td>13,2</td><td>11,6</td><td>0,0</td></tr>
+        <tr><td>MihuAI turkish-stt</td><td>22,6</td><td>21,6</td><td>7,7</td><td>42,0</td><td>26,0</td><td>21,2</td><td>19,6</td><td>27,0</td><td>25,5</td><td>27,4</td><td>13,2</td><td>15,9</td><td>0,0</td></tr>
+        <tr><td>omniASR CTC 3B</td><td>24,0</td><td>50,5</td><td>8,0</td><td>40,8</td><td>26,4</td><td>11,4</td><td>14,9</td><td>25,0</td><td>46,9</td><td>20,7</td><td>14,2</td><td>13,9</td><td>28,6</td></tr>
+        <tr><td>Whisper small</td><td>24,7</td><td>28,3</td><td>10,4</td><td>38,1</td><td>28,6</td><td>19,8</td><td>22,2</td><td>32,8</td><td>38,5</td><td>28,0</td><td>17,2</td><td>13,6</td><td>57,1</td></tr>
+        <tr><td>Whisper large-v3-turbo</td><td>26,8</td><td>82,4</td><td>8,8</td><td>48,1</td><td>19,3</td><td>17,6</td><td>12,7</td><td>19,7</td><td>44,7</td><td>18,9</td><td>6,4</td><td>18,2</td><td>0,0</td></tr>
+        <tr><td>omniASR CTC 7B</td><td>27,6</td><td>50,0</td><td>13,9</td><td>41,3</td><td>24,0</td><td>23,7</td><td>20,2</td><td>24,8</td><td>61,5</td><td>26,4</td><td>22,8</td><td>16,3</td><td>14,3</td></tr>
+        <tr><td>omniASR CTC 1B</td><td>29,0</td><td>66,5</td><td>8,0</td><td>39,5</td><td>34,3</td><td>20,8</td><td>21,5</td><td>29,0</td><td>54,7</td><td>25,5</td><td>24,6</td><td>29,6</td><td>0,0</td></tr>
+        <tr><td>Whisper medium</td><td>33,5</td><td>21,2</td><td>51,6</td><td>54,4</td><td>23,3</td><td>9,0</td><td>18,4</td><td>25,9</td><td>34,2</td><td>31,9</td><td>12,4</td><td>13,6</td><td>57,1</td></tr>
+        <tr><td>omniASR CTC 300M</td><td>45,6</td><td>75,9</td><td>26,3</td><td>49,2</td><td>52,2</td><td>44,1</td><td>41,1</td><td>51,4</td><td>79,9</td><td>35,5</td><td>42,5</td><td>35,7</td><td>14,3</td></tr>
+        <tr><td>Whisper base</td><td>55,8</td><td>44,5</td><td>23,2</td><td>50,4</td><td>48,7</td><td>193,5</td><td>35,7</td><td>47,0</td><td>59,6</td><td>41,5</td><td>95,5</td><td>30,2</td><td>14,3</td></tr>
+        <tr><td>Whisper tiny</td><td>94,7</td><td>51,4</td><td>92,7</td><td>101,3</td><td>63,3</td><td>311,4</td><td>54,7</td><td>59,6</td><td>64,0</td><td>61,3</td><td>61,0</td><td>50,0</td><td>42,9</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mu-Bench'te puanladığım her model, kategori bazında v2 WER (%). Başlıklardaki küçük sayılar klip sayısı; her sütunun en iyisi altın renkte ve kalın (en küçük iki kategori hariç). Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Tutar (5 klip) ve tarih/saat (1 klip) çok küçük; bu iki sütun gürültülü.</p>
   <h3>Önceki sürüme göre</h3>
   <p>balbal-v1'i önceki sürüm balbal-v2-beta ile eşleştirilmiş bootstrap ile karşılaştırdım. Hiçbir kümede gerilemedi.</p>
   <div class="table-wrap">
@@ -450,7 +492,7 @@ document.addEventListener('click', e => {
     <dt>Mu-Bench v2, FLEURS</dt><dd>v2 puanlaması, ITN'siz. Her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım.</dd>
     <dt>Mu-Bench LLM WER</dt><dd>Resmi değerlendirme: gpt-4.1 referansı ve çıktıyı normalleştiriyor, WER ondan sonra hesaplanıyor.</dd>
     <dt>Significant WER</dt><dd>gpt-4.1 hakeme göre anlamı bozan en az bir hata içeren cümlelerin oranı.</dd>
-    <dt>Kaynak</dt><dd>Son iki sütunu balbal-v1, Freya, PatientDesk Duyu ve MihuAI turkish-stt için resmi düzeneği kendim çalıştırarak hesapladım. <b>*</b> işaretli değerler Mu-Bench'in yayımladığı tablodan.</dd>
+    <dt>Kaynak</dt><dd>Son iki sütunu balbal-v1, Freya, PatientDesk Duyu ve MihuAI turkish-stt için resmi düzeneği kendim çalıştırarak hesapladım. <b>*</b> işaretli değerler Mu-Bench'in yayımladığı <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">sonuç tablosundan</a>.</dd>
   </dl>
 
   <h2 id="hiz"><span class="n">8</span>Hız</h2>
@@ -496,6 +538,9 @@ document.addEventListener('click', e => {
     <li>Z. Yao ve ark. <a href="https://arxiv.org/abs/2410.05101" target="_blank" rel="noopener"><cite>CR-CTC: Consistency Regularization on CTC for Improved Speech Recognition</cite></a>. ICLR, 2025.</li>
     <li>J. Nozaki, T. Komatsu. <a href="https://arxiv.org/abs/2104.02724" target="_blank" rel="noopener"><cite>Relaxing the Conditional Independence Assumption of CTC-based ASR by Conditioning on Intermediate Predictions</cite></a>. Interspeech, 2021.</li>
     <li>N. Jeffries, E. King, M. Kudlur, G. Nicholson, J. Wang, P. Warden. <a href="https://arxiv.org/abs/2410.15608" target="_blank" rel="noopener"><cite>Moonshine: Speech Recognition for Live Transcription and Voice Commands</cite></a>. arXiv:2410.15608, 2024.</li>
+    <li>A. Li, S. Ray. <a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener"><cite>MU-Bench: A Multilingual Transcription Benchmark from Real Phone Calls</cite></a>. 2026. <a href="https://huggingface.co/datasets/sierra-research/mu-bench" target="_blank" rel="noopener">Veri seti</a>, <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">sonuç tablosu</a>.</li>
+    <li>A. Conneau ve ark. <a href="https://arxiv.org/abs/2205.12446" target="_blank" rel="noopener"><cite>FLEURS: Few-shot Learning Evaluation of Universal Representations of Speech</cite></a>. IEEE SLT, 2022.</li>
+    <li>Freya. <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener"><cite>sierra-benchmark</cite></a> veri seti. Mu-Bench kategori etiketleri buradan.</li>
   </ol>
 </article>
 
@@ -687,14 +732,14 @@ document.addEventListener('click', e => {
 
   <h2 id="measurement"><span class="n">6</span>How I measured</h2>
   <p>In my own measurements I used a single scoring rule (v2). Case and punctuation are ignored. Numbers are compared digit by digit; "doksan" (ninety), "dokuz sıfır" (nine zero) and "90" count as the same. Codes written as one word are split into their letters and digits. The rule only forgives different spellings of the same words; a different word is always an error. All open models in the tables were scored on the same clips with the same rule. The scoring code is on GitHub: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. The full normalizer, inference and training code is in the <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> repository.</p>
-  <p>For Mu-Bench I also ran the official evaluation harness (sierra-research/mu-bench, gpt-4.1 judge). Before submission, numbers written as words were converted to digits (ITN). Scores for commercial APIs were taken from Mu-Bench's own leaderboard. To cut cost I took one shortcut: for 342 of the 846 sentences, balbal-v1 produced exactly the same text as balbal-v2-beta. For those I reused v2-beta's judge verdicts; the remaining 504 sentences were judged again.</p>
+  <p>For Mu-Bench I also ran the official evaluation harness (<a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener">sierra-research/mu-bench</a>, gpt-4.1 judge). Before submission, numbers written as words were converted to digits (ITN). Scores for commercial APIs were taken from Mu-Bench's own <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">leaderboard</a>. To cut cost I took one shortcut: for 342 of the 846 sentences, balbal-v1 produced exactly the same text as balbal-v2-beta. For those I reused v2-beta's judge verdicts; the remaining 504 sentences were judged again.</p>
   <div class="callout">
     <p>Mu-Bench was used only to read results. It never went into the training data, the language model or checkpoint selection.</p>
   </div>
 
   <h2 id="results"><span class="n">7</span>Results</h2>
   <h3>Mu-Bench: against commercial APIs</h3>
-  <p>Mu-Bench contains 846 Turkish sentences from 8 kHz customer-service calls. In the official evaluation balbal-v1 has <strong>11.93%</strong> WER and <strong>25.18%</strong> significant WER (errors that change the meaning). That puts it ahead of Azure, Deepgram, OpenAI and xAI, and behind Google and ElevenLabs. On meaning-changing errors Deepgram Nova-3 (24.35%) is slightly better.</p>
+  <p>Mu-Bench (<a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener">Li and Ray, 2026</a>) contains 846 Turkish sentences from 8 kHz customer-service calls. In the official evaluation balbal-v1 has <strong>11.93%</strong> WER and <strong>25.18%</strong> significant WER (errors that change the meaning). That puts it ahead of Azure, Deepgram, OpenAI and xAI, and behind Google and ElevenLabs. On meaning-changing errors Deepgram Nova-3 (24.35%) is slightly better.</p>
   <figure>
     <img src="/balbal/img/1-mubench-vs-apis.webp" alt="Mu-Bench official WER bar chart: balbal-v1 at 11.93 percent among the commercial APIs." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench, official evaluation.</b> API scores from the Mu-Bench leaderboard. balbal-v1 was scored with the same harness, the gpt-4.1 judge and ITN applied.</figcaption>
@@ -717,6 +762,41 @@ document.addEventListener('click', e => {
     <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench WER by category: balbal-v1 versus Qwen3-ASR and Whisper large-v3." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench categories (v2 scoring).</b> Category labels from Freya's sierra-benchmark dataset. Only categories with at least 20 clips are shown; numbers in brackets are clip counts. balbal-v1 leads on email, phone numbers, addresses and short answers; Whisper large-v3 leads most of the rest.</figcaption>
   </figure>
+  <div class="table-wrap">
+    <table class="scores cats">
+      <thead><tr><th>Model</th><th>All <small>846</small></th><th>Short response <small>229</small></th><th>Phone number <small>109</small></th><th>Email <small>102</small></th><th>Request <small>85</small></th><th>Code sequence <small>84</small></th><th>Conversational <small>65</small></th><th>Question <small>63</small></th><th>Name <small>55</small></th><th>Spelling <small>27</small></th><th>Address <small>21</small></th><th>Amount <small>5</small></th><th>Date/time <small>1</small></th></tr></thead>
+      <tbody>
+        <tr><td>Google Chirp 3</td><td class="better">8.4</td><td>8.0</td><td class="better">2.1</td><td>15.6</td><td class="better">10.4</td><td class="better">0.9</td><td class="better">7.8</td><td class="better">11.4</td><td>25.5</td><td>14.0</td><td>3.9</td><td>13.6</td><td>0.0</td></tr>
+        <tr><td>ElevenLabs Scribe v2</td><td>8.7</td><td>12.4</td><td>2.8</td><td class="better">10.4</td><td>12.0</td><td>3.1</td><td>9.5</td><td>14.3</td><td>23.6</td><td>12.2</td><td class="better">2.1</td><td>11.4</td><td>0.0</td></tr>
+        <tr><td>Google Gemini 3.5 Transcribe</td><td>8.8</td><td>6.6</td><td>2.7</td><td>13.5</td><td>10.7</td><td>6.4</td><td>9.7</td><td>12.0</td><td>23.0</td><td>12.8</td><td>4.8</td><td>13.6</td><td>0.0</td></tr>
+        <tr><td>Freya</td><td>9.7</td><td class="better">6.1</td><td>4.7</td><td>18.6</td><td>11.8</td><td>1.4</td><td>9.7</td><td>12.8</td><td>19.2</td><td>13.4</td><td>4.2</td><td>13.6</td><td>0.0</td></tr>
+        <tr><td>PatientDesk Duyu</td><td>10.0</td><td>9.6</td><td>4.3</td><td>17.6</td><td>13.5</td><td>4.1</td><td>11.0</td><td>11.9</td><td class="better">18.0</td><td class="better">10.3</td><td>3.9</td><td>9.1</td><td>0.0</td></tr>
+        <tr><td>OpenAI GPT-4o Mini Transcribe</td><td>11.3</td><td>15.7</td><td>3.0</td><td>14.9</td><td>16.0</td><td>7.7</td><td>12.9</td><td>16.0</td><td>30.6</td><td>11.6</td><td>3.6</td><td>4.5</td><td>0.0</td></tr>
+        <tr class="sum"><td>balbal-v1</td><td>11.8</td><td>12.2</td><td>4.0</td><td>12.5</td><td>20.0</td><td>5.3</td><td>13.1</td><td>18.6</td><td>24.8</td><td>20.1</td><td>4.5</td><td>18.2</td><td>0.0</td></tr>
+        <tr><td>Deepgram Nova-3</td><td>12.4</td><td>11.4</td><td>2.7</td><td>27.0</td><td>14.8</td><td>10.0</td><td class="better">7.8</td><td>13.5</td><td>26.1</td><td>14.0</td><td>4.8</td><td>11.4</td><td>0.0</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Baseten)</td><td>13.8</td><td>17.1</td><td>5.5</td><td>21.3</td><td>18.4</td><td>9.0</td><td>11.8</td><td>16.9</td><td>30.4</td><td>15.5</td><td>5.4</td><td>13.6</td><td>0.0</td></tr>
+        <tr><td>Qwen3-ASR 1.7B (Modal)</td><td>13.9</td><td>18.0</td><td>5.3</td><td>21.6</td><td>18.9</td><td>8.8</td><td>12.0</td><td>16.9</td><td>29.8</td><td>15.2</td><td>5.1</td><td>13.6</td><td>0.0</td></tr>
+        <tr><td>Qwen3-ASR 1.7B</td><td>13.9</td><td>17.5</td><td>5.5</td><td>22.4</td><td>18.1</td><td>8.3</td><td>11.8</td><td>16.5</td><td>31.1</td><td>15.5</td><td>6.3</td><td>13.6</td><td>0.0</td></tr>
+        <tr><td>Whisper large-v3</td><td>14.9</td><td>13.6</td><td>4.3</td><td>40.0</td><td>14.0</td><td>4.5</td><td>12.2</td><td>16.0</td><td>21.7</td><td>10.9</td><td>5.5</td><td>9.1</td><td>0.0</td></tr>
+        <tr><td>xAI Grok STT</td><td>15.7</td><td>27.9</td><td>5.8</td><td>18.7</td><td>18.9</td><td>12.4</td><td>15.8</td><td>20.0</td><td>28.6</td><td>20.1</td><td>7.2</td><td>15.9</td><td>0.0</td></tr>
+        <tr><td>omniASR LLM 7B</td><td>18.4</td><td>51.3</td><td>5.6</td><td>23.6</td><td>17.2</td><td>14.1</td><td>13.5</td><td>17.1</td><td>42.2</td><td>15.5</td><td>10.2</td><td>16.3</td><td>0.0</td></tr>
+        <tr><td>Microsoft Azure Speech</td><td>18.6</td><td>13.8</td><td>12.1</td><td>35.8</td><td>16.5</td><td>14.7</td><td>10.5</td><td>17.6</td><td>26.1</td><td>31.1</td><td>12.9</td><td>11.4</td><td>0.0</td></tr>
+        <tr><td>omniASR LLM 3B</td><td>19.2</td><td>38.3</td><td>6.9</td><td>22.8</td><td>23.1</td><td>11.2</td><td>14.1</td><td>25.0</td><td>55.3</td><td>18.2</td><td>12.7</td><td>20.4</td><td>0.0</td></tr>
+        <tr><td>omniASR LLM 1B</td><td>19.5</td><td>41.7</td><td>6.7</td><td>23.6</td><td>22.0</td><td>18.3</td><td>13.7</td><td>22.7</td><td>42.9</td><td>18.5</td><td>13.2</td><td>11.6</td><td>0.0</td></tr>
+        <tr><td>MihuAI turkish-stt</td><td>22.6</td><td>21.6</td><td>7.7</td><td>42.0</td><td>26.0</td><td>21.2</td><td>19.6</td><td>27.0</td><td>25.5</td><td>27.4</td><td>13.2</td><td>15.9</td><td>0.0</td></tr>
+        <tr><td>omniASR CTC 3B</td><td>24.0</td><td>50.5</td><td>8.0</td><td>40.8</td><td>26.4</td><td>11.4</td><td>14.9</td><td>25.0</td><td>46.9</td><td>20.7</td><td>14.2</td><td>13.9</td><td>28.6</td></tr>
+        <tr><td>Whisper small</td><td>24.7</td><td>28.3</td><td>10.4</td><td>38.1</td><td>28.6</td><td>19.8</td><td>22.2</td><td>32.8</td><td>38.5</td><td>28.0</td><td>17.2</td><td>13.6</td><td>57.1</td></tr>
+        <tr><td>Whisper large-v3-turbo</td><td>26.8</td><td>82.4</td><td>8.8</td><td>48.1</td><td>19.3</td><td>17.6</td><td>12.7</td><td>19.7</td><td>44.7</td><td>18.9</td><td>6.4</td><td>18.2</td><td>0.0</td></tr>
+        <tr><td>omniASR CTC 7B</td><td>27.6</td><td>50.0</td><td>13.9</td><td>41.3</td><td>24.0</td><td>23.7</td><td>20.2</td><td>24.8</td><td>61.5</td><td>26.4</td><td>22.8</td><td>16.3</td><td>14.3</td></tr>
+        <tr><td>omniASR CTC 1B</td><td>29.0</td><td>66.5</td><td>8.0</td><td>39.5</td><td>34.3</td><td>20.8</td><td>21.5</td><td>29.0</td><td>54.7</td><td>25.5</td><td>24.6</td><td>29.6</td><td>0.0</td></tr>
+        <tr><td>Whisper medium</td><td>33.5</td><td>21.2</td><td>51.6</td><td>54.4</td><td>23.3</td><td>9.0</td><td>18.4</td><td>25.9</td><td>34.2</td><td>31.9</td><td>12.4</td><td>13.6</td><td>57.1</td></tr>
+        <tr><td>omniASR CTC 300M</td><td>45.6</td><td>75.9</td><td>26.3</td><td>49.2</td><td>52.2</td><td>44.1</td><td>41.1</td><td>51.4</td><td>79.9</td><td>35.5</td><td>42.5</td><td>35.7</td><td>14.3</td></tr>
+        <tr><td>Whisper base</td><td>55.8</td><td>44.5</td><td>23.2</td><td>50.4</td><td>48.7</td><td>193.5</td><td>35.7</td><td>47.0</td><td>59.6</td><td>41.5</td><td>95.5</td><td>30.2</td><td>14.3</td></tr>
+        <tr><td>Whisper tiny</td><td>94.7</td><td>51.4</td><td>92.7</td><td>101.3</td><td>63.3</td><td>311.4</td><td>54.7</td><td>59.6</td><td>64.0</td><td>61.3</td><td>61.0</td><td>50.0</td><td>42.9</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Every model I scored on Mu-Bench, v2 WER (%) per category. Small numbers in the headers are clip counts; the best value in each column is in bold gold (except the two smallest categories). Category labels come from Freya's sierra-benchmark dataset. Amount (5 clips) and date/time (1 clip) are tiny, so those two columns are noisy.</p>
   <h3>Against the previous release</h3>
   <p>I compared balbal-v1 with the previous release, balbal-v2-beta, using a paired bootstrap. It did not regress on any set.</p>
   <div class="table-wrap">
@@ -776,7 +856,7 @@ document.addEventListener('click', e => {
     <dt>Mu-Bench v2, FLEURS</dt><dd>v2 scoring, no ITN. I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself.</dd>
     <dt>Mu-Bench LLM WER</dt><dd>The official evaluation: gpt-4.1 normalizes the reference and the output, then WER is computed.</dd>
     <dt>Significant WER</dt><dd>The share of sentences with at least one meaning-changing error according to the gpt-4.1 judge.</dd>
-    <dt>Source</dt><dd>I computed the last two columns for balbal-v1, Freya, PatientDesk Duyu and MihuAI turkish-stt by running the official harness myself. Values marked <b>*</b> come from the table Mu-Bench publishes.</dd>
+    <dt>Source</dt><dd>I computed the last two columns for balbal-v1, Freya, PatientDesk Duyu and MihuAI turkish-stt by running the official harness myself. Values marked <b>*</b> come from the <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">leaderboard</a> Mu-Bench publishes.</dd>
   </dl>
 
   <h2 id="speed"><span class="n">8</span>Speed</h2>
@@ -822,6 +902,9 @@ document.addEventListener('click', e => {
     <li>Z. Yao et al. <a href="https://arxiv.org/abs/2410.05101" target="_blank" rel="noopener"><cite>CR-CTC: Consistency Regularization on CTC for Improved Speech Recognition</cite></a>. ICLR, 2025.</li>
     <li>J. Nozaki, T. Komatsu. <a href="https://arxiv.org/abs/2104.02724" target="_blank" rel="noopener"><cite>Relaxing the Conditional Independence Assumption of CTC-based ASR by Conditioning on Intermediate Predictions</cite></a>. Interspeech, 2021.</li>
     <li>N. Jeffries, E. King, M. Kudlur, G. Nicholson, J. Wang, P. Warden. <a href="https://arxiv.org/abs/2410.15608" target="_blank" rel="noopener"><cite>Moonshine: Speech Recognition for Live Transcription and Voice Commands</cite></a>. arXiv:2410.15608, 2024.</li>
+    <li>A. Li, S. Ray. <a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener"><cite>MU-Bench: A Multilingual Transcription Benchmark from Real Phone Calls</cite></a>. 2026. <a href="https://huggingface.co/datasets/sierra-research/mu-bench" target="_blank" rel="noopener">Dataset</a>, <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">leaderboard</a>.</li>
+    <li>A. Conneau et al. <a href="https://arxiv.org/abs/2205.12446" target="_blank" rel="noopener"><cite>FLEURS: Few-shot Learning Evaluation of Universal Representations of Speech</cite></a>. IEEE SLT, 2022.</li>
+    <li>Freya. <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener"><cite>sierra-benchmark</cite></a> dataset, the source of the Mu-Bench category labels.</li>
   </ol>
 </article>
 
