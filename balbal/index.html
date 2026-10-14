@@ -319,6 +319,7 @@ document.addEventListener('click', e => {
     <div class="limits">
       <div><h3>Yalnızca Türkçe</h3><p>Eğitimde biraz İngilizce de vardı, ama İngilizce konuşmada iyi sonuç vermez.</p></div>
       <div><h3>Kısa kayıtlar</h3><p>API istek başına en fazla 30 saniye ses yazar. Daha uzun kayıtları parçalayıp gönder.</p></div>
+      <div><h3>API gecikmesi</h3><p>API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe yaklaşık 100–200 ms ekliyor. Modelin gerçek hızını şimdilik API'den ölçemezsin.</p></div>
     </div>
   </section>
 </main>
@@ -452,6 +453,7 @@ document.addEventListener('click', e => {
     <div class="limits">
       <div><h3>Turkish only</h3><p>There was some English in training, but it does not do well on English speech.</p></div>
       <div><h3>Short recordings</h3><p>The API transcribes at most 30 seconds of audio per request. Split longer recordings before sending them.</p></div>
+      <div><h3>API latency</h3><p>The API is served through a Cloudflare tunnel, which adds roughly 100–200 ms to each request. For now you cannot measure the model's real speed through the API.</p></div>
     </div>
   </section>
 </main>

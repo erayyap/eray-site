@@ -433,6 +433,7 @@ document.addEventListener('click', e => {
     <li><strong>Sayılar yazıyla çıkar.</strong> Rakam isteyen uygulamaların ayrı bir ITN adımı eklemesi gerekiyor.</li>
     <li><strong>Yalnızca Türkçe.</strong> Eğitimde bir miktar İngilizce (LibriSpeech) var, ama model İngilizce için ayarlanmadı ve bu yazıda İngilizce ölçülmedi.</li>
     <li><strong>Uzun kayıtlar.</strong> API istek başına en fazla 30 saniye ses yazıyor; daha uzun kayıtları parçalayıp göndermek gerekiyor. Konuşma algılama (VAD) yok.</li>
+    <li><strong>API gecikmesi.</strong> API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe yaklaşık 100–200 ms ekliyor. 8. bölümdeki hızı şimdilik API üzerinden göremezsiniz.</li>
     <li><strong>İsimler ve harf harf okuma</strong> hâlâ en zayıf kategoriler. Bir sonraki veri turunun hedefi bunlar.</li>
     <li><strong>Ağırlıklar şimdilik kapalı.</strong></li>
   </ul>
@@ -715,6 +716,7 @@ document.addEventListener('click', e => {
     <li><strong>Numbers come out as words.</strong> Applications that need digits have to add a separate ITN step.</li>
     <li><strong>Turkish only.</strong> Training includes some English (LibriSpeech), but the model was not tuned for English and English was not measured in this post.</li>
     <li><strong>Long recordings.</strong> The API transcribes at most 30 seconds of audio per request; longer recordings have to be split before sending. There is no voice activity detection (VAD).</li>
+    <li><strong>API latency.</strong> The API is served through a Cloudflare tunnel, which adds roughly 100–200 ms to each request. For now you will not see the speed from section 8 through the API.</li>
     <li><strong>Names and spelling</strong> are still the weakest categories. They are the target of the next data round.</li>
     <li><strong>The weights are closed for now.</strong></li>
   </ul>
