@@ -381,7 +381,7 @@ document.addEventListener('click', e => {
   </figure>
   <h3>Diğer modellerle karşılaştırma</h3>
   <p>Açık ağırlıklı modellerin hepsini aynı klipler ve v2 kuralıyla kendim çalıştırdım. Mu-Bench'te (v2, ITN'siz) balbal-v1 <strong>%11,78</strong> ile hepsinin önünde. En yakın rakipler Qwen3-ASR 1.7B (%13,95) ve Whisper large-v3 (%14,92); ikisi de yüz kat büyük. FLEURS'ta durum farklı: Whisper large-v3 (%3,71) ve turbo (%4,07) açık ara önde. balbal-v1'in %6,54'ü Qwen3-ASR 1.7B (%6,52) ile aynı düzeyde. FLEURS temiz, okunmuş Wikipedia cümlelerinden oluşuyor ve büyük modellerin geniş dünya bilgisi burada daha çok işe yarıyor.</p>
-  <p>Sonradan bir model daha ekledim: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>. Türkçe ve İngilizce tanıyan, 19,3 milyon aktif parametreli açık ağırlıklı bir model. Model kartına göre kodlayıcı tasarımı (paylaşımlı geçişler ve seyrek akustik bellek) balbal'dan alınmış; üstüne dikkat tabanlı bir çözücü ve iki dilli bir sözlük eklenmiş. Aynı klipler ve v2 kuralıyla Mu-Bench'te <strong>%15,39</strong>, FLEURS'ta <strong>%6,62</strong> hata yapıyor. Duyu-small grafiklerde yok; sayıları aşağıdaki tablolarda.</p>
+  <p>Sonradan bir model daha ekledim: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>. Türkçe ve İngilizce tanıyan, 19,3 milyon aktif parametreli açık ağırlıklı bir model. Model kartına göre kodlayıcı tasarımı (paylaşımlı geçişler ve seyrek akustik bellek) balbal'dan alınmış; üstüne dikkat tabanlı bir çözücü ve iki dilli bir sözlük eklenmiş. Aynı klipler ve v2 kuralıyla Mu-Bench'te <strong>%15,39</strong>, FLEURS'ta <strong>%6,62</strong> hata yapıyor. Resmi Mu-Bench değerlendirmesinde (GPT-4.1 hakemli) kelime hata oranı <strong>%15,70</strong>, ciddi hata oranı %35,22 (balbal-v1: %11,93 ve %25,18).</p>
   <figure>
     <img src="/balbal/img/2-mubench-open-models.webp" alt="Mu-Bench'te diğer modellerin v2 WER karşılaştırması; balbal-v1 en düşük hata oranıyla en üstte." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench, diğer modeller (v2 puanlama).</b> Her model aynı 846 klip üzerinde aynı kuralla puanlandı.</figcaption>
@@ -395,8 +395,8 @@ document.addEventListener('click', e => {
   <h3>Kategori bazında</h3>
   <p>Kategoriler Mu-Bench'in kendisinden gelmiyor. Freya'nın aynı ses ve metinleri içeren <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener">sierra-benchmark</a> veri setindeki kategori etiketlerini kullandım. balbal-v1 telefon numaralarında (%3,96), adreslerde (%4,53) ve kod dizilerinde (%5,34) güçlü. İsimler (%24,84), harf harf okuma (%20,06) ve istek cümleleri (%19,98) hâlâ zayıf noktaları.</p>
   <figure>
-    <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench kategorilerine göre WER: balbal-v1, Qwen3-ASR ve Whisper large-v3 karşılaştırması." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench kategorileri (v2 puanlama).</b> Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Grafikte yalnızca en az 20 klibi olan kategoriler var; parantez içindeki sayılar klip sayısı. E-posta, telefon, adres ve kısa cevaplarda balbal-v1 önde; kalanların çoğunda Whisper large-v3.</figcaption>
+    <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench kategorilerine göre WER: balbal-v1, Duyu-small, Qwen3-ASR ve Whisper large-v3 karşılaştırması." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench kategorileri (v2 puanlama).</b> Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Grafikte yalnızca en az 20 klibi olan kategoriler var; parantez içindeki sayılar klip sayısı. E-posta, adres ve kısa cevaplarda balbal-v1 önde; telefonda Duyu-small ile neredeyse eşit (%3,96'ya %3,76). Kalanların çoğunda Whisper large-v3 önde.</figcaption>
   </figure>
   <div class="table-wrap">
     <table class="scores cats">
@@ -470,7 +470,7 @@ document.addEventListener('click', e => {
         <tr><td>Qwen3-ASR 1.7B (Modal)</td><td>13,91</td><td>14,76<small>*</small></td><td>30,61<small>*</small></td><td>—</td></tr>
         <tr><td>Qwen3-ASR 1.7B</td><td>13,95</td><td>—</td><td>—</td><td>6,52</td></tr>
         <tr><td>Whisper large-v3</td><td>14,92</td><td>—</td><td>—</td><td>3,71</td></tr>
-        <tr><td><a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a></td><td>15,39</td><td>—</td><td>—</td><td>6,62</td></tr>
+        <tr><td><a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a></td><td>15,39</td><td>15,70</td><td>35,22</td><td>6,62</td></tr>
         <tr><td>xAI Grok STT</td><td>15,69</td><td>15,94<small>*</small></td><td>34,04<small>*</small></td><td>—</td></tr>
         <tr><td>omniASR LLM 7B</td><td>18,35</td><td>—</td><td>—</td><td>5,31</td></tr>
         <tr><td>Microsoft Azure Speech</td><td>18,65</td><td>14,02<small>*</small></td><td>30,73<small>*</small></td><td>—</td></tr>
@@ -500,7 +500,7 @@ document.addEventListener('click', e => {
   <h2 id="hiz"><span class="n">8</span>Hız</h2>
   <p>Hızı tüm modeller için aynı yöntemle ölçtüm. 100 klip kullandım (50 FLEURS, 50 Mu-Bench). Her model 8 işlemci çekirdeğinde, batch boyutu 1 ile, klipleri tek tek işledi. Ölçülen süre, ham sesin girmesinden metnin çıkmasına kadar geçen süre: öznitelik çıkarma, ağ ve (balbal için) dil modelli ışın araması dahil. Makinenin hızı günden güne değişebildiği için bütün modelleri aynı oturumda ölçtüm.</p>
   <p>balbal-v1, ONNX Runtime (fp32) ile <strong>gerçek zamanın ~96 katı</strong> hızda çalışıyor; dört ayrı ölçüm 95,8× ile 97,3× arasında çıktı. Aynı koşullarda Whisper large-v3 0,91×, Qwen3-ASR 1.7B 0,84× hızda. Yani bu iki model işlemcide gerçek zamana bile yetişemiyor. Karşılaştırmanın tamamı yazının başındaki grafikte.</p>
-  <p><a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>'yi sonradan, ayrı bir oturumda aynı yöntemle ölçtüm. Modelin önerdiği ayarlarla (fp32, dikkat tabanlı çözücü, ışın 5) gerçek zamanın <strong>30 katı</strong> hızda çalışıyor. Aynı oturumda balbal-v1 108× çıktı; yani balbal-v1 yaklaşık 3,6 kat daha hızlı.</p>
+  <p><a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>'yi sonradan, ayrı bir oturumda aynı yöntemle ölçtüm. Modelin önerdiği ayarlarla (fp32, dikkat tabanlı çözücü, ışın 5) gerçek zamanın <strong>30 katı</strong> hızda çalışıyor. Aynı oturumda balbal-v1 108× çıktı; yani balbal-v1 yaklaşık 3,6 kat daha hızlı. Grafikte Duyu-small bu oranla diğer ölçümlerin oturumuna taşınmış halde (27×) yer alıyor.</p>
 
   <h2 id="dersler"><span class="n">9</span>Hatalar ve dersler</h2>
   <div class="lessons">
@@ -749,7 +749,7 @@ document.addEventListener('click', e => {
   </figure>
   <h3>Against other models</h3>
   <p>I ran all the open-weight models myself on the same clips with the v2 rule. On Mu-Bench (v2, no ITN) balbal-v1 leads them all with <strong>11.78%</strong>. The closest are Qwen3-ASR 1.7B (13.95%) and Whisper large-v3 (14.92%), both a hundred times larger. FLEURS is a different story: Whisper large-v3 (3.71%) and turbo (4.07%) are clearly ahead. balbal-v1's 6.54% is on par with Qwen3-ASR 1.7B (6.52%). FLEURS consists of clean, read Wikipedia sentences, where the broad world knowledge of large models helps more.</p>
-  <p>One more model, added later: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>, an open-weight Turkish + English model with 19.3 million active parameters. Its model card says its encoder design (shared passes and the sparse acoustic memory) is taken from balbal, with an attention decoder and a bilingual vocabulary added on top. On the same clips with the v2 rule it scores <strong>15.39%</strong> on Mu-Bench and <strong>6.62%</strong> on FLEURS. Duyu-small is not in the charts; its numbers are in the tables below.</p>
+  <p>One more model, added later: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>, an open-weight Turkish + English model with 19.3 million active parameters. Its model card says its encoder design (shared passes and the sparse acoustic memory) is taken from balbal, with an attention decoder and a bilingual vocabulary added on top. On the same clips with the v2 rule it scores <strong>15.39%</strong> on Mu-Bench and <strong>6.62%</strong> on FLEURS. In the official Mu-Bench evaluation (GPT-4.1 judge) it gets <strong>15.70%</strong> WER and 35.22% significant WER (balbal-v1: 11.93% and 25.18%).</p>
   <figure>
     <img src="/balbal/img/2-mubench-open-models.webp" alt="v2 WER of other models on Mu-Bench; balbal-v1 at the top with the lowest error rate." loading="lazy" width="1800" height="1012">
     <figcaption><b>Mu-Bench, other models (v2 scoring).</b> Every model was scored on the same 846 clips with the same rule.</figcaption>
@@ -763,8 +763,8 @@ document.addEventListener('click', e => {
   <h3>By category</h3>
   <p>The categories do not come from Mu-Bench itself. I used the category labels from Freya's <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener">sierra-benchmark</a> dataset, which contains the same audio and text. balbal-v1 is strong on phone numbers (3.96%), addresses (4.53%) and code sequences (5.34%). Names (24.84%), spelling (20.06%) and instruction requests (19.98%) are still its weak spots.</p>
   <figure>
-    <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench WER by category: balbal-v1 versus Qwen3-ASR and Whisper large-v3." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench categories (v2 scoring).</b> Category labels from Freya's sierra-benchmark dataset. Only categories with at least 20 clips are shown; numbers in brackets are clip counts. balbal-v1 leads on email, phone numbers, addresses and short answers; Whisper large-v3 leads most of the rest.</figcaption>
+    <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench WER by category: balbal-v1 versus Duyu-small, Qwen3-ASR and Whisper large-v3." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench categories (v2 scoring).</b> Category labels from Freya's sierra-benchmark dataset. Only categories with at least 20 clips are shown; numbers in brackets are clip counts. balbal-v1 leads on email, addresses and short answers and is about even with Duyu-small on phone numbers (3.96% vs 3.76%); Whisper large-v3 leads most of the rest.</figcaption>
   </figure>
   <div class="table-wrap">
     <table class="scores cats">
@@ -838,7 +838,7 @@ document.addEventListener('click', e => {
         <tr><td>Qwen3-ASR 1.7B (Modal)</td><td>13.91</td><td>14.76<small>*</small></td><td>30.61<small>*</small></td><td>—</td></tr>
         <tr><td>Qwen3-ASR 1.7B</td><td>13.95</td><td>—</td><td>—</td><td>6.52</td></tr>
         <tr><td>Whisper large-v3</td><td>14.92</td><td>—</td><td>—</td><td>3.71</td></tr>
-        <tr><td><a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a></td><td>15.39</td><td>—</td><td>—</td><td>6.62</td></tr>
+        <tr><td><a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a></td><td>15.39</td><td>15.70</td><td>35.22</td><td>6.62</td></tr>
         <tr><td>xAI Grok STT</td><td>15.69</td><td>15.94<small>*</small></td><td>34.04<small>*</small></td><td>—</td></tr>
         <tr><td>omniASR LLM 7B</td><td>18.35</td><td>—</td><td>—</td><td>5.31</td></tr>
         <tr><td>Microsoft Azure Speech</td><td>18.65</td><td>14.02<small>*</small></td><td>30.73<small>*</small></td><td>—</td></tr>
@@ -868,7 +868,7 @@ document.addEventListener('click', e => {
   <h2 id="speed"><span class="n">8</span>Speed</h2>
   <p>I measured speed the same way for every model. I used 100 clips (50 FLEURS, 50 Mu-Bench). Each model processed the clips one by one on 8 CPU cores with batch size 1. The measured time runs from raw audio in to text out: feature extraction, the network and (for balbal) the beam search with the language model included. Because the machine's speed can vary from day to day, I measured all models in the same session.</p>
   <p>balbal-v1 runs at <strong>~96× real time</strong> with ONNX Runtime (fp32); four separate measurements came out between 95.8× and 97.3×. Under the same conditions Whisper large-v3 runs at 0.91× and Qwen3-ASR 1.7B at 0.84×, so these two models cannot even keep up with real time on a CPU. The full comparison is in the chart at the top of this post.</p>
-  <p>I measured <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a> later, in a separate session, the same way. With its recommended settings (fp32, attention decoder, beam 5) it runs at <strong>30× real time</strong>. In the same session balbal-v1 ran at 108×, so balbal-v1 is about 3.6 times faster.</p>
+  <p>I measured <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a> later, in a separate session, the same way. With its recommended settings (fp32, attention decoder, beam 5) it runs at <strong>30× real time</strong>. In the same session balbal-v1 ran at 108×, so balbal-v1 is about 3.6 times faster. In the chart, Duyu-small is moved to the other measurements' session by that ratio (27×).</p>
 
   <h2 id="lessons"><span class="n">9</span>Mistakes and lessons</h2>
   <div class="lessons">
