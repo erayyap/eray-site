@@ -460,7 +460,7 @@ document.addEventListener('click', e => {
   <p>Ölçtüğüm her model, Mu-Bench (846 klip) ve FLEURS Türkçe testi (743 klip) üzerinde. Bizim modellerden yalnızca en iyisini, balbal-v1'i koydum. Satırlar Mu-Bench v2 WER'ine göre sıralı.</p>
   <div class="table-wrap">
     <table class="scores">
-      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
+      <thead><tr><th>Model</th><th>Mu-Bench v2 WER</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
       <tbody>
         <tr><td>Google Chirp 3</td><td>8,45</td><td>8,03<small>*</small></td><td>14,30<small>*</small></td><td>—</td></tr>
         <tr><td>ElevenLabs Scribe v2</td><td>8,72</td><td>9,43<small>*</small></td><td>19,15<small>*</small></td><td>—</td></tr>
@@ -495,7 +495,7 @@ document.addEventListener('click', e => {
   </div>
   <dl class="legend">
     <dt>Birim</dt><dd>Kelime hata oranı (WER), yüzde; düşük olan daha iyi. "—": ölçülmedi.</dd>
-    <dt>Mu-Bench v2, FLEURS</dt><dd>v2 puanlaması, ITN'siz. Her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım.</dd>
+    <dt>Mu-Bench v2 WER, FLEURS</dt><dd>v2 puanlaması, ITN'siz. Her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım.</dd>
     <dt>Mu-Bench LLM WER</dt><dd>Resmi değerlendirme: gpt-4.1 referansı ve çıktıyı normalleştiriyor, WER ondan sonra hesaplanıyor.</dd>
     <dt>Significant WER</dt><dd>gpt-4.1 hakeme göre anlamı bozan en az bir hata içeren cümlelerin oranı.</dd>
     <dt>Kaynak</dt><dd>Son iki sütunu balbal-v1, Freya, PatientDesk Duyu ve MihuAI turkish-stt için resmi düzeneği kendim çalıştırarak hesapladım. <b>*</b> işaretli değerler Mu-Bench'in yayımladığı <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">sonuç tablosundan</a>.</dd>
@@ -841,7 +841,7 @@ document.addEventListener('click', e => {
   <p>Every model I measured, on Mu-Bench (846 clips) and the FLEURS Turkish test (743 clips). Of our own models I list only the best one, balbal-v1. Rows are sorted by Mu-Bench v2 WER.</p>
   <div class="table-wrap">
     <table class="scores">
-      <thead><tr><th>Model</th><th>Mu-Bench v2</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
+      <thead><tr><th>Model</th><th>Mu-Bench v2 WER</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
       <tbody>
         <tr><td>Google Chirp 3</td><td>8.45</td><td>8.03<small>*</small></td><td>14.30<small>*</small></td><td>—</td></tr>
         <tr><td>ElevenLabs Scribe v2</td><td>8.72</td><td>9.43<small>*</small></td><td>19.15<small>*</small></td><td>—</td></tr>
@@ -876,7 +876,7 @@ document.addEventListener('click', e => {
   </div>
   <dl class="legend">
     <dt>Unit</dt><dd>Word error rate (WER), percent; lower is better. "—": not measured.</dd>
-    <dt>Mu-Bench v2, FLEURS</dt><dd>v2 scoring, no ITN. I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself.</dd>
+    <dt>Mu-Bench v2 WER, FLEURS</dt><dd>v2 scoring, no ITN. I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself.</dd>
     <dt>Mu-Bench LLM WER</dt><dd>The official evaluation: gpt-4.1 normalizes the reference and the output, then WER is computed.</dd>
     <dt>Significant WER</dt><dd>The share of sentences with at least one meaning-changing error according to the gpt-4.1 judge.</dd>
     <dt>Source</dt><dd>I computed the last two columns for balbal-v1, Freya, PatientDesk Duyu and MihuAI turkish-stt by running the official harness myself. Values marked <b>*</b> come from the <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">leaderboard</a> Mu-Bench publishes.</dd>
