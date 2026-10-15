@@ -438,24 +438,6 @@ document.addEventListener('click', e => {
     </table>
   </div>
   <p>Mu-Bench'te puanladığım her model, kategori bazında v2 WER (%). Başlıklardaki küçük sayılar klip sayısı; her sütunun en iyisi altın renkte ve kalın (en küçük iki kategori hariç). Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Tutar (5 klip) ve tarih/saat (1 klip) çok küçük; bu iki sütun gürültülü.</p>
-  <h3>Önceki sürüme göre</h3>
-  <p>balbal-v1'i önceki sürüm balbal-v2-beta ile eşleştirilmiş bootstrap ile karşılaştırdım. Hiçbir kümede gerilemedi.</p>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Test kümesi</th><th>v2-beta</th><th>balbal-v1</th><th>Fark</th><th>Dil modelsiz</th></tr></thead>
-      <tbody>
-        <tr><td>Mu-Bench (v2, ITN'siz)</td><td>12,95</td><td class="better">11,78</td><td>daha iyi</td><td>13,86</td></tr>
-        <tr><td>Ayrı tutulan kontrol cümleleri</td><td>21,84</td><td class="better">18,94</td><td>daha iyi</td><td>29,00</td></tr>
-        <tr><td>FLEURS</td><td>6,47</td><td>6,54</td><td>anlamsız</td><td>9,35</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p>Tablodaki değerler v2 puanlamasıyla WER (%). "Anlamsız", farkın güven aralığının sıfırı kapsadığı anlamına geliyor.</p>
-  <figure>
-    <img src="/balbal/img/6-beta-to-v1.webp" alt="balbal-v1-beta, balbal-v2-beta ve balbal-v1 arasında Mu-Bench ve FLEURS ilerlemesi." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Sürümden sürüme.</b> İlerlemenin büyük kısmı Mu-Bench tarzı zor seste geldi. FLEURS'taki fark gürültü içinde.</figcaption>
-  </figure>
-
   <h3>Tüm skorlar</h3>
   <p>Ölçtüğüm her model, Mu-Bench (846 klip) ve FLEURS Türkçe testi (743 klip) üzerinde. Bizim modellerden yalnızca en iyisini, balbal-v1'i koydum. Satırlar Mu-Bench v2 WER'ine göre sıralı.</p>
   <div class="table-wrap">
@@ -819,24 +801,6 @@ document.addEventListener('click', e => {
     </table>
   </div>
   <p>Every model I scored on Mu-Bench, v2 WER (%) per category. Small numbers in the headers are clip counts; the best value in each column is in bold gold (except the two smallest categories). Category labels come from Freya's sierra-benchmark dataset. Amount (5 clips) and date/time (1 clip) are tiny, so those two columns are noisy.</p>
-  <h3>Against the previous release</h3>
-  <p>I compared balbal-v1 with the previous release, balbal-v2-beta, using a paired bootstrap. It did not regress on any set.</p>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Test set</th><th>v2-beta</th><th>balbal-v1</th><th>Difference</th><th>Without LM</th></tr></thead>
-      <tbody>
-        <tr><td>Mu-Bench (v2, no ITN)</td><td>12.95</td><td class="better">11.78</td><td>better</td><td>13.86</td></tr>
-        <tr><td>Held-out control sentences</td><td>21.84</td><td class="better">18.94</td><td>better</td><td>29.00</td></tr>
-        <tr><td>FLEURS</td><td>6.47</td><td>6.54</td><td>not significant</td><td>9.35</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p>Values in the table are WER (%) under v2 scoring. "Not significant" means the confidence interval of the difference includes zero.</p>
-  <figure>
-    <img src="/balbal/img/6-beta-to-v1.webp" alt="Mu-Bench and FLEURS progress across balbal-v1-beta, balbal-v2-beta and balbal-v1." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Release to release.</b> Most of the progress came on hard, Mu-Bench-style audio. The FLEURS difference is within noise.</figcaption>
-  </figure>
-
   <h3>All scores</h3>
   <p>Every model I measured, on Mu-Bench (846 clips) and the FLEURS Turkish test (743 clips). Of our own models I list only the best one, balbal-v1. Rows are sorted by Mu-Bench v2 WER.</p>
   <div class="table-wrap">
