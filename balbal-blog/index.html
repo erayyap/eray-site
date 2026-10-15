@@ -165,6 +165,9 @@ html[lang="en"] [data-lang="tr"], html:not([lang="en"]) [data-lang="en"] { displ
 .lang-btn { font: 700 13px var(--data); letter-spacing: .06em; color: var(--muted); background: rgba(12, 9, 8, .45); border: 1px solid var(--edge); border-radius: 999px; padding: 6px 14px; cursor: pointer; white-space: nowrap; }
 .lang-btn:hover { color: var(--gold-light); border-color: var(--gold); }
 .top-r { display: flex; align-items: center; gap: 18px; }
+pre.cite { margin: 14px 0 0; max-width: 760px; padding: 16px 18px; background: var(--panel-2); border: 1px solid var(--edge-soft); border-radius: 8px; overflow-x: auto; white-space: pre; }
+pre.cite code { font: 13.5px/1.55 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; background: none; border: 0; padding: 0; color: var(--bone, inherit); }
+.cite-plain { margin: 0; max-width: 760px; }
 </style>
 <script>
 // Language: ?lang= / #lang= in the URL, else the visitor's saved choice, else Turkish for visitors in Turkey
@@ -236,6 +239,7 @@ document.addEventListener('click', e => {
     <li><a href="#dersler">Hatalar ve dersler</a></li>
     <li><a href="#sinirlar">Sınırlar ve sonraki adımlar</a></li>
     <li><a href="#kaynaklar">Kaynaklar</a></li>
+    <li><a href="#atif">Atıf</a></li>
   </ol>
 
   <h2 id="neden"><span class="n">1</span>Neden küçük bir model</h2>
@@ -546,6 +550,18 @@ document.addEventListener('click', e => {
     <li>Freya. <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener"><cite>sierra-benchmark</cite></a> veri seti. Mu-Bench kategori etiketleri buradan.</li>
     <li>KaanAydinli. <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener"><cite>Duyu-small</cite></a>. Hugging Face model kartı, 2026.</li>
   </ol>
+
+  <h2 id="atif">Atıf</h2>
+  <p>balbal-v1'i bir çalışmada kullanırsan ya da ondan bahsedersen şöyle atıf verebilirsin:</p>
+  <p class="cite-plain">Eray Yapağcı. <i>balbal-v1: A Small Turkish Speech Recognition Model</i>. 2026. <a href="https://erayy.com/balbal-blog">erayy.com/balbal-blog</a></p>
+  <pre class="cite"><code>@misc{yapagci2026balbal,
+  author       = {Eray Yapa{\u{g}}c{\i}},
+  title        = {balbal-v1: A Small Turkish Speech Recognition Model},
+  year         = {2026},
+  month        = oct,
+  howpublished = {\url{https://erayy.com/balbal-blog}},
+  note         = {Code: \url{https://github.com/erayyap/balbal}}
+}</code></pre>
 </article>
 
 <section class="end" aria-labelledby="son">
@@ -604,6 +620,7 @@ document.addEventListener('click', e => {
     <li><a href="#lessons">Mistakes and lessons</a></li>
     <li><a href="#limits">Limits and next steps</a></li>
     <li><a href="#references">References</a></li>
+    <li><a href="#cite">How to cite</a></li>
   </ol>
 
   <h2 id="why"><span class="n">1</span>Why a small model</h2>
@@ -914,6 +931,18 @@ document.addEventListener('click', e => {
     <li>Freya. <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener"><cite>sierra-benchmark</cite></a> dataset, the source of the Mu-Bench category labels.</li>
     <li>KaanAydinli. <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener"><cite>Duyu-small</cite></a>. Hugging Face model card, 2026.</li>
   </ol>
+
+  <h2 id="cite">How to cite</h2>
+  <p>If you use or mention balbal-v1 in your work, you can cite it like this:</p>
+  <p class="cite-plain">Eray Yapağcı. <i>balbal-v1: A Small Turkish Speech Recognition Model</i>. 2026. <a href="https://erayy.com/balbal-blog">erayy.com/balbal-blog</a></p>
+  <pre class="cite"><code>@misc{yapagci2026balbal,
+  author       = {Eray Yapa{\u{g}}c{\i}},
+  title        = {balbal-v1: A Small Turkish Speech Recognition Model},
+  year         = {2026},
+  month        = oct,
+  howpublished = {\url{https://erayy.com/balbal-blog}},
+  note         = {Code: \url{https://github.com/erayyap/balbal}}
+}</code></pre>
 </article>
 
 <section class="end" aria-labelledby="end-en">
