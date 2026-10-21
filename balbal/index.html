@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>balbal-v1</title>
-<meta name="description" content="balbal-v1: Türkçe konuşma tanıma. Mu-Bench'te Azure ve Deepgram'dan daha az hata yapar. API'si ücretsiz.">
+<meta name="description" content="balbal-v1: Türkçe konuşma tanıma. Mu-Bench'te Azure ve Deepgram'dan daha az hata yapar. Ağırlıkları açık.">
 <meta property="og:title" content="balbal-v1">
-<meta property="og:description" content="balbal-v1: Türkçe konuşma tanıma. Mu-Bench'te Azure ve Deepgram'dan daha az hata yapar. API'si ücretsiz.">
+<meta property="og:description" content="balbal-v1: Türkçe konuşma tanıma. Mu-Bench'te Azure ve Deepgram'dan daha az hata yapar. Ağırlıkları açık.">
 <meta property="og:url" content="https://erayy.com/balbal">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="erayy.com">
@@ -224,7 +224,7 @@ document.addEventListener('click', e => {
         <a href="#apiler">Sonuçlar</a>
         <a href="#hiz">Hız</a>
         <a class="js-blog" href="#nasil">Teknik yazı</a>
-        <a href="https://api.erayy.com" target="_blank" rel="noopener">API</a>
+        <a href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Ağırlıklar</a>
       </nav>
       <button class="lang-btn" type="button" data-set-lang="en" lang="en">English</button>
       </div>
@@ -233,13 +233,13 @@ document.addEventListener('click', e => {
       <p class="eyebrow">Türkçe konuşma tanıma · Ekim 2026</p>
       <h1>balbal-v1</h1>
       <p class="tagline">Küçük model. <em>Büyük API'lerin liginde.</em></p>
-      <p class="lede">Türkçe konuşma tanıma. Mu-Bench'te Azure ve Deepgram'dan daha az hata yapar. API'si ücretsiz.</p>
+      <p class="lede">Türkçe konuşma tanıma. Mu-Bench'te Azure ve Deepgram'dan daha az hata yapar. Ağırlıkları açık.</p>
       <div class="actions">
-        <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Ücretsiz API anahtarı al ↗</a>
+        <a class="btn primary" href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Ağırlıkları indir ↗</a>
         <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Demoyu dene ↗</a>
         <a class="btn secondary js-blog" href="#nasil">Teknik yazıyı oku →</a>
       </div>
-      <p class="fineprint">Model şu an için açık ağırlıklı (open weights) değil.</p>
+      <p class="fineprint">Ağırlıklar CC BY-NC 4.0: araştırma ve ince ayar serbest, ticari kullanım yok. Kod Apache 2.0.</p>
     </div>
   </div>
 </div>
@@ -273,7 +273,7 @@ document.addEventListener('click', e => {
     <h2 id="acik-baslik">Büyük modellerle yan yana</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th scope="col">Model</th><th scope="col">Mu-Bench v2 WER</th><th scope="col">FLEURS</th><th scope="col">Aktif parametre</th></tr></thead>
+        <thead><tr><th scope="col">Model</th><th scope="col">Mu-Bench WER (balbal-normalizer)</th><th scope="col">FLEURS</th><th scope="col">Aktif parametre</th></tr></thead>
         <tbody class="js-open-rows"></tbody>
       </table>
     </div>
@@ -293,7 +293,7 @@ document.addEventListener('click', e => {
         </tbody>
       </table>
     </div>
-    <p class="note">Kelime hata oranı (%), düşük daha iyi, v2 puanlama (<a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">puanlama kodu</a>). Mihu testi MihuAI'nin kendi puanlama koduyla ölçüldü; MihuAI turkish-stt aynı testte %15,20.</p>
+    <p class="note">Kelime hata oranı (%), düşük daha iyi, balbal-normalizer ile puanlama (<a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">puanlama kodu</a>). Mihu testi MihuAI'nin kendi puanlama koduyla ölçüldü; MihuAI turkish-stt aynı testte %15,20.</p>
   </section>
 
   <section class="block" id="hiz" aria-labelledby="hiz-baslik">
@@ -325,8 +325,7 @@ document.addEventListener('click', e => {
     <h2 id="sinir-baslik">Sınırlar</h2>
     <div class="limits">
       <div><h3>Yalnızca Türkçe</h3><p>Eğitimde biraz İngilizce de vardı, ama İngilizce konuşmada iyi sonuç vermez.</p></div>
-      <div><h3>Kısa kayıtlar</h3><p>API istek başına en fazla 30 saniye ses yazar. Daha uzun kayıtları parçalayıp gönder.</p></div>
-      <div><h3>API gecikmesi</h3><p>API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe birkaç yüz milisaniye ekliyor. Bu yüzden modelin gerçek hızını yanıtın ne kadar sürede geldiğinden ölçemezsin; ama sunucu, modelin işlem süresini yanıttaki <code>inference_seconds</code> alanında döner.</p></div>
+      <div><h3>Uzun kayıtlar</h3><p>Uzun ses 30 saniyelik sabit parçalara bölünüp her parça ayrı çözülür. Konuşma algılama (VAD) yok.</p></div>
     </div>
   </section>
 
@@ -350,7 +349,7 @@ document.addEventListener('click', e => {
   <div class="wrap">
     <h2 id="son-baslik">Kendi sesinle dene</h2>
     <div class="actions">
-      <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Ücretsiz API anahtarı al ↗</a>
+      <a class="btn primary" href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Ağırlıkları indir ↗</a>
       <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Demoyu dene ↗</a>
       <a class="btn secondary js-blog" href="#nasil">Teknik yazıyı oku →</a>
       <a class="btn secondary" href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Kod (GitHub) ↗</a>
@@ -375,7 +374,7 @@ document.addEventListener('click', e => {
           <a href="#apis">Results</a>
           <a href="#speed">Speed</a>
           <a class="js-blog" href="#how">Technical post</a>
-          <a href="https://api.erayy.com" target="_blank" rel="noopener">API</a>
+          <a href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Weights</a>
         </nav>
         <button class="lang-btn" type="button" data-set-lang="tr" lang="tr">Türkçe</button>
       </div>
@@ -384,13 +383,13 @@ document.addEventListener('click', e => {
       <p class="eyebrow">Turkish speech recognition · October 2026</p>
       <h1>balbal-v1</h1>
       <p class="tagline">Small model. <em>In the league of the big APIs.</em></p>
-      <p class="lede">Turkish speech recognition. Makes fewer errors than Azure and Deepgram on Mu-Bench. The API is free.</p>
+      <p class="lede">Turkish speech recognition. Makes fewer errors than Azure and Deepgram on Mu-Bench. Open weights.</p>
       <div class="actions">
-        <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Get a free API key ↗</a>
+        <a class="btn primary" href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Download the weights ↗</a>
         <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Try the demo ↗</a>
         <a class="btn secondary js-blog" href="#how">Read the technical post →</a>
       </div>
-      <p class="fineprint">The model weights are not open yet.</p>
+      <p class="fineprint">Weights under CC BY-NC 4.0: research and fine-tuning allowed, no commercial use. Code under Apache 2.0.</p>
     </div>
   </div>
 </div>
@@ -424,7 +423,7 @@ document.addEventListener('click', e => {
     <h2 id="open-title">Side by side with big models</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th scope="col">Model</th><th scope="col">Mu-Bench v2 WER</th><th scope="col">FLEURS</th><th scope="col">Active parameters</th></tr></thead>
+        <thead><tr><th scope="col">Model</th><th scope="col">Mu-Bench WER (balbal-normalizer)</th><th scope="col">FLEURS</th><th scope="col">Active parameters</th></tr></thead>
         <tbody class="js-open-rows"></tbody>
       </table>
     </div>
@@ -444,7 +443,7 @@ document.addEventListener('click', e => {
         </tbody>
       </table>
     </div>
-    <p class="note">Word error rate (%), lower is better, v2 scoring (<a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">scoring code</a>). The Mihu test was scored with MihuAI's own scoring code; MihuAI turkish-stt gets 15.20% on the same test.</p>
+    <p class="note">Word error rate (%), lower is better, scored with balbal-normalizer (<a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">scoring code</a>). The Mihu test was scored with MihuAI's own scoring code; MihuAI turkish-stt gets 15.20% on the same test.</p>
   </section>
 
   <section class="block" id="speed" aria-labelledby="speed-title">
@@ -476,8 +475,7 @@ document.addEventListener('click', e => {
     <h2 id="limits-title">Limits</h2>
     <div class="limits">
       <div><h3>Turkish only</h3><p>There was some English in training, but it does not do well on English speech.</p></div>
-      <div><h3>Short recordings</h3><p>The API transcribes at most 30 seconds of audio per request. Split longer recordings before sending them.</p></div>
-      <div><h3>API latency</h3><p>The API is served through a Cloudflare tunnel, which adds a few hundred milliseconds to each request. So you cannot measure the model's real speed from how long the response takes, but the server returns the model's processing time in the response's <code>inference_seconds</code> field.</p></div>
+      <div><h3>Long recordings</h3><p>Long audio is cut into fixed 30-second chunks and each chunk is decoded separately. There is no voice activity detection (VAD).</p></div>
     </div>
   </section>
 
@@ -501,7 +499,7 @@ document.addEventListener('click', e => {
   <div class="wrap">
     <h2 id="end-title">Try it with your own voice</h2>
     <div class="actions">
-      <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Get a free API key ↗</a>
+      <a class="btn primary" href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Download the weights ↗</a>
       <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Try the demo ↗</a>
       <a class="btn secondary js-blog" href="#how">Read the technical post →</a>
       <a class="btn secondary" href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Code (GitHub) ↗</a>

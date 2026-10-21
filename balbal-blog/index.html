@@ -307,7 +307,7 @@ document.addEventListener('click', e => {
   <p>Son modelde parçaların katkısını görmek için önceki sürümde (balbal-v2-beta) belleği ve döngüyü çıkarım sırasında kapattım. Bu, yeniden eğitilmiş bir karşılaştırma değil; yalnızca eğitilmiş modelin bu parçalara ne kadar dayandığını gösteriyor.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>balbal-v2-beta, v2 WER</th><th>Tam model</th><th>Bellek kapalı</th><th>Döngü yok</th></tr></thead>
+      <thead><tr><th>balbal-v2-beta, WER (balbal-normalizer)</th><th>Tam model</th><th>Bellek kapalı</th><th>Döngü yok</th></tr></thead>
       <tbody>
         <tr><td>FLEURS</td><td>6,59</td><td>8,79</td><td>8,81</td></tr>
         <tr><td>Mu-Bench</td><td>13,39</td><td>16,05</td><td>15,90</td></tr>
@@ -370,7 +370,7 @@ document.addEventListener('click', e => {
   <p>Çıktıda büyük harf ve noktalama var. Sayılar yazıyla çıkıyor; rakama çeviren bir son işlem (ITN) modelin içinde yok.</p>
 
   <h2 id="olcum"><span class="n">6</span>Nasıl ölçtüm</h2>
-  <p>Kendi ölçümlerimde tek bir puanlama kuralı kullandım (v2). Harf büyüklüğü ve noktalama yok sayılıyor. Sayılar rakam rakam karşılaştırılıyor; "doksan", "dokuz sıfır" ve "90" aynı sayılıyor. Bitişik yazılmış kodlar harf ve rakamlarına ayrılıyor. Kural yalnızca aynı kelimelerin farklı yazımlarını affediyor; farklı bir kelime her zaman hata. Tablodaki bütün açık modeller aynı klipler ve aynı kuralla puanlandı. Puanlama kodu GitHub'da: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. Normalizer, çıkarım ve eğitim kodunun tamamı da <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> deposunda.</p>
+  <p>Kendi ölçümlerimde tek bir puanlama kuralı kullandım (balbal-normalizer). Harf büyüklüğü ve noktalama yok sayılıyor. Sayılar rakam rakam karşılaştırılıyor; "doksan", "dokuz sıfır" ve "90" aynı sayılıyor. Bitişik yazılmış kodlar harf ve rakamlarına ayrılıyor. Kural yalnızca aynı kelimelerin farklı yazımlarını affediyor; farklı bir kelime her zaman hata. Tablodaki bütün açık modeller aynı klipler ve aynı kuralla puanlandı. Puanlama kodu GitHub'da: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. Normalizer, çıkarım ve eğitim kodunun tamamı da <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> deposunda.</p>
   <p>Mu-Bench için resmi değerlendirme düzeneğini de çalıştırdım (<a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener">sierra-research/mu-bench</a>, gpt-4.1 hakem). Gönderimden önce yazıyla çıkan sayılar rakama çevrildi (ITN). Ticari API'lerin puanları Mu-Bench'in kendi <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">sonuç tablosundan</a> alındı. Maliyeti azaltmak için bir önlem aldım: 846 cümlenin 342'sinde balbal-v1, balbal-v2-beta ile birebir aynı metni üretiyordu. Bunlar için v2-beta'nın hakem kararlarını tekrar kullandım; kalan 504 cümle yeniden değerlendirildi.</p>
   <div class="callout">
     <p>Mu-Bench yalnızca sonuç okumak için kullanıldı. Eğitim verisine, dil modeline ya da kontrol noktası seçimine hiçbir şekilde girmedi.</p>
@@ -384,11 +384,11 @@ document.addEventListener('click', e => {
     <figcaption><b>Mu-Bench, resmi değerlendirme.</b> API puanları Mu-Bench tablosundan. balbal-v1 aynı düzenekle, gpt-4.1 hakemle ve ITN uygulanarak puanlandı.</figcaption>
   </figure>
   <h3>Diğer modellerle karşılaştırma</h3>
-  <p>Açık ağırlıklı modellerin hepsini aynı klipler ve v2 kuralıyla kendim çalıştırdım. Mu-Bench'te (v2, ITN'siz) balbal-v1 <strong>%11,78</strong> ile hepsinin önünde. En yakın rakipler Qwen3-ASR 1.7B (%13,95) ve Whisper large-v3 (%14,92); ikisi de yüz kat büyük. FLEURS'ta durum farklı: Whisper large-v3 (%3,71) ve turbo (%4,07) açık ara önde. balbal-v1'in %6,54'ü Qwen3-ASR 1.7B (%6,52) ile aynı düzeyde. FLEURS temiz, okunmuş Wikipedia cümlelerinden oluşuyor ve büyük modellerin geniş dünya bilgisi burada daha çok işe yarıyor.</p>
-  <p>Sonradan bir model daha ekledim: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>. Türkçe ve İngilizce tanıyan, 19,3 milyon aktif parametreli açık ağırlıklı bir model. Model kartına göre kodlayıcı tasarımı (paylaşımlı geçişler ve seyrek akustik bellek) balbal'dan alınmış; üstüne dikkat tabanlı bir çözücü ve iki dilli bir sözlük eklenmiş. Aynı klipler ve v2 kuralıyla Mu-Bench'te <strong>%15,39</strong>, FLEURS'ta <strong>%6,62</strong> hata yapıyor. Resmi Mu-Bench değerlendirmesinde (GPT-4.1 hakemli) kelime hata oranı <strong>%15,70</strong>, ciddi hata oranı %35,22 (balbal-v1: %11,93 ve %25,18).</p>
+  <p>Açık ağırlıklı modellerin hepsini aynı klipler ve balbal-normalizer kuralıyla kendim çalıştırdım. Mu-Bench'te (balbal-normalizer, ITN'siz) balbal-v1 <strong>%11,78</strong> ile hepsinin önünde. En yakın rakipler Qwen3-ASR 1.7B (%13,95) ve Whisper large-v3 (%14,92); ikisi de yüz kat büyük. FLEURS'ta durum farklı: Whisper large-v3 (%3,71) ve turbo (%4,07) açık ara önde. balbal-v1'in %6,54'ü Qwen3-ASR 1.7B (%6,52) ile aynı düzeyde. FLEURS temiz, okunmuş Wikipedia cümlelerinden oluşuyor ve büyük modellerin geniş dünya bilgisi burada daha çok işe yarıyor.</p>
+  <p>Sonradan bir model daha ekledim: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>. Türkçe ve İngilizce tanıyan, 19,3 milyon aktif parametreli açık ağırlıklı bir model. Model kartına göre kodlayıcı tasarımı (paylaşımlı geçişler ve seyrek akustik bellek) balbal'dan alınmış; üstüne dikkat tabanlı bir çözücü ve iki dilli bir sözlük eklenmiş. Aynı klipler ve balbal-normalizer kuralıyla Mu-Bench'te <strong>%15,39</strong>, FLEURS'ta <strong>%6,62</strong> hata yapıyor. Resmi Mu-Bench değerlendirmesinde (GPT-4.1 hakemli) kelime hata oranı <strong>%15,70</strong>, ciddi hata oranı %35,22 (balbal-v1: %11,93 ve %25,18).</p>
   <figure>
-    <img src="/balbal/img/2-mubench-open-models.webp" alt="Mu-Bench'te diğer modellerin v2 WER karşılaştırması; balbal-v1 en düşük hata oranıyla en üstte." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench, diğer modeller (v2 puanlama).</b> Her model aynı 846 klip üzerinde aynı kuralla puanlandı.</figcaption>
+    <img src="/balbal/img/2-mubench-open-models.webp" alt="Mu-Bench'te diğer modellerin WER karşılaştırması (balbal-normalizer); balbal-v1 en düşük hata oranıyla en üstte." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, diğer modeller (balbal-normalizer ile puanlama).</b> Her model aynı 846 klip üzerinde aynı kuralla puanlandı.</figcaption>
   </figure>
   <figure>
     <img src="/balbal/img/3-fleurs-open-models.webp" alt="FLEURS Türkçe test kümesinde diğer modellerin WER karşılaştırması; Whisper large-v3 en iyi, balbal-v1 Qwen3-ASR ile yakın." loading="lazy" width="1800" height="1012">
@@ -400,7 +400,7 @@ document.addEventListener('click', e => {
   <p>Kategoriler Mu-Bench'in kendisinden gelmiyor. Freya'nın aynı ses ve metinleri içeren <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener">sierra-benchmark</a> veri setindeki kategori etiketlerini kullandım. balbal-v1 telefon numaralarında (%3,96), adreslerde (%4,53) ve kod dizilerinde (%5,34) güçlü. İsimler (%24,84), harf harf okuma (%20,06) ve istek cümleleri (%19,98) hâlâ zayıf noktaları.</p>
   <figure>
     <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench kategorilerine göre WER: balbal-v1, Duyu-small, Qwen3-ASR ve Whisper large-v3 karşılaştırması." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench kategorileri (v2 puanlama).</b> Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Grafikte yalnızca en az 20 klibi olan kategoriler var; parantez içindeki sayılar klip sayısı. E-posta, adres ve kısa cevaplarda balbal-v1 önde; telefonda Duyu-small ile neredeyse eşit (%3,96'ya %3,76). Kalanların çoğunda Whisper large-v3 önde.</figcaption>
+    <figcaption><b>Mu-Bench kategorileri (balbal-normalizer ile puanlama).</b> Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Grafikte yalnızca en az 20 klibi olan kategoriler var; parantez içindeki sayılar klip sayısı. E-posta, adres ve kısa cevaplarda balbal-v1 önde; telefonda Duyu-small ile neredeyse eşit (%3,96'ya %3,76). Kalanların çoğunda Whisper large-v3 önde.</figcaption>
   </figure>
   <div class="table-wrap">
     <table class="scores cats">
@@ -437,12 +437,12 @@ document.addEventListener('click', e => {
       </tbody>
     </table>
   </div>
-  <p>Mu-Bench'te puanladığım her model, kategori bazında v2 WER (%). Başlıklardaki küçük sayılar klip sayısı; her sütunun en iyisi altın renkte ve kalın (en küçük iki kategori hariç). Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Tutar (5 klip) ve tarih/saat (1 klip) çok küçük; bu iki sütun gürültülü.</p>
+  <p>Mu-Bench'te puanladığım her model, kategori bazında WER (%, balbal-normalizer). Başlıklardaki küçük sayılar klip sayısı; her sütunun en iyisi altın renkte ve kalın (en küçük iki kategori hariç). Kategori etiketleri Freya'nın sierra-benchmark veri setinden. Tutar (5 klip) ve tarih/saat (1 klip) çok küçük; bu iki sütun gürültülü.</p>
   <h3>Tüm skorlar</h3>
-  <p>Ölçtüğüm her model, Mu-Bench (846 klip) ve FLEURS Türkçe testi (743 klip) üzerinde. Bizim modellerden yalnızca en iyisini, balbal-v1'i koydum. Satırlar Mu-Bench v2 WER'ine göre sıralı.</p>
+  <p>Ölçtüğüm her model, Mu-Bench (846 klip) ve FLEURS Türkçe testi (743 klip) üzerinde. Bizim modellerden yalnızca en iyisini, balbal-v1'i koydum. Satırlar Mu-Bench WER'ine (balbal-normalizer) göre sıralı.</p>
   <div class="table-wrap">
     <table class="scores">
-      <thead><tr><th>Model</th><th>Mu-Bench v2 WER</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
+      <thead><tr><th>Model</th><th>Mu-Bench WER (balbal-normalizer)</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
       <tbody>
         <tr><td>Google Chirp 3</td><td>8,45</td><td>8,03<small>*</small></td><td>14,30<small>*</small></td><td>—</td></tr>
         <tr><td>ElevenLabs Scribe v2</td><td>8,72</td><td>9,43<small>*</small></td><td>19,15<small>*</small></td><td>—</td></tr>
@@ -477,7 +477,7 @@ document.addEventListener('click', e => {
   </div>
   <dl class="legend">
     <dt>Birim</dt><dd>Kelime hata oranı (WER), yüzde; düşük olan daha iyi. "—": ölçülmedi.</dd>
-    <dt>Mu-Bench v2 WER, FLEURS</dt><dd>v2 puanlaması, ITN'siz. Her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım.</dd>
+    <dt>Mu-Bench WER (balbal-normalizer), FLEURS</dt><dd>balbal-normalizer ile puanlama, ITN'siz. balbal-normalizer: harf büyüklüğünü ve noktalamayı yok sayan, sayıları rakam rakam karşılaştıran puanlama kuralı. Her modelin metnini aynı kuralla kendim puanladım. Ticari API'lerin Mu-Bench metinleri Mu-Bench deposundan; Freya ve PatientDesk'i kendim çağırdım.</dd>
     <dt>Mu-Bench LLM WER</dt><dd>Resmi değerlendirme: gpt-4.1 referansı ve çıktıyı normalleştiriyor, WER ondan sonra hesaplanıyor.</dd>
     <dt>Significant WER</dt><dd>gpt-4.1 hakeme göre anlamı bozan en az bir hata içeren cümlelerin oranı.</dd>
     <dt>Kaynak</dt><dd>Son iki sütunu balbal-v1, Freya, PatientDesk Duyu ve MihuAI turkish-stt için resmi düzeneği kendim çalıştırarak hesapladım. <b>*</b> işaretli değerler Mu-Bench'in yayımladığı <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">sonuç tablosundan</a>.</dd>
@@ -512,8 +512,7 @@ document.addEventListener('click', e => {
   <ul>
     <li><strong>Sayılar yazıyla çıkar.</strong> Rakam isteyen uygulamaların ayrı bir ITN adımı eklemesi gerekiyor.</li>
     <li><strong>Yalnızca Türkçe.</strong> Eğitimde bir miktar İngilizce (LibriSpeech) var, ama model İngilizce için ayarlanmadı ve bu yazıda İngilizce ölçülmedi.</li>
-    <li><strong>Uzun kayıtlar.</strong> API istek başına en fazla 30 saniye ses yazıyor; daha uzun kayıtları parçalayıp göndermek gerekiyor. Konuşma algılama (VAD) yok.</li>
-    <li><strong>API gecikmesi.</strong> API bir Cloudflare tüneli üzerinden sunuluyor; bu, her isteğe birkaç yüz milisaniye ekliyor. Bu yüzden 8. bölümdeki hızı yanıtın gelme süresinde göremezsiniz; ama sunucu, modelin işlem süresini yanıttaki <code>inference_seconds</code> alanında döner.</li>
+    <li><strong>Uzun kayıtlar.</strong> Uzun ses 30 saniyelik sabit parçalara bölünüp her parça ayrı çözülüyor. Konuşma algılama (VAD) yok.</li>
     <li><strong>İsimler ve harf harf okuma</strong> hâlâ en zayıf kategoriler. Bir sonraki veri turunun hedefi bunlar.</li>
     <li><strong>Ağırlıklar şimdilik kapalı.</strong></li>
   </ul>
@@ -549,8 +548,8 @@ document.addEventListener('click', e => {
 <section class="end" aria-labelledby="son">
   <div class="in">
     <h2 id="son">Kendi kulağınla dene</h2>
-    <p>Ücretsiz API anahtarı al ya da demo sayfasında kendi kulağınla dene.</p>
-    <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Ücretsiz API anahtarı al ↗</a>
+    <p>Ağırlıkları indir (CC BY-NC 4.0) ya da demo sayfasında kendi kulağınla dene.</p>
+    <a class="btn primary" href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Ağırlıkları indir ↗</a>
     <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Demoyu dene ↗</a>
     <a class="btn secondary" href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Kod (GitHub) ↗</a>
     <a class="btn secondary js-site" href="#">Tanıtım sayfası</a>
@@ -670,7 +669,7 @@ document.addEventListener('click', e => {
   <p>To see what the parts contribute in the final design, I turned the memory and the loop off at inference in the previous release (balbal-v2-beta). This is not a retrained comparison; it only shows how much the trained model relies on these parts.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>balbal-v2-beta, v2 WER</th><th>Full model</th><th>Memory off</th><th>No loop</th></tr></thead>
+      <thead><tr><th>balbal-v2-beta, WER (balbal-normalizer)</th><th>Full model</th><th>Memory off</th><th>No loop</th></tr></thead>
       <tbody>
         <tr><td>FLEURS</td><td>6.59</td><td>8.79</td><td>8.81</td></tr>
         <tr><td>Mu-Bench</td><td>13.39</td><td>16.05</td><td>15.90</td></tr>
@@ -733,7 +732,7 @@ document.addEventListener('click', e => {
   <p>The output has capitalization and punctuation. Numbers come out as words; there is no inverse text normalization (ITN) step to turn them into digits inside the model.</p>
 
   <h2 id="measurement"><span class="n">6</span>How I measured</h2>
-  <p>In my own measurements I used a single scoring rule (v2). Case and punctuation are ignored. Numbers are compared digit by digit; "doksan" (ninety), "dokuz sıfır" (nine zero) and "90" count as the same. Codes written as one word are split into their letters and digits. The rule only forgives different spellings of the same words; a different word is always an error. All open models in the tables were scored on the same clips with the same rule. The scoring code is on GitHub: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. The full normalizer, inference and training code is in the <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> repository.</p>
+  <p>In my own measurements I used a single scoring rule (balbal-normalizer). Case and punctuation are ignored. Numbers are compared digit by digit; "doksan" (ninety), "dokuz sıfır" (nine zero) and "90" count as the same. Codes written as one word are split into their letters and digits. The rule only forgives different spellings of the same words; a different word is always an error. All open models in the tables were scored on the same clips with the same rule. The scoring code is on GitHub: <a href="https://github.com/erayyap/balbal/blob/main/normalizer/metrics_v2.py" target="_blank" rel="noopener">normalizer/metrics_v2.py</a>. The full normalizer, inference and training code is in the <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">github.com/erayyap/balbal</a> repository.</p>
   <p>For Mu-Bench I also ran the official evaluation harness (<a href="https://github.com/sierra-research/mu-bench" target="_blank" rel="noopener">sierra-research/mu-bench</a>, gpt-4.1 judge). Before submission, numbers written as words were converted to digits (ITN). Scores for commercial APIs were taken from Mu-Bench's own <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">leaderboard</a>. To cut cost I took one shortcut: for 342 of the 846 sentences, balbal-v1 produced exactly the same text as balbal-v2-beta. For those I reused v2-beta's judge verdicts; the remaining 504 sentences were judged again.</p>
   <div class="callout">
     <p>Mu-Bench was used only to read results. It never went into the training data, the language model or checkpoint selection.</p>
@@ -747,11 +746,11 @@ document.addEventListener('click', e => {
     <figcaption><b>Mu-Bench, official evaluation.</b> API scores from the Mu-Bench leaderboard. balbal-v1 was scored with the same harness, the gpt-4.1 judge and ITN applied.</figcaption>
   </figure>
   <h3>Against other models</h3>
-  <p>I ran all the open-weight models myself on the same clips with the v2 rule. On Mu-Bench (v2, no ITN) balbal-v1 leads them all with <strong>11.78%</strong>. The closest are Qwen3-ASR 1.7B (13.95%) and Whisper large-v3 (14.92%), both a hundred times larger. FLEURS is a different story: Whisper large-v3 (3.71%) and turbo (4.07%) are clearly ahead. balbal-v1's 6.54% is on par with Qwen3-ASR 1.7B (6.52%). FLEURS consists of clean, read Wikipedia sentences, where the broad world knowledge of large models helps more.</p>
-  <p>One more model, added later: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>, an open-weight Turkish + English model with 19.3 million active parameters. Its model card says its encoder design (shared passes and the sparse acoustic memory) is taken from balbal, with an attention decoder and a bilingual vocabulary added on top. On the same clips with the v2 rule it scores <strong>15.39%</strong> on Mu-Bench and <strong>6.62%</strong> on FLEURS. In the official Mu-Bench evaluation (GPT-4.1 judge) it gets <strong>15.70%</strong> WER and 35.22% significant WER (balbal-v1: 11.93% and 25.18%).</p>
+  <p>I ran all the open-weight models myself on the same clips with the balbal-normalizer rule. On Mu-Bench (balbal-normalizer, no ITN) balbal-v1 leads them all with <strong>11.78%</strong>. The closest are Qwen3-ASR 1.7B (13.95%) and Whisper large-v3 (14.92%), both a hundred times larger. FLEURS is a different story: Whisper large-v3 (3.71%) and turbo (4.07%) are clearly ahead. balbal-v1's 6.54% is on par with Qwen3-ASR 1.7B (6.52%). FLEURS consists of clean, read Wikipedia sentences, where the broad world knowledge of large models helps more.</p>
+  <p>One more model, added later: <a href="https://huggingface.co/KaanAydinli/Duyu-small" target="_blank" rel="noopener">Duyu-small</a>, an open-weight Turkish + English model with 19.3 million active parameters. Its model card says its encoder design (shared passes and the sparse acoustic memory) is taken from balbal, with an attention decoder and a bilingual vocabulary added on top. On the same clips with the balbal-normalizer rule it scores <strong>15.39%</strong> on Mu-Bench and <strong>6.62%</strong> on FLEURS. In the official Mu-Bench evaluation (GPT-4.1 judge) it gets <strong>15.70%</strong> WER and 35.22% significant WER (balbal-v1: 11.93% and 25.18%).</p>
   <figure>
-    <img src="/balbal/img/2-mubench-open-models.webp" alt="v2 WER of other models on Mu-Bench; balbal-v1 at the top with the lowest error rate." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench, other models (v2 scoring).</b> Every model was scored on the same 846 clips with the same rule.</figcaption>
+    <img src="/balbal/img/2-mubench-open-models.webp" alt="WER of other models on Mu-Bench (balbal-normalizer); balbal-v1 at the top with the lowest error rate." loading="lazy" width="1800" height="1012">
+    <figcaption><b>Mu-Bench, other models (scored with balbal-normalizer).</b> Every model was scored on the same 846 clips with the same rule.</figcaption>
   </figure>
   <figure>
     <img src="/balbal/img/3-fleurs-open-models.webp" alt="WER of other models on the FLEURS Turkish test set; Whisper large-v3 best, balbal-v1 close to Qwen3-ASR." loading="lazy" width="1800" height="1012">
@@ -763,7 +762,7 @@ document.addEventListener('click', e => {
   <p>The categories do not come from Mu-Bench itself. I used the category labels from Freya's <a href="https://huggingface.co/datasets/freyavoice/sierra-benchmark" target="_blank" rel="noopener">sierra-benchmark</a> dataset, which contains the same audio and text. balbal-v1 is strong on phone numbers (3.96%), addresses (4.53%) and code sequences (5.34%). Names (24.84%), spelling (20.06%) and instruction requests (19.98%) are still its weak spots.</p>
   <figure>
     <img src="/balbal/img/7-mubench-categories.webp" alt="Mu-Bench WER by category: balbal-v1 versus Duyu-small, Qwen3-ASR and Whisper large-v3." loading="lazy" width="1800" height="1012">
-    <figcaption><b>Mu-Bench categories (v2 scoring).</b> Category labels from Freya's sierra-benchmark dataset. Only categories with at least 20 clips are shown; numbers in brackets are clip counts. balbal-v1 leads on email, addresses and short answers and is about even with Duyu-small on phone numbers (3.96% vs 3.76%); Whisper large-v3 leads most of the rest.</figcaption>
+    <figcaption><b>Mu-Bench categories (scored with balbal-normalizer).</b> Category labels from Freya's sierra-benchmark dataset. Only categories with at least 20 clips are shown; numbers in brackets are clip counts. balbal-v1 leads on email, addresses and short answers and is about even with Duyu-small on phone numbers (3.96% vs 3.76%); Whisper large-v3 leads most of the rest.</figcaption>
   </figure>
   <div class="table-wrap">
     <table class="scores cats">
@@ -800,12 +799,12 @@ document.addEventListener('click', e => {
       </tbody>
     </table>
   </div>
-  <p>Every model I scored on Mu-Bench, v2 WER (%) per category. Small numbers in the headers are clip counts; the best value in each column is in bold gold (except the two smallest categories). Category labels come from Freya's sierra-benchmark dataset. Amount (5 clips) and date/time (1 clip) are tiny, so those two columns are noisy.</p>
+  <p>Every model I scored on Mu-Bench, WER (%, balbal-normalizer) per category. Small numbers in the headers are clip counts; the best value in each column is in bold gold (except the two smallest categories). Category labels come from Freya's sierra-benchmark dataset. Amount (5 clips) and date/time (1 clip) are tiny, so those two columns are noisy.</p>
   <h3>All scores</h3>
-  <p>Every model I measured, on Mu-Bench (846 clips) and the FLEURS Turkish test (743 clips). Of our own models I list only the best one, balbal-v1. Rows are sorted by Mu-Bench v2 WER.</p>
+  <p>Every model I measured, on Mu-Bench (846 clips) and the FLEURS Turkish test (743 clips). Of our own models I list only the best one, balbal-v1. Rows are sorted by Mu-Bench WER (balbal-normalizer).</p>
   <div class="table-wrap">
     <table class="scores">
-      <thead><tr><th>Model</th><th>Mu-Bench v2 WER</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
+      <thead><tr><th>Model</th><th>Mu-Bench WER (balbal-normalizer)</th><th lang="en">Mu-Bench LLM WER</th><th lang="en">Significant WER</th><th>FLEURS</th></tr></thead>
       <tbody>
         <tr><td>Google Chirp 3</td><td>8.45</td><td>8.03<small>*</small></td><td>14.30<small>*</small></td><td>—</td></tr>
         <tr><td>ElevenLabs Scribe v2</td><td>8.72</td><td>9.43<small>*</small></td><td>19.15<small>*</small></td><td>—</td></tr>
@@ -840,7 +839,7 @@ document.addEventListener('click', e => {
   </div>
   <dl class="legend">
     <dt>Unit</dt><dd>Word error rate (WER), percent; lower is better. "—": not measured.</dd>
-    <dt>Mu-Bench v2 WER, FLEURS</dt><dd>v2 scoring, no ITN. I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself.</dd>
+    <dt>Mu-Bench WER (balbal-normalizer), FLEURS</dt><dd>Scored with balbal-normalizer, no ITN. balbal-normalizer is the scoring rule that ignores case and punctuation and compares numbers digit by digit. I scored every model's transcripts myself with the same rule. The commercial APIs' Mu-Bench transcripts come from the Mu-Bench repository; I called Freya and PatientDesk myself.</dd>
     <dt>Mu-Bench LLM WER</dt><dd>The official evaluation: gpt-4.1 normalizes the reference and the output, then WER is computed.</dd>
     <dt>Significant WER</dt><dd>The share of sentences with at least one meaning-changing error according to the gpt-4.1 judge.</dd>
     <dt>Source</dt><dd>I computed the last two columns for balbal-v1, Freya, PatientDesk Duyu and MihuAI turkish-stt by running the official harness myself. Values marked <b>*</b> come from the <a href="https://research.sierra.ai/mubench" target="_blank" rel="noopener">leaderboard</a> Mu-Bench publishes.</dd>
@@ -875,8 +874,7 @@ document.addEventListener('click', e => {
   <ul>
     <li><strong>Numbers come out as words.</strong> Applications that need digits have to add a separate ITN step.</li>
     <li><strong>Turkish only.</strong> Training includes some English (LibriSpeech), but the model was not tuned for English and English was not measured in this post.</li>
-    <li><strong>Long recordings.</strong> The API transcribes at most 30 seconds of audio per request; longer recordings have to be split before sending. There is no voice activity detection (VAD).</li>
-    <li><strong>API latency.</strong> The API is served through a Cloudflare tunnel, which adds a few hundred milliseconds to each request. So you will not see the speed from section 8 in how long the response takes, but the server returns the model's processing time in the response's <code>inference_seconds</code> field.</li>
+    <li><strong>Long recordings.</strong> Long audio is cut into fixed 30-second chunks and each chunk is decoded separately. There is no voice activity detection (VAD).</li>
     <li><strong>Names and spelling</strong> are still the weakest categories. They are the target of the next data round.</li>
     <li><strong>The weights are closed for now.</strong></li>
   </ul>
@@ -912,8 +910,8 @@ document.addEventListener('click', e => {
 <section class="end" aria-labelledby="end-en">
   <div class="in">
     <h2 id="end-en">Hear it for yourself</h2>
-    <p>Get a free API key, or try it by ear on the demo page.</p>
-    <a class="btn primary" href="https://api.erayy.com" target="_blank" rel="noopener">Get a free API key ↗</a>
+    <p>Download the weights (CC BY-NC 4.0), or try it by ear on the demo page.</p>
+    <a class="btn primary" href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Download the weights ↗</a>
     <a class="btn secondary" href="https://erayy.com/guess-the-stt" target="_blank" rel="noopener">Try the demo ↗</a>
     <a class="btn secondary" href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Code (GitHub) ↗</a>
     <a class="btn secondary js-site" href="#">Launch page</a>
