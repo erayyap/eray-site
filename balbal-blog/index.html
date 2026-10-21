@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>balbal-v1 nasıl yapıldı</title>
-<meta name="description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma nasıl eğittim: mimari, veri, eğitim, değerlendirme.">
-<meta property="og:title" content="balbal-v1 nasıl yapıldı">
-<meta property="og:description" content="15 milyon aktif parametreli bir Türkçe konuşma tanıma modelini tek başıma nasıl eğittim: mimari, veri, eğitim, değerlendirme.">
+<title>How balbal-v1 was built</title>
+<meta name="description" content="How I trained a Turkish speech recognition model with 15M active parameters on my own: architecture, data, training, evaluation.">
+<meta property="og:title" content="How balbal-v1 was built">
+<meta property="og:description" content="How I trained a Turkish speech recognition model with 15M active parameters on my own: architecture, data, training, evaluation.">
 <meta property="og:url" content="https://erayy.com/balbal-blog">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="erayy.com">
@@ -161,7 +161,7 @@ ol.refs li { margin: 0 0 6px; padding-left: 4px; }
 ol.refs cite { font-style: italic; }
 
 /* language: <html lang> is set before first paint; only the matching copy is shown */
-html[lang="en"] [data-lang="tr"], html:not([lang="en"]) [data-lang="en"] { display: none !important; }
+html[lang="tr"] [data-lang="en"], html:not([lang="tr"]) [data-lang="tr"] { display: none !important; }
 .lang-btn { font: 700 13px var(--data); letter-spacing: .06em; color: var(--muted); background: rgba(12, 9, 8, .45); border: 1px solid var(--edge); border-radius: 999px; padding: 6px 14px; cursor: pointer; white-space: nowrap; }
 .lang-btn:hover { color: var(--gold-light); border-color: var(--gold); }
 .top-r { display: flex; align-items: center; gap: 18px; }
@@ -170,20 +170,13 @@ pre.cite code { font: 13.5px/1.55 ui-monospace, "SFMono-Regular", Menlo, Consola
 .cite-plain { margin: 0; max-width: 760px; }
 </style>
 <script>
-// Language: ?lang= / #lang= in the URL, else the visitor's saved choice, else Turkish for visitors in Turkey
-// (Istanbul time zone) or with Turkish among their browser languages; everyone else gets English.
+// Language: English on every open (user 2026-10-21); Turkish only via the Türkçe button or an explicit ?lang=tr / #lang=tr link.
 const TITLES = { tr: "balbal-v1 nasıl yapıldı", en: "How balbal-v1 was built" };
 (function () {
   let l = null;
   const m = /[?&#]lang=(tr|en)\b/.exec(location.search + location.hash);
   if (m) l = m[1];
-  if (!l) { try { const s = localStorage.getItem('balbal-lang'); if (s === 'tr' || s === 'en') l = s; } catch (e) {} }
-  if (!l) {
-    let tz = '';
-    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
-    const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
-    l = (/^(Europe|Asia)\/Istanbul$/.test(tz) || langs.some(x => /^tr\b/i.test(x))) ? 'tr' : 'en';
-  }
+  if (!l) l = 'en';
   document.documentElement.lang = l;   // also drives casing: i -> İ under text-transform only with lang=tr
   document.title = TITLES[l];
 })();
@@ -193,7 +186,6 @@ document.addEventListener('click', e => {
   const l = b.dataset.setLang;
   document.documentElement.lang = l;
   document.title = TITLES[l];
-  try { localStorage.setItem('balbal-lang', l); } catch (err) {}
   window.scrollTo(0, 0);
 });
 </script>
