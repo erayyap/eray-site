@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>balbal-v1 · Türkçe STT demosu</title>
+    <meta name="description" content="balbal-v1: açık ağırlıklı Türkçe konuşma tanıma. Konuş ya da bir ses dosyası yükle, yazıya döksün." />
+    <meta property="og:title" content="balbal-v1 · Türkçe STT demosu" />
+    <meta property="og:description" content="balbal-v1: açık ağırlıklı Türkçe konuşma tanıma. Konuş ya da bir ses dosyası yükle, yazıya döksün." />
+    <meta property="og:url" content="https://erayy.com/stt-demo" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="erayy.com" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:image" content="https://erayy.com/stt-demo/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#120e0b" />
+    <link rel="canonical" href="https://erayy.com/stt-demo" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Cinzel:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="/stt-demo/img/hero.webp" />
+    <link rel="stylesheet" href="/stt-demo/style.css" />
+    <script src="/stt-demo/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Demoya geç</a>
+    <div class="hero">
+      <header>
+        <a class="wordmark" href="/">erayy<span> / lab</span></a
+        ><a href="/">Hakkımda ↗</a>
+      </header>
+      <section class="intro">
+        <h1>Türkçe konuş.<br /><em>balbal yazıya döksün.</em></h1>
+        <p class="lede">
+          <strong>balbal-v1</strong>: 15 milyon aktif parametreli, açık ağırlıklı
+          Türkçe konuşma tanıma modeli. GPU gerekmez.
+        </p>
+        <p class="links">
+          <a href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Ağırlıklar ↗</a
+          ><a href="/balbal?lang=tr">Model sayfası ↗</a
+          ><a href="/balbal-blog">Teknik yazı ↗</a>
+        </p>
+        <p class="only-turkish">Model yalnızca <strong>Türkçe</strong> anlar.</p>
+      </section>
+    </div>
+    <main id="main">
+      <div class="workspace">
+        <section class="panel voice" aria-labelledby="voice-title">
+          <div class="panel-head">
+            <h2 id="voice-title"><span>1</span> Ses kaydı</h2>
+            <span id="connection" class="pill">Bağlanıyor…</span>
+          </div>
+          <div class="sound-art" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+            ><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+            ><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <p class="voice-prompt" id="voice-prompt">Kayda hazır.</p>
+          <p class="muted">Kaydet ya da bir ses dosyası yükle.</p>
+          <div class="actions">
+            <button id="record" class="primary" type="button">
+              <span aria-hidden="true">●</span> Sesini kaydet</button
+            ><button id="upload" class="secondary" type="button">
+              ↑ Ses dosyası yükle</button
+            ><input
+              id="file"
+              type="file"
+              accept="audio/*,.webm,.m4a,.mp4"
+              hidden
+            />
+          </div>
+          <p class="limit">En fazla 30 saniye</p>
+          <audio id="playback" controls hidden></audio
+          ><button
+            id="transcribe"
+            class="primary transcribe"
+            type="button"
+            hidden
+          >
+            Bu kaydı yazıya dök →
+          </button>
+          <p class="privacy">
+            Sesin yalnızca bu istek için kullanılır, ardından silinir ve eğitimde
+            kullanılmaz. Her istek için zaman damgası, sonuç, ses süresi ve yazı
+            dökümünün harf ve kelime sayısı kaydedilir; sesin ya da yazının
+            kendisi kaydedilmez.
+          </p>
+          <p id="status" role="status" aria-live="polite"></p>
+        </section>
+        <section class="panel transcript" aria-labelledby="transcript-title">
+          <div class="panel-head">
+            <h2 id="transcript-title"><span>2</span> Yazı dökümü</h2>
+            <button id="copy" type="button" class="text-button" hidden>
+              Kopyala
+            </button>
+          </div>
+          <div id="transcript" class="transcript-text empty" aria-live="polite">
+            Yazı dökümü burada görünecek.
+          </div>
+          <div id="metrics" class="metrics" hidden>
+            <div>
+              <strong id="duration">—</strong><small>SES SÜRESİ</small>
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer>
+        <p><a href="/">Eray Yapağcı</a> tarafından yapıldı.</p>
+        <a href="mailto:hello@erayy.com">İletişim ↗</a>
+      </footer>
+    </main>
+    <noscript
+      ><p class="panel">
+        Kayıt yapmak ve yazıya dökmek için lütfen JavaScript’i
+        etkinleştir.
+      </p></noscript
+    >
+  </body>
+</html>

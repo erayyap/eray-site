@@ -9,4 +9,4 @@ dist/
 .env.*
 .dev.vars
 .dev.vars.*
-guess-the-stt/img-src/
+stt-demo/img-src/

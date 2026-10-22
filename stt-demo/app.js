@@ -9,9 +9,7 @@ let clip = null,
   timer = null,
   ticker = null,
   started = 0,
-  busy = false,
-  hasTranscript = false;
-let submission = null, guessSaved = false, savingGuess = false;
+  busy = false;
 // Per-browser memory (localStorage may be unavailable: private mode, blocked storage).
 const store = {
   get(key, fallback) {
@@ -28,7 +26,7 @@ const store = {
     } catch {}
   },
 };
-// A random pseudonymous browser ID; it lets the server tell repeat guesses apart.
+// A random pseudonymous browser ID; the server uses it for per-browser rate limits.
 const clientId = (() => {
   let id = store.get("guessSize.clientId", null);
   if (typeof id !== "string") {
@@ -37,24 +35,7 @@ const clientId = (() => {
   }
   return id;
 })();
-let guessHistory = store.get("guessSize.history", []);
-if (!Array.isArray(guessHistory)) guessHistory = [];
-let revealedBefore = store.get("guessSize.revealed", false) === true;
-// The guess section opens after the first successful transcription (remembered across refreshes).
-const TRIES_TO_GUESS = 1;
-let tries = Number(store.get("guessSize.tries", 0)) || 0;
-function openGuess(scroll) {
-  if (!$("guess").hidden) return;
-  $("guess").hidden = false;
-  if (scroll)
-    $("guess").scrollIntoView({
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
-      block: "start",
-    });
-}
-let locked = false;
 const maxBytes = 8 * 1024 * 1024;
-const tr = (x, digits = 1) => x.toFixed(digits).replace(".", ",");
 // Server messages are English; show Turkish ones (unknown messages get a generic Turkish line).
 const SERVER_ERRORS = {
   "The server is temporarily unavailable. Please try again.": "Sunucu geçici olarak kullanılamıyor. Lütfen tekrar dene.",
@@ -80,13 +61,10 @@ function status(message, error = false) {
   $("status").classList.toggle("error", error);
 }
 function resetTranscript() {
-  hasTranscript = false;
-  $("reveal").disabled = true;
   $("copy").hidden = true;
   $("metrics").hidden = true;
   $("transcript").textContent = "Yazı dökümü burada görünecek.";
   $("transcript").classList.add("empty");
-  if (!locked) $("answer").hidden = true;
 }
 function setClip(blob) {
   if (blob.size > maxBytes) {
@@ -228,22 +206,9 @@ $("transcribe").addEventListener("click", async () => {
     $("duration").textContent =
       `${Number(result.duration_seconds).toFixed(1).replace(".", ",")} sn`;
     $("metrics").hidden = false;
-    hasTranscript = Boolean(result.text?.trim());
+    const hasTranscript = Boolean(result.text?.trim());
     $("copy").hidden = !hasTranscript;
-    $("reveal").disabled = locked || !hasTranscript;
-    if (!locked) $("guess-hint").textContent = hasTranscript
-      ? "Duydun. Peki kaç aktif parametre sence?"
-      : "Net duyulan Türkçe konuşma içeren bir kayıt dene.";
-    if (hasTranscript) {
-      tries += 1;
-      store.set("guessSize.tries", tries);
-    }
-    if (!hasTranscript) status("Başka bir kayıt dene.");
-    else if (tries < TRIES_TO_GUESS) status(`Tamam. ${tries}/${TRIES_TO_GUESS} deneme.`);
-    else {
-      status("Tamam. Şimdi tahminini yap.");
-      openGuess(true);
-    }
+    status(hasTranscript ? "Tamam." : "Başka bir kayıt dene.");
   } catch (e) {
     status(
       e.name === "TimeoutError"
@@ -256,140 +221,6 @@ $("transcribe").addEventListener("click", async () => {
   } finally {
     setBusy(false);
   }
-});
-function guess() {
-  return Math.pow(2000, Number($("size").value) / 1000);
-}
-function updateGuess() {
-  const value = guess(),
-    big = value >= 1000;
-  $("guess-value").replaceChildren(
-    document.createTextNode(
-      big
-        ? tr(value / 1000, 2)
-        : value < 20
-          ? tr(value)
-          : Math.round(value).toString(),
-    ),
-  );
-  const unit = document.createElement("span");
-  unit.textContent = big ? "milyar" : "milyon";
-  $("guess-value").append(unit);
-  // The mound illustration grows with the guess.
-  document.querySelector(".scale-art")?.style.setProperty("--g", Number($("size").value) / 1000);
-  $("size").setAttribute(
-    "aria-valuetext",
-    `${value.toFixed(1).replace(".", ",")} milyon aktif parametre`,
-  );
-}
-$("size").addEventListener("input", updateGuess);
-// Reference figures are sized on the same log scale as the slider.
-document.querySelectorAll("[data-size]").forEach((button) =>
-  button.style.setProperty("--s", Math.log(Number(button.dataset.size)) / Math.log(2000)),
-);
-document.querySelectorAll("[data-size]").forEach((b) =>
-  b.addEventListener("click", () => {
-    $("size").value = Math.round(
-      (Math.log(Number(b.dataset.size)) / Math.log(2000)) * 1000,
-    );
-    updateGuess();
-  }),
-);
-$("reveal").addEventListener("click", async () => {
-  if (!hasTranscript || savingGuess || (locked && !guessSaved)) return;
-  submission ||= {
-    submission_id: crypto.randomUUID(),
-    active_parameters: Math.round(guess() * 1_000_000),
-    client_id: clientId,
-    previous_guesses: guessHistory.length,
-    revealed_before: revealedBefore,
-  };
-  if (!guessSaved) {
-    savingGuess = true;
-    setBusy(true);
-    $("reveal").disabled = true;
-    $("reveal").textContent = "Tahminin kaydediliyor…";
-    $("size").disabled = true;
-    document.querySelectorAll("[data-size]").forEach(b => b.disabled = true);
-    try {
-      const response = await fetch(`${API}/guess`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "X-Guess-Size": "1" },
-        credentials: "omit",
-        signal: AbortSignal.timeout(15000),
-        body: JSON.stringify(submission),
-      });
-      if (!response.ok || !(await response.json()).saved) throw new Error("Save failed");
-      guessSaved = true;
-      guessHistory.push({ active_parameters: submission.active_parameters, at: Date.now() });
-      store.set("guessSize.history", guessHistory);
-      $("guess-hint").textContent = "Tahminin kaydedildi.";
-    } catch {
-      $("guess-hint").textContent = "Tahminin kaydedilemedi. Biraz bekleyip tekrar dene.";
-      $("reveal").textContent = "Tahminimi tekrar kaydet ↗";
-      return;
-    } finally {
-      savingGuess = false;
-      setBusy(false);
-      $("reveal").disabled = false;
-    }
-  }
-  $("reveal").textContent = "Tahmin kilitlendi ✓";
-  revealedBefore = true;
-  store.set("guessSize.revealed", true);
-  locked = true;
-  renderHistory();
-  showAnswer(submission.active_parameters, true);
-});
-function formatGuess(parameters) {
-  const n = parameters / 1_000_000;
-  return n >= 1000 ? `${tr(n / 1000, 2)} milyar` : `${tr(n)} milyon`;
-}
-function showAnswer(parameters, scroll) {
-  if (parameters) {
-    const ratio = parameters / 1_000_000 / 15.4;
-    const verdict =
-      ratio >= 0.8 && ratio <= 1.2
-        ? "Çok yakın bir tahmin."
-        : ratio > 1
-          ? `Tahminin, aktif boyutunun ${tr(ratio)} katıydı.`
-          : `Model, tahmininin yaklaşık ${tr(1 / ratio)} katı aktif parametre kullanıyor.`;
-    $("verdict").textContent = `Tahminin: ${formatGuess(parameters)} aktif parametre. ${verdict}`;
-  }
-  $("answer").hidden = false;
-  if (!scroll) return;
-  $("answer").focus({ preventScroll: true });
-  $("answer").scrollIntoView({
-    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
-    block: "nearest",
-  });
-}
-function renderHistory() {
-  const valid = guessHistory.filter((h) => Number.isFinite(h?.active_parameters));
-  if (!valid.length) return;
-  $("history-list").textContent = valid.map((h) => formatGuess(h.active_parameters)).join(" · ");
-  $("history").hidden = false;
-}
-// Returning visitors who already saw the answer keep their first guess; new guesses are locked.
-function restoreLockedGuess() {
-  if (!revealedBefore) return;
-  locked = true;
-  renderHistory();
-  const first = guessHistory[0]?.active_parameters;
-  if (Number.isFinite(first)) {
-    $("size").value = Math.round((Math.log(first / 1_000_000) / Math.log(2000)) * 1000);
-    updateGuess();
-  }
-  $("size").disabled = true;
-  document.querySelectorAll("[data-size]").forEach((b) => (b.disabled = true));
-  $("reveal").disabled = true;
-  $("reveal").textContent = "Tahmin kilitlendi ✓";
-  $("guess-hint").textContent = "Cevabı gördün. Bu tarayıcıdan yeni tahmin alınmıyor.";
-  showAnswer(guessHistory[0]?.active_parameters, false);
-}
-$("again").addEventListener("click", () => {
-  document.querySelector(".voice").scrollIntoView({ behavior: "smooth" });
-  $("record").focus({ preventScroll: true });
 });
 $("copy").addEventListener("click", async () => {
   try {
@@ -418,8 +249,5 @@ async function health() {
     $("connection").textContent = "Sunucuya ulaşılamıyor";
   }
 }
-updateGuess();
-if (tries >= TRIES_TO_GUESS || revealedBefore) openGuess(false);
-restoreLockedGuess();
 health();
 setInterval(health, 60000);
