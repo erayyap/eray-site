@@ -64,8 +64,52 @@ function resetTranscript() {
   $("copy").hidden = true;
   $("metrics").hidden = true;
   $("transcript").textContent = "Yazı dökümü burada görünecek.";
+  $("transcript").classList.remove("timed", "playing");
   $("transcript").classList.add("empty");
+  $("words-hint").hidden = true;
+  words = [];
 }
+// Word-timed transcript (server `words`: [{word, start, end}] in seconds, same method as the balbal Android app):
+// while the clip plays, spoken words are bright, the current one is highlighted and the rest are dimmed; clicking a
+// word plays from it.
+let words = [],
+  frame = 0;
+function showWords(list) {
+  words = list;
+  const box = $("transcript");
+  box.textContent = "";
+  list.forEach((w, i) => {
+    if (i) box.append(" ");
+    const span = document.createElement("span");
+    span.className = "w";
+    span.textContent = w.word;
+    span.title = `${w.start.toFixed(2).replace(".", ",")} sn`;
+    span.addEventListener("click", () => {
+      $("playback").currentTime = w.start;
+      $("playback").play();
+    });
+    box.append(span);
+  });
+  box.classList.add("timed");
+}
+function highlight() {
+  const player = $("playback"),
+    t = player.currentTime,
+    playing = !player.paused && !player.ended;
+  $("transcript").classList.toggle("playing", playing);
+  $("transcript")
+    .querySelectorAll(".w")
+    .forEach((span, i) => {
+      span.classList.toggle("said", t >= words[i].end);
+      span.classList.toggle("now", t >= words[i].start && t < words[i].end);
+    });
+  frame = playing ? requestAnimationFrame(highlight) : 0;
+}
+for (const event of ["play", "pause", "ended", "seeked"])
+  $("playback").addEventListener(event, () => {
+    cancelAnimationFrame(frame);
+    if (words.length) highlight();
+  });
 function setClip(blob) {
   if (blob.size > maxBytes) {
     status("Lütfen 8 MB’tan küçük bir dosya seç.", true);
@@ -203,6 +247,10 @@ $("transcribe").addEventListener("click", async () => {
     $("transcript").classList.remove("empty");
     $("transcript").textContent =
       result.text || "Konuşma algılanamadı. Daha net, Türkçe bir kayıt dene.";
+    if (result.text && Array.isArray(result.words) && result.words.length) {
+      showWords(result.words);
+      $("words-hint").hidden = false;
+    }
     $("duration").textContent =
       `${Number(result.duration_seconds).toFixed(1).replace(".", ",")} sn`;
     $("metrics").hidden = false;

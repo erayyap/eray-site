@@ -323,6 +323,30 @@ audio {
   font-style: italic;
   text-align: center;
 }
+.transcript-text.timed .w {
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.15s;
+}
+.transcript-text.timed .w:hover {
+  color: var(--gold-light);
+}
+.transcript-text.playing .w {
+  color: rgba(181, 163, 137, 0.75);
+}
+.transcript-text.playing .w.said {
+  color: var(--bone);
+}
+.transcript-text.playing .w.now {
+  color: var(--bg);
+  background: var(--gold-light);
+  box-shadow: 0 0 0 2px var(--gold-light);
+}
+.words-hint {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
 .metrics {
   display: flex;
   gap: 24px;
