@@ -10,6 +10,8 @@
       "index.html",
       "styles.css",
       "script.js",
+      "robots.txt",
+      "sitemap.xml",
       "scripts/build.mjs",
       "stt-demo",
       "balbal",

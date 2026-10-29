@@ -5,7 +5,7 @@ await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 
 // Explicit allowlist: private notes and repository files must never be uploaded.
-for (const file of ["index.html", "styles.css", "script.js"]) {
+for (const file of ["index.html", "styles.css", "script.js", "robots.txt", "sitemap.xml"]) {
   await copyFile(new URL(`../${file}`, import.meta.url), new URL(file, output));
 }
 
