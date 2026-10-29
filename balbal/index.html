@@ -813,11 +813,14 @@ function board() {
   const rows = [...BOARD].sort((a, b) => a[i] - b[i]);
   if (!box.children.length) box.innerHTML = BOARD.map(r => `<div class="row${OURS.has(r[0]) ? ' ours' : ''}${r[0] === 'balbal-v2-manas' ? ' manas' : ''}${r[0] === 'balbal-v1' ? ' v1' : ''}" data-n="${r[0]}">`
     + `<div class="name">${r[0]}<span class="tag ${r[3]}"></span></div><div class="track"><div class="fill"></div><span class="val"></span></div></div>`).join('');
-  const rowH = box.firstElementChild.offsetHeight + 7;
-  const order = new Map(rows.map((r, k) => [r[0], k])), orig = new Map(BOARD.map((r, k) => [r[0], k]));
+  // rows can differ in height (a long name wraps on phones), so each row moves by the real heights above it, not a fixed row height
+  const gap = 7, h = new Map([...box.children].map(n => [n.dataset.n, n.offsetHeight + gap])), top = list => {
+    let y = 0; return new Map(list.map(r => { const t = y; y += h.get(r[0]); return [r[0], t]; }));
+  };
+  const order = new Map(rows.map((r, k) => [r[0], k])), orig = new Map(BOARD.map((r, k) => [r[0], k])), y0 = top(BOARD), y1 = top(rows);
   for (const node of box.children) {
     const r = BOARD[orig.get(node.dataset.n)];
-    node.style.transform = `translateY(${(order.get(r[0]) - orig.get(r[0])) * rowH}px)`;
+    node.style.transform = `translateY(${y1.get(r[0]) - y0.get(r[0])}px)`;
     node.querySelector('.tag').textContent = r[3] === 'open' ? T('open', 'açık') : 'API';
     node.querySelector('.val').textContent = pct(r[i]);
     node.style.setProperty('--w', (r[i] / max * 88).toFixed(2) + '%');
@@ -1039,6 +1042,7 @@ document.addEventListener('click', e => {
 });
 localize();
 let rw = innerWidth; addEventListener('resize', () => { if (innerWidth !== rw) { rw = innerWidth; scatter(); board(); } });
+new ResizeObserver(() => board()).observe($('#board-rows'));   // row heights settle late (web fonts, name wrapping): re-place the rows
 
 // ---- reveal on scroll; first-view extras (chart draw-in, bar stagger) ----
 const io = new IntersectionObserver(es => es.forEach(e => {
