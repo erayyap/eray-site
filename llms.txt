@@ -6,6 +6,7 @@
 
 - [balbal-v2](https://erayy.com/balbal): two open Turkish speech-to-text models. balbal-v2 (45M parameters, Turkish) runs 236x faster than real time on 8 CPU threads and in real time on a 15-year-old Celeron with 1 thread. balbal-v2-manas (313M parameters, Turkish + English) makes the fewest meaning-changing errors of any open model on Mu-Bench (WER 8.20%, sigWER 14.89%; balbal-v2: 9.46% / 18.44%). Output is cased, punctuated text with word timestamps; numbers as digits.
 - Install: `pip install balbal`, then `balbal run speech.wav` (Linux x86-64; the model downloads from Hugging Face on first run). Python: `balbal.transcribe("speech.wav")["text"]`.
+- Android app: [balbal-android-0.8.apk](https://github.com/erayyap/balbal/releases/download/android-v0.8/balbal-android-0.8.apk) (36 MB, Android 8+, arm64); runs both models offline on the phone, models download inside the app.
 - Weights: [huggingface.co/erayyapagci/balbal-v2](https://huggingface.co/erayyapagci/balbal-v2), [huggingface.co/erayyapagci/balbal-v2-manas](https://huggingface.co/erayyapagci/balbal-v2-manas) (ONNX, offline, CPU).
 - Code (inference, streaming WebSocket server, training): [github.com/erayyap/balbal](https://github.com/erayyap/balbal), Apache 2.0.
 - [Browser demo](https://erayy.com/stt-demo): try both models.
