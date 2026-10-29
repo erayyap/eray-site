@@ -503,13 +503,33 @@ noscript .panel {
   border-color: #a9d3ea;
 }
 .say-en {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.35s, visibility 0.35s;
   margin: -6px 0 14px;
   font: italic 500 24px var(--text);
   color: #a9d3ea;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
 }
-#lang-note {
+body.manas .say-en {
+  visibility: visible;
+  opacity: 1;
+}
+/* both notes share one grid cell, so the box is as tall as the longer one whichever model is picked */
+.lang-note {
+  display: grid;
   margin-bottom: 16px;
+}
+.lang-note p {
+  grid-area: 1 / 1;
+  margin: 0;
+}
+.lang-note .for-manas,
+body.manas .lang-note .for-v2 {
+  visibility: hidden;
+}
+body.manas .lang-note .for-manas {
+  visibility: visible;
 }
 body.manas #lang-note {
   border-left-color: #a9d3ea;

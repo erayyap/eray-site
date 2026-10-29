@@ -46,16 +46,16 @@ function pickModel(name) {
   store.set("balbal.model", name);
   for (const b of document.querySelectorAll("[data-model]")) b.setAttribute("aria-checked", b.dataset.model === name);
   document.body.classList.toggle("manas", manas());
-  $("say").textContent = manas() ? "Türkçe ya da İngilizce konuş." : "Türkçe konuş.";
-  $("say-en").hidden = !manas();
-  $("lang-note").innerHTML = manas()
-    ? "<strong>balbal-v2-manas</strong> hem <strong>Türkçe</strong> hem <strong>İngilizce</strong> anlar. <span lang=\"en\">It understands English too.</span>"
-    : "balbal-v2 yalnızca <strong>Türkçe</strong> anlar. İngilizce için <strong>balbal-v2-manas</strong>’ı seç.";
+  $("say-en").setAttribute("aria-hidden", String(!manas()));   // the hero text and note keep their size: no layout shift
   health();
 }
 document.addEventListener("click", (e) => {
   const b = e.target.closest("[data-model]");
-  if (b && !busy) pickModel(b.dataset.model);
+  if (!b || busy) return;
+  pickModel(b.dataset.model);
+  // after choosing, bring the recorder into view
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelector(".workspace").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 });
 // Server messages are English; show Turkish ones (unknown messages get a generic Turkish line).
 const SERVER_ERRORS = {

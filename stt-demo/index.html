@@ -36,7 +36,7 @@
       </header>
       <section class="intro">
         <h1><span id="say">Türkçe konuş.</span><br /><em>balbal yazıya döksün.</em></h1>
-        <p class="say-en" id="say-en" lang="en" hidden>Speak English, too.</p>
+        <p class="say-en" id="say-en" lang="en" aria-hidden="true">Speak English, too.</p>
         <p class="lede">
           <strong>balbal-v2</strong>: işlemcide çalışan açık SOTA Türkçe konuşma tanıma.
           GPU gerekmez.
@@ -49,7 +49,10 @@
             <strong>balbal-v2-manas</strong><small>313 mn parametre · en doğrusu</small><span class="langs en">Türkçe + English</span>
           </button>
         </div>
-        <p class="only-turkish" id="lang-note">balbal-v2 yalnızca <strong>Türkçe</strong> anlar. İngilizce için <strong>balbal-v2-manas</strong>’ı seç.</p>
+        <div class="only-turkish lang-note" id="lang-note" aria-live="polite">
+          <p class="for-v2">balbal-v2 yalnızca <strong>Türkçe</strong> anlar. İngilizce için <strong>balbal-v2-manas</strong>’ı seç.</p>
+          <p class="for-manas"><strong>balbal-v2-manas</strong> hem <strong>Türkçe</strong> hem <strong>İngilizce</strong> anlar. <span lang="en">It understands English too.</span></p>
+        </div>
         <p class="links">
           <a href="/balbal?lang=tr">Model sayfası ↗</a
           ><a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Kod ↗</a
