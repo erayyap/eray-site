@@ -553,6 +553,7 @@ const best = i => Math.min(...OPEN.map(r => r[i]));
 
 for (const root of document.querySelectorAll('[data-lang]')) {
   const lang = root.dataset.lang, fmt = fmtIn(lang), q = c => root.querySelector(c);
+  if (!q('.js-api-bars')) continue;   // the v2 banner's language spans carry data-lang too
   bars(q('.js-api-bars'), API, apiScale, v => pct(lang, fmt(v)));
   ticks(q('.js-api-ticks'), [0, 5, 10, 15, 20], apiScale, v => pct(lang, v));
   bars(q('.js-speed-bars'), SPEED, speedScale, v => fmt(v, v >= 10 ? 0 : 2) + '×');
