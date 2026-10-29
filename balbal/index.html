@@ -64,7 +64,7 @@ html[lang="tr"] [data-lang="en"], html:not([lang="tr"]) [data-lang="tr"] { displ
 /* ---------- intro veil (only when the intro runs) ---------- */
 .veil { display: none; }
 .intro-on .veil { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 24px; text-align: center; background: #07060a; cursor: pointer;
-  transition: opacity 1.3s var(--ease), visibility 0s linear 1.3s; }
+  transition: opacity .9s var(--ease), visibility 0s linear .9s; }
 .intro-quick .veil { display: none; }
 .veil.gone { opacity: 0; visibility: hidden; pointer-events: none; }
 @keyframes fadeIn { to { opacity: 1; } }
@@ -1132,10 +1132,10 @@ const embers = (function () {
     const watch = () => { if (vo.currentTime >= SWEEP) flash(); else if (!flashed) requestAnimationFrame(watch); };
     requestAnimationFrame(watch);   // the flash comes with the wing sweep
   }).catch(() => { vo.removeAttribute('src'); vo.load(); toStill(); });
-  setTimeout(start, quick ? 0 : 1600);   // the film starts as the veil lifts
+  start();   // no black hold (user 2026-10-29: a plain black screen read as a broken page): the film starts at once, under a short fade from black
   vo.addEventListener('error', toStill, { once: true });
-  setTimeout(unveil, quick ? 0 : 1900);
-  setTimeout(light, quick ? 0 : 2400);   // the name and lede come in as the veil clears (not tied to the film, so it never waits on video)
+  setTimeout(unveil, quick ? 0 : 60);
+  setTimeout(light, quick ? 0 : 700);   // the name and lede come in as the veil clears (not tied to the film, so it never waits on video)
   const skip = () => {
     unveil();
     if (lit) return;
