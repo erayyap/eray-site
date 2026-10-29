@@ -12,6 +12,8 @@
       "script.js",
       "robots.txt",
       "sitemap.xml",
+      "llms.txt",
+      "indexnow-key.txt",
       "scripts/build.mjs",
       "stt-demo",
       "balbal",

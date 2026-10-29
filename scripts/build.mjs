@@ -1,11 +1,11 @@
-import { copyFile, mkdir, readdir, rm } from "node:fs/promises";
+import { copyFile, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 
 const output = new URL("../dist/", import.meta.url);
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 
 // Explicit allowlist: private notes and repository files must never be uploaded.
-for (const file of ["index.html", "styles.css", "script.js", "robots.txt", "sitemap.xml"]) {
+for (const file of ["index.html", "styles.css", "script.js", "robots.txt", "sitemap.xml", "llms.txt"]) {
   await copyFile(new URL(`../${file}`, import.meta.url), new URL(file, output));
 }
 
@@ -52,4 +52,7 @@ for (const dir of ["asr", "stt", "balbal-v2"]) {
   await mkdir(new URL(`${dir}/`, output), { recursive: true });
   await copyFile(new URL("../redirects/balbal.html", import.meta.url), new URL(`${dir}/index.html`, output));
 }
+// IndexNow ownership key (Bing, Yandex, ...): served as /<key>.txt
+const indexnowKey = (await readFile(new URL("../indexnow-key.txt", import.meta.url), "utf8")).trim();
+await writeFile(new URL(`${indexnowKey}.txt`, output), indexnowKey);
 console.log("Built public site files in dist/");

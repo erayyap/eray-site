@@ -1,4 +1,17 @@
 User-agent: *
 Allow: /
 
+# AI search and answer engines may read the site (training crawlers stay blocked by the managed rules above)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
 Sitemap: https://erayy.com/sitemap.xml
