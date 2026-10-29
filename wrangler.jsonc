@@ -27,7 +27,11 @@
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "none",
-    // Only /petville runs the Worker; everything else is served straight from assets.
-    "run_worker_first": ["/petville", "/petville/*"],
+    // Only /petville and /api/* run the Worker; everything else is served straight from assets.
+    "run_worker_first": ["/petville", "/petville/*", "/api/*"],
   },
+  // contact form submissions (/api/contact), one JSON record per message
+  "kv_namespaces": [{ "binding": "CONTACT_SUBMISSIONS", "id": "da73b216e7b04d6382425ad2b613ec2f" }],
+  // at most 5 form posts per minute per IP
+  "ratelimits": [{ "name": "CONTACT_LIMIT", "namespace_id": "1029", "simple": { "limit": 5, "period": 60 } }],
 }

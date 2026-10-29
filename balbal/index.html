@@ -348,6 +348,7 @@ footer a { color: var(--muted); }
 .contact input:focus, .contact textarea:focus { outline: none; border-color: var(--gold); }
 .contact .row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
 .contact .send { justify-self: start; cursor: pointer; }
+.contact .hp { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; }
 .contact .status { margin: 0; min-height: 1.4em; color: var(--muted); font: 15px var(--data); }
 @media (max-width: 900px) { .contact { grid-template-columns: minmax(0, 1fr); gap: 26px; padding: 22px; } }
 @media (max-width: 520px) { .contact .row2 { grid-template-columns: minmax(0, 1fr); } }
@@ -651,7 +652,7 @@ print(balbal.transcribe("speech.wav")["text"])</pre>
     </div>
     <div class="contact" id="contact" hidden>
       <div>
-        <h3><span data-lang="en">Write to us</span><span data-lang="tr">Bize yaz</span></h3>
+        <h3><span data-lang="en">Write to me</span><span data-lang="tr">Bana yaz</span></h3>
         <a class="mail" href="mailto:hello@erayy.com">hello@erayy.com</a>
         <p class="hint" data-lang="en">Turkish or English, both fine.</p>
         <p class="hint" data-lang="tr">Türkçe ya da İngilizce, ikisi de olur.</p>
@@ -663,6 +664,7 @@ print(balbal.transcribe("speech.wav")["text"])</pre>
           <label><span data-lang="en">Your e-mail</span><span data-lang="tr">E-postan</span><input name="email" type="email" autocomplete="email"></label>
         </div>
         <label><span data-lang="en">Message</span><span data-lang="tr">Mesaj</span><textarea name="message" required></textarea></label>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="btn primary send" type="submit"><span data-lang="en">Send</span><span data-lang="tr">Gönder</span></button>
         <p class="status" id="contact-status" aria-live="polite"></p>
       </form>
@@ -1067,7 +1069,7 @@ const vext = document.createElement('video').canPlayType('video/webm; codecs="vp
 const vsrc = name => `/balbal/v2/${name}${mobile ? '-m' : ''}.${vext}`;
 
 // ---- parallax: closing background ----
-// ---- "let's build together": reveal the address + a form that opens the visitor's mail app ----
+// ---- "let's build together": reveal the address + a form that posts to /api/contact (the Worker e-mails it to Eray) ----
 {
   const btn = $('#build-btn'), box = $('#contact'), form = $('#contact-form'), status = $('#contact-status');
   btn.addEventListener('click', () => {
@@ -1080,15 +1082,27 @@ const vsrc = name => `/balbal/v2/${name}${mobile ? '-m' : ''}.${vext}`;
     try { await navigator.clipboard.writeText('hello@erayy.com'); b.children[0].textContent = 'Copied'; b.children[1].textContent = 'Kopyalandı'; }
     catch { status.textContent = 'hello@erayy.com'; }
   });
-  form.addEventListener('submit', e => {
+  const send = form.querySelector('.send');
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     const f = form.elements, name = f.who.value.trim(), mail = f.email.value.trim(), msg = f.message.value.trim();
     if (!name || !msg) { status.textContent = T('Please add your name and a message.', 'Lütfen adını ve mesajını yaz.'); return; }
-    const subject = T("Let's build together: ", 'Birlikte yapalım: ') + name;
-    const body = msg + '\n\n— ' + name + (mail ? ' <' + mail + '>' : '');
-    location.href = 'mailto:hello@erayy.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    status.textContent = T('Your mail app should open with the message ready. If it does not, write to hello@erayy.com.',
-                           'E-posta uygulaman mesaj hazır şekilde açılmalı. Açılmazsa hello@erayy.com adresine yaz.');
+    send.disabled = true;
+    status.textContent = T('Sending…', 'Gönderiliyor…');
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ who: name, email: mail, message: msg, website: f.website.value, page: location.pathname,
+                               lang: document.documentElement.lang }),
+      });
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.status);
+      form.reset();
+      status.textContent = T('Sent, thank you. Eray will write back' + (mail ? ' to ' + mail + '.' : '.'),
+                             'Gönderildi, teşekkürler. Eray sana dönecek' + (mail ? ' (' + mail + ').' : '.'));
+    } catch (err) {
+      status.textContent = T('Could not send (' + err.message + '). Please write to hello@erayy.com.',
+                             'Gönderilemedi (' + err.message + '). Lütfen hello@erayy.com adresine yaz.');
+    } finally { send.disabled = false; }
   });
 }
 
