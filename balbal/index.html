@@ -16,6 +16,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0e0c12">
 <link rel="canonical" href="https://erayy.com/balbal/">
+<link rel="alternate" hreflang="en" href="https://erayy.com/balbal/">
+<link rel="alternate" hreflang="tr" href="https://erayy.com/tr/balbal/">
+<link rel="alternate" hreflang="x-default" href="https://erayy.com/balbal/">
 <link rel="preload" as="image" href="/balbal/v2/akkula-start.webp" media="(min-width: 701px)">
 <link rel="preload" as="image" href="/balbal/v2/akkula-start-m.webp" media="(max-width: 700px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1082,7 +1085,7 @@ new IntersectionObserver(es => es.forEach(e => {
 
 // ---- language-dependent bits ----
 function localize() {
-  document.title = 'balbal-v2';
+  document.title = T('balbal-v2 · Open Turkish Speech Recognition', 'balbal-v2 · Açık Türkçe Konuşma Tanıma');
   for (const d of document.querySelectorAll('.js-l')) d.textContent = d.dataset[lang()];
   scatter(); board(); fleurs(); arch();
   if (!$('#race-rows').children.length || $('#race-rows .done')) raceRows(true);

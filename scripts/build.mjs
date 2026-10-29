@@ -36,6 +36,27 @@ for (const dir of ["balbal", "balbal-v1", "balbal-blog"]) {
   await mkdir(new URL(`${dir}/`, output), { recursive: true });
   await copyFile(new URL(`../${dir}/index.html`, import.meta.url), new URL(`${dir}/index.html`, output));
 }
+// Turkish copy of the launch page (/tr/balbal): the same bilingual page, opened in Turkish, with Turkish title, description and
+// canonical (hreflang pairs it with /balbal). Every replaced string must exist once, so a page edit cannot silently break it.
+{
+  let page = await readFile(new URL("../balbal/index.html", import.meta.url), "utf8");
+  const swap = (from, to) => {
+    if (page.split(from).length !== 2) throw new Error(`tr/balbal: expected exactly one ${JSON.stringify(from.slice(0, 60))}`);
+    page = page.replace(from, to);
+  };
+  const desc = "balbal-v2: işlemcide ve telefonda çevrimdışı çalışan açık Türkçe konuşma tanıma (sesi yazıya çevirme). balbal-v2-manas, Mu-Bench'te Google Chirp 3 dışındaki tüm API'lerden daha az hata yapıyor.";
+  swap('<html lang="en">', '<html lang="tr">');
+  swap("<title>balbal-v2 · Open Turkish Speech Recognition</title>", "<title>balbal-v2 · Açık Türkçe Konuşma Tanıma</title>");
+  swap(/<meta name="description" content="[^"]*">/.exec(page)[0], `<meta name="description" content="${desc}">`);
+  swap(/<meta property="og:description" content="[^"]*">/.exec(page)[0],
+       '<meta property="og:description" content="Ak Kula kanatlarını açtığında. balbal-v2 ve balbal-v2-manas: işlemcide çalışan açık Türkçe konuşma tanıma.">\n<meta property="og:locale" content="tr_TR">');
+  swap('<meta property="og:url" content="https://erayy.com/balbal/">', '<meta property="og:url" content="https://erayy.com/tr/balbal/">');
+  swap('<link rel="canonical" href="https://erayy.com/balbal/">', '<link rel="canonical" href="https://erayy.com/tr/balbal/">');
+  swap("d.lang = m ? m[1] : 'en';", "d.lang = m ? m[1] : 'tr';");
+  swap('"url": "https://erayy.com/balbal/"', '"url": "https://erayy.com/tr/balbal/"');
+  await mkdir(new URL("tr/balbal/", output), { recursive: true });
+  await writeFile(new URL("tr/balbal/index.html", output), page);
+}
 await mkdir(new URL("balbal/img/", output), { recursive: true });
 for (const name of await readdir(new URL("../balbal/img/", import.meta.url))) {
   if (!name.endsWith(".webp") && name !== "og.jpg") continue;
