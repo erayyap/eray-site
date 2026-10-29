@@ -10,3 +10,5 @@ dist/
 .dev.vars
 .dev.vars.*
 stt-demo/img-src/
+balbal/img-src-v2/
+*.bak-*

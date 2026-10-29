@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>balbal-v1 · Türkçe STT demosu</title>
-    <meta name="description" content="balbal-v1: açık ağırlıklı Türkçe konuşma tanıma. Konuş ya da bir ses dosyası yükle, yazıya döksün." />
-    <meta property="og:title" content="balbal-v1 · Türkçe STT demosu" />
-    <meta property="og:description" content="balbal-v1: açık ağırlıklı Türkçe konuşma tanıma. Konuş ya da bir ses dosyası yükle, yazıya döksün." />
+    <title>balbal-v2 · Türkçe STT demosu</title>
+    <meta name="description" content="balbal-v2: işlemcide çalışan açık Türkçe konuşma tanıma; balbal-v2-manas İngilizce de anlar. Konuş ya da bir ses dosyası yükle, yazıya döksün." />
+    <meta property="og:title" content="balbal-v2 · Türkçe STT demosu" />
+    <meta property="og:description" content="balbal-v2: işlemcide çalışan açık Türkçe konuşma tanıma; balbal-v2-manas İngilizce de anlar. Konuş ya da bir ses dosyası yükle, yazıya döksün." />
     <meta property="og:url" content="https://erayy.com/stt-demo" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="erayy.com" />
@@ -35,17 +35,26 @@
         ><a href="/">Hakkımda ↗</a>
       </header>
       <section class="intro">
-        <h1>Türkçe konuş.<br /><em>balbal yazıya döksün.</em></h1>
+        <h1><span id="say">Türkçe konuş.</span><br /><em>balbal yazıya döksün.</em></h1>
+        <p class="say-en" id="say-en" lang="en" hidden>Speak English, too.</p>
         <p class="lede">
-          <strong>balbal-v1</strong>: 15 milyon aktif parametreli, açık ağırlıklı
-          Türkçe konuşma tanıma modeli. GPU gerekmez.
+          <strong>balbal-v2</strong>: işlemcide çalışan açık SOTA Türkçe konuşma tanıma.
+          GPU gerekmez.
         </p>
+        <div class="models" role="radiogroup" aria-label="Model">
+          <button type="button" role="radio" data-model="balbal-v2" aria-checked="true">
+            <strong>balbal-v2</strong><small>45 mn parametre · en hızlısı</small><span class="langs">Türkçe</span>
+          </button
+          ><button type="button" role="radio" data-model="balbal-v2-manas" aria-checked="false">
+            <strong>balbal-v2-manas</strong><small>313 mn parametre · en doğrusu</small><span class="langs en">Türkçe + English</span>
+          </button>
+        </div>
+        <p class="only-turkish" id="lang-note">balbal-v2 yalnızca <strong>Türkçe</strong> anlar. İngilizce için <strong>balbal-v2-manas</strong>’ı seç.</p>
         <p class="links">
-          <a href="https://huggingface.co/erayyapagci/balbal-v1" target="_blank" rel="noopener">Ağırlıklar ↗</a
-          ><a href="/balbal?lang=tr">Model sayfası ↗</a
-          ><a href="/balbal-blog">Teknik yazı ↗</a>
+          <a href="/balbal?lang=tr">Model sayfası ↗</a
+          ><a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">Kod ↗</a
+          ><span>Ağırlıklar yakında Hugging Face’te</span>
         </p>
-        <p class="only-turkish">Model yalnızca <strong>Türkçe</strong> anlar.</p>
       </section>
     </div>
     <main id="main">
@@ -109,6 +118,9 @@
           <div id="metrics" class="metrics" hidden>
             <div>
               <strong id="duration">—</strong><small>SES SÜRESİ</small>
+            </div>
+            <div>
+              <strong id="used-model">—</strong><small>MODEL</small>
             </div>
           </div>
         </section>

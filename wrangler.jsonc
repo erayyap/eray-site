@@ -13,6 +13,7 @@
       "scripts/build.mjs",
       "stt-demo",
       "balbal",
+      "balbal-v1",
       "balbal-blog",
       "redirects",
       "worker",

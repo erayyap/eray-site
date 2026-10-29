@@ -36,6 +36,27 @@ const clientId = (() => {
   return id;
 })();
 const maxBytes = 8 * 1024 * 1024;
+// Model choice (2026-10-29): balbal-v2 (Turkish) or balbal-v2-manas (Turkish + English); sent as X-Model, remembered per browser.
+const MODELS = ["balbal-v2", "balbal-v2-manas"];
+let model = store.get("balbal.model", "balbal-v2");
+if (!MODELS.includes(model)) model = "balbal-v2";
+const manas = () => model === "balbal-v2-manas";
+function pickModel(name) {
+  model = name;
+  store.set("balbal.model", name);
+  for (const b of document.querySelectorAll("[data-model]")) b.setAttribute("aria-checked", b.dataset.model === name);
+  document.body.classList.toggle("manas", manas());
+  $("say").textContent = manas() ? "Türkçe ya da İngilizce konuş." : "Türkçe konuş.";
+  $("say-en").hidden = !manas();
+  $("lang-note").innerHTML = manas()
+    ? "<strong>balbal-v2-manas</strong> hem <strong>Türkçe</strong> hem <strong>İngilizce</strong> anlar. <span lang=\"en\">It understands English too.</span>"
+    : "balbal-v2 yalnızca <strong>Türkçe</strong> anlar. İngilizce için <strong>balbal-v2-manas</strong>’ı seç.";
+  health();
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-model]");
+  if (b && !busy) pickModel(b.dataset.model);
+});
 // Server messages are English; show Turkish ones (unknown messages get a generic Turkish line).
 const SERVER_ERRORS = {
   "The server is temporarily unavailable. Please try again.": "Sunucu geçici olarak kullanılamıyor. Lütfen tekrar dene.",
@@ -50,6 +71,7 @@ const SERVER_ERRORS = {
   "The recording is silent. Please try speaking closer to the microphone.": "Kayıt sessiz. Lütfen mikrofona daha yakın konuş.",
   "Audio processing timed out. Please try a shorter clip.": "Ses işleme zaman aşımına uğradı. Daha kısa bir kayıt dene.",
   "Please reload the page and try again.": "Lütfen sayfayı yenileyip tekrar dene.",
+  "Unknown model.": "Bilinmeyen model. Lütfen sayfayı yenile.",
   "Too many requests. Please wait a minute and try again.": "Çok fazla istek. Lütfen bir dakika bekleyip tekrar dene.",
   "Daily limit reached: 100 transcriptions per day. Try again tomorrow, or contact Eray for more: hello@erayy.com":
     "Günlük sınıra ulaştın: günde 100 kayıt. Yarın tekrar dene ya da daha fazlası için Eray’a yaz: hello@erayy.com",
@@ -225,6 +247,7 @@ $("transcribe").addEventListener("click", async () => {
         "Content-Type": clip.type || "application/octet-stream",
         "X-Guess-Size": "1",
         "X-Client-ID": clientId,
+        "X-Model": model,
       },
       body: clip,
       signal: AbortSignal.timeout(90000),
@@ -246,13 +269,14 @@ $("transcribe").addEventListener("click", async () => {
       );
     $("transcript").classList.remove("empty");
     $("transcript").textContent =
-      result.text || "Konuşma algılanamadı. Daha net, Türkçe bir kayıt dene.";
+      result.text || (manas() ? "Konuşma algılanamadı. Daha net, Türkçe ya da İngilizce bir kayıt dene." : "Konuşma algılanamadı. Daha net, Türkçe bir kayıt dene.");
     if (result.text && Array.isArray(result.words) && result.words.length) {
       showWords(result.words);
       $("words-hint").hidden = false;
     }
     $("duration").textContent =
       `${Number(result.duration_seconds).toFixed(1).replace(".", ",")} sn`;
+    $("used-model").textContent = result.model || model;
     $("metrics").hidden = false;
     const hasTranscript = Boolean(result.text?.trim());
     $("copy").hidden = !hasTranscript;
@@ -292,10 +316,11 @@ async function health() {
       credentials: "omit",
     });
     const s = await r.json();
-    $("connection").textContent = s.ready ? "Dinlemeye hazır" : "Isınıyor";
+    const ready = s.models ? s.models[model] : s.ready;
+    $("connection").textContent = ready ? "Dinlemeye hazır" : "Isınıyor";
   } catch {
     $("connection").textContent = "Sunucuya ulaşılamıyor";
   }
 }
-health();
+pickModel(model);
 setInterval(health, 60000);
