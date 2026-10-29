@@ -7,7 +7,7 @@
 <meta name="description" content="balbal-v2: open Turkish speech recognition. balbal-v2-manas makes fewer errors than every API on Mu-Bench except Google Chirp 3, on a CPU.">
 <meta property="og:title" content="balbal-v2">
 <meta property="og:description" content="When Ak Kula spreads her wings. balbal-v2 and balbal-v2-manas: open Turkish speech recognition that runs on a CPU.">
-<meta property="og:url" content="https://erayy.com/balbal">
+<meta property="og:url" content="https://erayy.com/balbal/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="erayy.com">
 <meta property="og:image" content="https://erayy.com/balbal/v2/og.jpg">
@@ -15,7 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0e0c12">
-<link rel="canonical" href="https://erayy.com/balbal">
+<link rel="canonical" href="https://erayy.com/balbal/">
 <link rel="preload" as="image" href="/balbal/v2/akkula-start.webp" media="(min-width: 701px)">
 <link rel="preload" as="image" href="/balbal/v2/akkula-start-m.webp" media="(max-width: 700px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -391,6 +391,50 @@ footer a { color: var(--muted); }
   d.classList.add('intro-on');
   try { if (sessionStorage.getItem('balbal-v2-intro')) d.classList.add('intro-quick'); sessionStorage.setItem('balbal-v2-intro', '1'); } catch (e) {}
 })();
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "balbal-v2",
+ "description": "Open Turkish speech recognition (speech-to-text) that runs offline on a CPU or an Android phone. Two models: balbal-v2 (45M parameters, Turkish) and balbal-v2-manas (313M parameters, Turkish + English).",
+ "url": "https://erayy.com/balbal/",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Linux, Android",
+ "softwareVersion": "0.1.0",
+ "inLanguage": [
+  "tr",
+  "en"
+ ],
+ "isAccessibleForFree": true,
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "downloadUrl": [
+  "https://pypi.org/project/balbal/",
+  "https://github.com/erayyap/balbal/releases/download/android-v0.9/balbal-android-0.9.apk"
+ ],
+ "codeRepository": "https://github.com/erayyap/balbal",
+ "author": {
+  "@type": "Person",
+  "name": "Eray Yapağcı",
+  "url": "https://erayy.com/"
+ },
+ "creator": {
+  "@type": "Person",
+  "name": "Eray Yapağcı",
+  "url": "https://erayy.com/"
+ },
+ "sameAs": [
+  "https://huggingface.co/erayyapagci/balbal-v2",
+  "https://huggingface.co/erayyapagci/balbal-v2-manas",
+  "https://github.com/erayyap/balbal",
+  "https://pypi.org/project/balbal/"
+ ],
+ "image": "https://erayy.com/balbal/v2/og.jpg"
+}
 </script>
 </head>
 <body>
