@@ -164,7 +164,7 @@ code { font: .86em/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospac
 .chart .lbl.ours { fill: var(--gold-light); font-weight: 800; font-size: 17px; }
 .chart .lbl.sub { fill: var(--muted); font-size: 13.5px; font-weight: 500; }
 .chart .ref { stroke: var(--sky); stroke-width: 2; stroke-dasharray: 7 6; }
-.chart .front { stroke: var(--gold); stroke-width: 2.5; stroke-linecap: round; opacity: .85; }
+.chart .front { stroke: var(--gold); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 0 8; opacity: .9; }
 .chart .ref-lbl { fill: #a9d3ea; font-size: 14.5px; font-weight: 700; paint-order: stroke; stroke: var(--panel); stroke-width: 5px; }
 .chart .dot { stroke: var(--panel); stroke-width: 2.5; cursor: pointer; }
 .chart .dot.ours { fill: var(--gold); }
@@ -178,8 +178,9 @@ code { font: .86em/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospac
 .js .panel.in .chart:not(.drawn) .ref { transform-box: fill-box; transform-origin: left; animation: drawX 1.4s var(--ease) .2s both; }
 .js .panel.in .chart:not(.drawn) .ref-lbl { animation: fadeIn .8s var(--ease) 1s both; opacity: 0; }
 .js .panel:not(.in) .chart .front { opacity: 0; }
-.js .panel.in .chart:not(.drawn) .front { stroke-dasharray: 1; animation: drawLine 1s var(--ease) 2.1s both; }
-@keyframes drawLine { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+/* dotted, so it is revealed with a clip (from balbal-v2 on the right toward manas) instead of a dash offset */
+.js .panel.in .chart:not(.drawn) .front { animation: drawLine 1s var(--ease) 2.1s both; }
+@keyframes drawLine { from { clip-path: inset(0 0 0 100%) stroke-box; } to { clip-path: inset(0 0 0 0) stroke-box; } }
 .js .panel.in .chart:not(.drawn) .pop { animation: land .9s var(--ease) both; animation-delay: var(--dl); }
 @keyframes drawX { from { transform: scaleX(0); } to { transform: none; } }
 @keyframes land { from { opacity: 0; transform: translateY(-26px); } to { opacity: 1; transform: none; } }
@@ -787,7 +788,7 @@ function scatter() {
     T(`Google Chirp 3 · best closed API · ${pct(CHIRP, 1)}`, `Google Chirp 3 · en iyi kapalı API · ${pct(CHIRP, 1)}`)));
   // our frontier: balbal-v2 -> balbal-v2-manas (drawn under the dots)
   const [fa, fb] = ['balbal-v2', 'balbal-v2-manas'].map(n => OPEN.find(d => d[0] === n));
-  svg.append(el('line', { class: 'front', x1: X(fa[1]), y1: Y(fa[2]), x2: X(fb[1]), y2: Y(fb[2]), pathLength: 1 }));
+  svg.append(el('line', { class: 'front', x1: X(fa[1]), y1: Y(fa[2]), x2: X(fb[1]), y2: Y(fb[2]) }));
   const tip = document.createElement('div'); tip.className = 'tip'; box.append(svg, tip);
   const show = (d, cx, cy) => {
     tip.innerHTML = `<b>${d[0]}</b>sigWER ${pct(d[2])} <span>· WER ${pct(d[3])}</span><br>${T('Speed', 'Hız')} ${speed(d[1])} <span>· ${d[4]} ${T('params', 'parametre')}</span>`;
