@@ -597,16 +597,19 @@ footer a { color: var(--muted); }
   <section class="block" id="run" aria-labelledby="run-title">
     <div class="rv">
       <p class="kicker"><span data-lang="en">Run it</span><span data-lang="tr">Çalıştır</span></p>
-      <h2 id="run-title"><span data-lang="en">Three commands</span><span data-lang="tr">Üç komut</span></h2>
-      <p class="sub" data-lang="en">Code on <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">GitHub</a> under Apache 2.0. Weights on Hugging Face: <a href="https://huggingface.co/erayyapagci/balbal-v2" target="_blank" rel="noopener">balbal-v2</a> and <a href="https://huggingface.co/erayyapagci/balbal-v2-manas" target="_blank" rel="noopener">balbal-v2-manas</a>. Or <a href="/stt-demo/">try both models in the browser</a>.</p>
-      <p class="sub" data-lang="tr">Kod <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">GitHub</a>'da, Apache 2.0 ile. Ağırlıklar Hugging Face'te: <a href="https://huggingface.co/erayyapagci/balbal-v2" target="_blank" rel="noopener">balbal-v2</a> ve <a href="https://huggingface.co/erayyapagci/balbal-v2-manas" target="_blank" rel="noopener">balbal-v2-manas</a>. Ya da <a href="/stt-demo/">iki modeli tarayıcıda dene</a>.</p>
+      <h2 id="run-title"><span data-lang="en">Two lines</span><span data-lang="tr">İki satır</span></h2>
+      <p class="sub" data-lang="en">The library is on <a href="https://pypi.org/project/balbal/" target="_blank" rel="noopener">PyPI</a> (Linux x86-64, Python 3.11 or 3.12); the first run downloads the model from Hugging Face. Code, streaming server and training on <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">GitHub</a> under Apache 2.0. Weights on Hugging Face: <a href="https://huggingface.co/erayyapagci/balbal-v2" target="_blank" rel="noopener">balbal-v2</a> and <a href="https://huggingface.co/erayyapagci/balbal-v2-manas" target="_blank" rel="noopener">balbal-v2-manas</a>. Or <a href="/stt-demo/">try both models in the browser</a>.</p>
+      <p class="sub" data-lang="tr">Kütüphane <a href="https://pypi.org/project/balbal/" target="_blank" rel="noopener">PyPI</a>'da (Linux x86-64, Python 3.11 ya da 3.12); ilk çalıştırmada model Hugging Face'ten iner. Kod, streaming sunucusu ve eğitim <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">GitHub</a>'da, Apache 2.0 ile. Ağırlıklar Hugging Face'te: <a href="https://huggingface.co/erayyapagci/balbal-v2" target="_blank" rel="noopener">balbal-v2</a> ve <a href="https://huggingface.co/erayyapagci/balbal-v2-manas" target="_blank" rel="noopener">balbal-v2-manas</a>. Ya da <a href="/stt-demo/">iki modeli tarayıcıda dene</a>.</p>
     </div>
-    <pre class="code rv"><span class="c"># CPU inference</span>
-pip install -r requirements/cpu.txt
-python inference/transcribe.py --model-dir MODEL_DIR speech.wav
+    <pre class="code rv">pip install balbal
+balbal run speech.wav
 
-<span class="c"># streaming server (WebSocket)</span>
-python inference/streaming/server.py --model-dir MODEL_DIR</pre>
+<span class="c" data-lang="en"># the larger model, Turkish + English; JSON with word timestamps</span><span class="c" data-lang="tr"># büyük model, Türkçe + İngilizce; kelime zamanlarıyla JSON</span>
+balbal run --model manas --json speech.mp3
+
+<span class="c"># Python</span>
+import balbal
+print(balbal.transcribe("speech.wav")["text"])</pre>
   </section>
 
   <section class="block" id="limits" aria-labelledby="limits-title">
@@ -700,6 +703,7 @@ python inference/streaming/server.py --model-dir MODEL_DIR</pre>
       <a class="btn secondary" href="https://huggingface.co/erayyapagci/balbal-v2" target="_blank" rel="noopener"><span data-lang="en">Weights: balbal-v2 ↗</span><span data-lang="tr">Ağırlıklar: balbal-v2 ↗</span></a>
       <a class="btn secondary" href="https://huggingface.co/erayyapagci/balbal-v2-manas" target="_blank" rel="noopener">balbal-v2-manas ↗</a>
       <a class="btn secondary" href="https://github.com/erayyap/balbal" target="_blank" rel="noopener"><span data-lang="en">Code on GitHub ↗</span><span data-lang="tr">Kod GitHub'da ↗</span></a>
+      <a class="btn secondary" href="https://pypi.org/project/balbal/" target="_blank" rel="noopener">pip install balbal ↗</a>
       <a class="btn secondary" href="/balbal-v1/">balbal-v1 →</a>
     </div>
   </div>
