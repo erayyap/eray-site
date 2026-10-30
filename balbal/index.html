@@ -159,7 +159,7 @@ code { font: .86em/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospac
 .chart .grid { stroke: var(--grid); stroke-width: 1; }
 .chart .tick { fill: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums lining-nums; }
 .chart .axis-title { fill: var(--bone); font-size: 15px; font-weight: 700; letter-spacing: .02em; }
-.chart .lbl { fill: var(--bone); font-size: 15.5px; font-weight: 500; paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
+.chart .lbl { fill: #cdbfa9; font-size: 15.5px; font-weight: 500; paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round; }
 .chart .lbl.ours { fill: var(--gold-light); font-weight: 800; font-size: 17px; }
 .chart .lbl.sub { fill: var(--muted); font-size: 13.5px; font-weight: 500; }
 .chart .ref { stroke: var(--sky); stroke-width: 2; stroke-dasharray: 7 6; }
@@ -197,7 +197,7 @@ code { font: .86em/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospac
 .seg button[aria-pressed="true"] { background: var(--gold); color: var(--ink); }
 .board { display: grid; gap: 7px; }
 .row { position: relative; display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); align-items: center; gap: 16px; font-family: var(--data); transition: transform .7s var(--ease); }
-.row .name { text-align: right; font-size: 16.5px; line-height: 1.2; color: var(--bone); }
+.row .name { text-align: right; font-size: 16.5px; line-height: 1.2; color: #cdbfa9; }
 .row .tag { display: inline-block; margin-left: 7px; padding: 1px 6px; border-radius: 4px; font: 800 10.5px var(--data); letter-spacing: .12em; vertical-align: 2px; text-transform: uppercase; }
 .row .tag.open { color: #c9e3c0; border: 1px solid rgba(160, 200, 150, .35); }
 .row .tag.api { color: var(--faint); border: 1px solid var(--edge-soft); }
@@ -849,8 +849,8 @@ function scatter() {
     if (ours) g.append(el('circle', { class: 'halo', cx, cy, r: 9 }));
     g.append(el('circle', { class: 'dot ' + (ours ? 'ours' : name === 'balbal-v1' ? 'v1' : 'them'), cx, cy, r: ours ? 9 : 7 }));
     const short = narrow ? name.replace('Whisper large-v3-turbo', 'Whisper turbo').replace('Qwen3-ASR 1.7B', 'Qwen3-ASR') : name;
-    // narrow screens: v2 below-left, v1 to the left, so labels clear each other
-    const p = narrow ? ({ 'balbal-v2-manas': 'l', 'balbal-v2': 'tl', 'balbal-v1': 'l' }[name] || pos) : pos;
+    // balbal-v2's label sits level with its dot (left on phones, right on wide screens); narrow: v1 to the left, so labels clear each other
+    const p = narrow ? ({ 'balbal-v2-manas': 'l', 'balbal-v2': 'l', 'balbal-v1': 'l' }[name] || pos) : name === 'balbal-v2' ? 'r' : pos;
     const off = { tl: [-14, -22, 'end'], tr: [14, -14, 'start'], bl: [-14, 24, 'end'], l: [-14, 5, 'end'], r: [14, 5, 'start'] }[p];
     g.append(el('text', { class: 'lbl' + (ours ? ' ours' : ''), x: cx + off[0], y: cy + off[1], 'text-anchor': off[2] }, short));
     if (ours && !narrow) g.append(el('text', { class: 'lbl sub', x: cx + off[0], y: cy + off[1] + 18, 'text-anchor': off[2] }, `${pct(sig, 1)} · ${speed(rt)}`));
