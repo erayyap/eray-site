@@ -10,6 +10,9 @@
   }
   function applyTheme(theme) {
     root.dataset.theme = theme;
+    // the browser bar follows the chosen theme, not only the system one
+    for (const meta of document.querySelectorAll('meta[name="theme-color"]'))
+      meta.content = theme === "dark" ? "#101311" : "#f6f5f0";
     themeButton.textContent = theme === "dark" ? "Light ↗" : "Dark ↗";
     themeButton.setAttribute(
       "aria-label",

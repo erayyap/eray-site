@@ -10,6 +10,18 @@
     />
     <meta name="author" content="Eray Yapağcı" />
     <link rel="canonical" href="https://erayy.com/" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f6f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101311" media="(prefers-color-scheme: dark)" />
+    <script>
+      // Theme before the first paint (script.js at the end of the page only wires the toggle): no white flash on dark phones.
+      (function () {
+        var t;
+        try { t = localStorage.getItem("theme"); } catch (e) {}
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

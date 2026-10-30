@@ -9,15 +9,29 @@
   --tint: #e9eddf;
   --maxw: 1120px;
 }
+/* Dark: near-black with a faint green cast; surfaces step up in small, even increments so cards read as layers. */
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #171c18;
-  --surface: #202720;
-  --text: #eeeee3;
-  --muted: #b0b8a8;
-  --line: #394237;
-  --accent: #bdd5a8;
-  --tint: #2b3628;
+  --bg: #101311;
+  --surface: #171b18;
+  --text: #ecebe3;
+  --muted: #a6ada0;
+  --line: #2b322c;
+  --accent: #b8d4a0;
+  --tint: #1a211b;
+}
+/* Before script.js runs (or without JS): follow the system setting unless the visitor picked light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #101311;
+    --surface: #171b18;
+    --text: #ecebe3;
+    --muted: #a6ada0;
+    --line: #2b322c;
+    --accent: #b8d4a0;
+    --tint: #1a211b;
+  }
 }
 * {
   box-sizing: border-box;
@@ -334,6 +348,12 @@ em {
   background: var(--tint);
   padding: 38px;
   border-radius: 7px;
+}
+[data-theme="dark"] #publications .container {
+  box-shadow: inset 0 0 0 1px #34402f;
+}
+[data-theme="dark"] .project-grid .entry:first-child {
+  border-color: #34402f;
 }
 #publications .entry {
   grid-template-columns: 155px 1fr;
