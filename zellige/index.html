@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>balbal-v2.1-zellige · Moroccan Darija speech recognition demo</title>
+    <meta name="description" content="Try balbal-v2.1-zellige, an open Moroccan Darija speech recognition model that runs on a CPU. Speak or upload audio and get Darija text. Recordings made on this page are saved to improve the model, with your consent." />
+    <meta property="og:title" content="balbal-v2.1-zellige · Moroccan Darija speech recognition" />
+    <meta property="og:description" content="Open Moroccan Darija speech-to-text on a CPU. Speak Darija and help improve the model." />
+    <meta property="og:url" content="https://erayy.com/zellige/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="erayy.com" />
+    <meta property="og:image" content="https://erayy.com/zellige/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0f3d5c" />
+    <link rel="canonical" href="https://erayy.com/zellige/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Noto+Kufi+Arabic:wght@500;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/zellige/style.css" />
+    <script src="/zellige/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the demo</a>
+    <div class="strip" aria-hidden="true"></div>
+    <header class="top">
+      <a class="wordmark" href="/">erayy<span> / lab</span></a>
+      <nav><a href="/balbal/">balbal</a><a href="https://huggingface.co/erayyapagci/balbal-v2.1-zellige" target="_blank" rel="noopener">Hugging Face ↗</a></nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-text">
+        <p class="badge">Experimental preview</p>
+        <h1>balbal-v2.1-zellige</h1>
+        <p class="lede">Open <strong>Moroccan Darija</strong> speech recognition that runs on a CPU. Speak Darija, get Darija text.</p>
+        <p class="facts"><span>307M parameters</span><span>Arabic script output</span><span>CC BY-NC-SA 4.0</span></p>
+      </div>
+      <p class="hero-ar" lang="ar" dir="rtl" aria-hidden="true">زليج</p>
+    </section>
+
+    <main id="main">
+      <section class="consent" aria-labelledby="consent-title">
+        <h2 id="consent-title">Before you start: <em>your recordings are saved</em></h2>
+        <div class="consent-grid">
+          <div class="consent-en">
+            <p>
+              Unlike the other balbal demos, <strong>this page saves what you record or upload</strong> and uses it to train
+              and test future balbal speech recognition models for Moroccan Darija. Models trained with it may be released
+              publicly.
+            </p>
+            <ul>
+              <li><strong>Saved:</strong> the audio (up to 30 seconds), its transcript and any correction you send, the time,
+                and a random ID of this browser.</li>
+              <li><strong>Not saved:</strong> your name, e-mail or IP address.</li>
+              <li><strong>Your choice:</strong> every transcription comes with a recording ID and a delete button. To remove a
+                recording later, e-mail its ID to <a href="mailto:hello@erayy.com">hello@erayy.com</a>.</li>
+            </ul>
+          </div>
+          <div class="consent-tr">
+            <p lang="fr">
+              <strong>Vos enregistrements sont conservés.</strong> Tout ce que vous enregistrez ou téléversez ici (l’audio,
+              jusqu’à 30 secondes, et sa transcription) est conservé et utilisé pour entraîner et améliorer les modèles balbal.
+              Nous ne conservons ni votre nom, ni votre e-mail, ni votre adresse IP. Vous pouvez supprimer un enregistrement
+              grâce à son identifiant.
+            </p>
+            <p lang="ar" dir="rtl">
+              <strong>تسجيلاتك تُحفَظ.</strong> كل ما تسجّله أو ترفعه هنا (الصوت حتى 30 ثانية ونصّه المكتوب) يُحفَظ
+              ويُستخدَم لتدريب نماذج balbal وتحسينها. لا نحفظ اسمك ولا بريدك الإلكتروني ولا عنوان IP الخاص بك. يمكنك حذف
+              أي تسجيل بواسطة رقمه.
+            </p>
+          </div>
+        </div>
+        <label class="agree" for="consent">
+          <input id="consent" type="checkbox" />
+          <span>
+            <strong>I consent · J’accepte · <span lang="ar">أوافق</span></strong>
+            My recordings and transcripts will be saved and used to develop balbal models. I am 18 or older, and every voice in
+            what I record or upload is mine or I have permission to share it.
+          </span>
+        </label>
+      </section>
+
+      <div class="workspace">
+        <section class="panel voice" aria-labelledby="voice-title">
+          <div class="panel-head">
+            <h2 id="voice-title"><span>1</span> Record</h2>
+            <span id="connection" class="pill">Connecting…</span>
+          </div>
+          <p class="voice-prompt" id="voice-prompt">Tick the consent box to start.</p>
+          <p class="try">Try: <span lang="ary" dir="rtl">واش نتا مزيان؟</span> · <span lang="ary" dir="rtl">بغيت نمشي للسوق غدا الصباح</span></p>
+          <div class="actions">
+            <button id="record" class="primary" type="button" disabled>● Record</button
+            ><button id="upload" class="secondary" type="button" disabled>↑ Upload audio</button
+            ><input id="file" type="file" accept="audio/*,.webm,.m4a,.mp4" hidden />
+          </div>
+          <p class="limit">Up to 30 seconds · WAV, MP3, M4A, OGG or WebM</p>
+          <audio id="playback" controls hidden></audio>
+          <button id="transcribe" class="primary transcribe" type="button" hidden>Transcribe and save →</button>
+          <p id="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel transcript" aria-labelledby="transcript-title">
+          <div class="panel-head">
+            <h2 id="transcript-title"><span>2</span> Transcript</h2>
+            <button id="copy" type="button" class="text-button" hidden>Copy</button>
+          </div>
+          <div id="transcript" class="transcript-text empty" lang="ary" dir="rtl" aria-live="polite">The Darija transcript will appear here.</div>
+          <p id="words-hint" class="hint" hidden>Play the recording to follow the words; tap a word to play from there.</p>
+          <div id="saved" class="saved" hidden>
+            <p class="rec-id">Recording ID <code id="rec-id">—</code></p>
+            <label for="correction" class="fix-label">Wrong words? Fix the text and send it. Corrections are the most useful thing you can give.</label>
+            <textarea id="correction" lang="ary" dir="rtl" rows="3" maxlength="2000"></textarea>
+            <div class="saved-actions">
+              <button id="send-fix" class="secondary" type="button">Send correction</button
+              ><button id="delete" class="danger" type="button">Delete this recording</button>
+            </div>
+            <p id="saved-status" role="status" aria-live="polite"></p>
+          </div>
+        </section>
+      </div>
+
+      <section class="results" aria-labelledby="results-title">
+        <h2 id="results-title">How it compares</h2>
+        <p class="sub">Word / character error rate (%), lower is better. Full test sets: Casablanca MA test (1,045 clips), MGB-5 test (5,484), GigaSpeechBench MAR (15,961).</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col" rowspan="2" class="name">Model</th>
+                <th scope="col" rowspan="2">Params</th>
+                <th scope="colgroup" colspan="2" class="avg">Average</th>
+                <th scope="colgroup" colspan="2">Casablanca</th>
+                <th scope="colgroup" colspan="2">MGB-5</th>
+                <th scope="colgroup" colspan="2">GigaSpeechBench MAR</th>
+              </tr>
+              <tr class="metric">
+                <th class="avg-l">WER</th><th class="avg-r">CER</th><th>WER</th><th>CER</th><th>WER</th><th>CER</th><th>WER</th><th>CER</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="ours"><th scope="row" class="name">balbal-v2.1-zellige</th><td>307M</td><td class="avg-l">44.38</td><td class="avg-r">17.74</td><td>42.85</td><td>14.11</td><td>45.83</td><td>20.96</td><td>44.45</td><td>18.15</td></tr>
+              <tr class="ours sub-row"><th scope="row" class="name">↳ without LM</th><td>307M</td><td class="avg-l">47.58</td><td class="avg-r">19.04</td><td>46.80</td><td>15.61</td><td>48.76</td><td>22.19</td><td>47.17</td><td>19.31</td></tr>
+              <tr><th scope="row" class="name">Cohere Transcribe Arabic</th><td>2B</td><td class="avg-l">53.22</td><td class="avg-r">21.52</td><td>53.86</td><td>17.49</td><td>47.87</td><td>21.03</td><td>57.93</td><td>26.04</td></tr>
+              <tr><th scope="row" class="name">Jais-ASR</th><td>6B</td><td class="avg-l">53.73</td><td class="avg-r">21.99</td><td>53.62</td><td>19.79</td><td>56.93</td><td>25.40</td><td>50.63</td><td>20.79</td></tr>
+              <tr><th scope="row" class="name">MoulSot v0.3</th><td>2B</td><td class="avg-l">54.18</td><td class="avg-r">24.49</td><td>49.87</td><td>18.92</td><td>61.41</td><td>31.84</td><td>51.27</td><td>22.70</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="use" aria-labelledby="use-title">
+        <h2 id="use-title">Run it yourself</h2>
+        <pre><code>pip install balbal
+balbal run --model zellige speech.wav</code></pre>
+        <p>
+          Offline on a CPU (Linux, macOS, Windows). Weights on
+          <a href="https://huggingface.co/erayyapagci/balbal-v2.1-zellige" target="_blank" rel="noopener">Hugging Face ↗</a>,
+          code on <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">GitHub ↗</a>.
+          The model is released under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+          (non-commercial). Fine-tuned from
+          <a href="https://huggingface.co/MostafaAhmed98/Sabeq-ASR" target="_blank" rel="noopener">Sabeq-ASR ↗</a>.
+        </p>
+        <p class="feedback">This is an experimental model. Feedback is very welcome: <a href="mailto:hello@erayy.com">hello@erayy.com</a>.</p>
+      </section>
+
+      <footer>
+        <p>Made by <a href="/">Eray Yapağcı</a>. Turkish models: <a href="/balbal/">balbal-v2</a> · <a href="/stt-demo/">Turkish demo</a></p>
+      </footer>
+    </main>
+    <div class="strip" aria-hidden="true"></div>
+    <noscript><p class="panel">Please enable JavaScript to record and transcribe.</p></noscript>
+  </body>
+</html>

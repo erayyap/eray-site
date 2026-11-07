@@ -36,6 +36,12 @@ for (const dir of ["balbal", "balbal-v1", "balbal-blog"]) {
   await mkdir(new URL(`${dir}/`, output), { recursive: true });
   await copyFile(new URL(`../${dir}/index.html`, import.meta.url), new URL(`${dir}/index.html`, output));
 }
+// balbal-v2.1-zellige demo (/zellige): Moroccan Darija; recordings made there are saved, with the visitor's consent.
+await mkdir(new URL("zellige/img/", output), { recursive: true });
+for (const name of ["index.html", "style.css", "app.js"]) {
+  await copyFile(new URL(`../zellige/${name}`, import.meta.url), new URL(`zellige/${name}`, output));
+}
+await copyFile(new URL("../zellige/img/og.jpg", import.meta.url), new URL("zellige/img/og.jpg", output));
 // Turkish copy of the launch page (/tr/balbal): the same bilingual page, opened in Turkish, with Turkish title, description and
 // canonical (hreflang pairs it with /balbal). Every replaced string must exist once, so a page edit cannot silently break it.
 {
