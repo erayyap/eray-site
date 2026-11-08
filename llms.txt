@@ -10,7 +10,7 @@
 - Weights: [huggingface.co/erayyapagci/balbal-v2](https://huggingface.co/erayyapagci/balbal-v2), [huggingface.co/erayyapagci/balbal-v2-manas](https://huggingface.co/erayyapagci/balbal-v2-manas) (ONNX, offline, CPU).
 - Code (inference, streaming WebSocket server, training): [github.com/erayyap/balbal](https://github.com/erayyap/balbal), Apache 2.0.
 - [Browser demo](https://erayy.com/stt-demo/): try both models.
-- [balbal-v2.1-zellige](https://erayy.com/zellige/): experimental open Moroccan Darija speech recognition (307M parameters, CPU, CC BY-NC-SA 4.0 non-commercial); `balbal run --model zellige speech.wav`. Weights: [huggingface.co/erayyapagci/balbal-v2.1-zellige](https://huggingface.co/erayyapagci/balbal-v2.1-zellige). The demo page saves recordings (with consent) to improve the model.
+- [balbal-v2e-zellige](https://erayy.com/zellige/): experimental open Moroccan Darija speech recognition (307M parameters, CPU, CC BY-NC-SA 4.0 non-commercial); `balbal run --model zellige speech.wav`. Weights: [huggingface.co/erayyapagci/balbal-v2e-zellige](https://huggingface.co/erayyapagci/balbal-v2e-zellige). The demo page saves recordings (with consent) to improve the model.
 - [balbal-v1](https://erayy.com/balbal-v1/) and [how balbal-v1 was built](https://erayy.com/balbal-blog/).
 
 ## Papers

@@ -1,10 +1,10 @@
 "use strict";
-// erayy.com/zellige (2026-11-08): balbal-v2.1-zellige (Moroccan Darija) demo. Same backend as /stt-demo (Cloudflare tunnel to
+// erayy.com/zellige (2026-11-08): balbal-v2e-zellige (Moroccan Darija) demo. Same backend as /stt-demo (Cloudflare tunnel to
 // Predator), model picked with X-Model. Unlike /stt-demo, recordings are SAVED to develop the model: nothing can be recorded,
 // uploaded or sent before the visitor ticks the consent box, and every request carries X-Consent with the consent text version.
 // Each result has a recording ID; this browser can send a corrected transcript or delete the recording with it.
 const API = "https://stt-api.erayy.com/guess-size-api";
-const MODEL = "balbal-v2.1-zellige";
+const MODEL = "balbal-v2e-zellige";
 const CONSENT_VERSION = "zellige-v1";
 const $ = (id) => document.getElementById(id);
 let clip = null,
