@@ -35,4 +35,7 @@
   "kv_namespaces": [{ "binding": "CONTACT_SUBMISSIONS", "id": "da73b216e7b04d6382425ad2b613ec2f" }],
   // at most 5 form posts per minute per IP
   "ratelimits": [{ "name": "CONTACT_LIMIT", "namespace_id": "1029", "simple": { "limit": 5, "period": 60 } }],
+  // contact form e-mail (Email Routing on erayy.com; the destination must be a verified Email Routing address)
+  "send_email": [{ "name": "CONTACT_MAIL", "destination_address": "erayyapagci@gmail.com" }],
+  "vars": { "CONTACT_TO": "erayyapagci@gmail.com" },
 }
