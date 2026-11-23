@@ -201,6 +201,7 @@ code { font: .86em/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospac
 .row .tag { display: inline-block; margin-left: 7px; padding: 1px 6px; border-radius: 4px; font: 800 10.5px var(--data); letter-spacing: .12em; vertical-align: 2px; text-transform: uppercase; }
 .row .tag.open { color: #c9e3c0; border: 1px solid rgba(160, 200, 150, .35); }
 .row .tag.api { color: var(--faint); border: 1px solid var(--edge-soft); }
+.row .tag.next { color: var(--gold-light); border: 1px solid rgba(200, 149, 47, .45); }
 .row .track { position: relative; height: 24px; }
 .row .fill { height: 100%; width: var(--w, 0%); border-radius: 0 4px 4px 0; background: var(--stone); transition: width 1s var(--ease) var(--dl, 0s); }
 .row .val { position: absolute; top: 50%; left: calc(var(--w, 0%) + 10px); transform: translateY(-50%); font-size: 15.5px; color: var(--muted); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; transition: left 1s var(--ease) var(--dl, 0s), opacity .6s var(--ease) var(--dl, 0s); }
@@ -512,8 +513,8 @@ footer a { color: var(--muted); }
     <div class="rv">
       <p class="kicker"><span data-lang="en">APIs and open models</span><span data-lang="tr">API'ler ve açık modeller</span></p>
       <h2 id="board-title"><span data-lang="en">Second on Mu-Bench</span><span data-lang="tr">Mu-Bench’te ikinci</span></h2>
-      <p class="sub" data-lang="en">Turkish customer-service calls. Only Google Chirp 3 makes fewer errors.</p>
-      <p class="sub" data-lang="tr">Türkçe müşteri hizmetleri görüşmeleri. Daha az hata yapan tek sistem Google Chirp 3.</p>
+      <p class="sub" data-lang="en">Turkish customer-service calls. Only Google Chirp 3 makes fewer errors than <span class="nb">balbal-v2-manas</span>. Our next model, <span class="nb">challenger-v2.5bm</span>, makes fewer than both.</p>
+      <p class="sub" data-lang="tr">Türkçe müşteri hizmetleri görüşmeleri. <span class="nb">balbal-v2-manas’tan</span> daha az hata yapan tek sistem Google Chirp 3. Sıradaki modelimiz <span class="nb">challenger-v2.5bm</span> ikisinden de az hata yapıyor.</p>
       <div class="seg" role="group" aria-label="Metric">
         <button type="button" data-metric="sig" aria-pressed="true"><span data-lang="en">Meaning errors (sigWER)</span><span data-lang="tr">Anlam hataları (sigWER)</span></button>
         <button type="button" data-metric="wer" aria-pressed="false"><span data-lang="en">Word error rate</span><span data-lang="tr">Kelime hata oranı</span></button>
@@ -522,8 +523,8 @@ footer a { color: var(--muted); }
     <div class="panel rv" id="board-panel"><div class="board" id="board-rows"></div></div>
     <details class="how">
       <summary><span data-lang="en">Where the numbers come from</span><span data-lang="tr">Sayılar nereden geliyor</span></summary>
-      <p class="note" data-lang="en">Lower is better. Official Mu-Bench evaluation with the GPT-4.1 judge. Freya, PatientDesk, Mihu AI, Seda, UfakZeka, Duyu-small, omniASR, Whisper and balbal are our runs through the official harness; the rest are from the leaderboard.</p>
-      <p class="note" data-lang="tr">Düşük daha iyi. GPT-4.1 hakemli resmi Mu-Bench değerlendirmesi. Freya, PatientDesk, Mihu AI, Seda, UfakZeka, Duyu-small, omniASR, Whisper ve balbal resmi kodla bizim koşularımız; diğerleri sonuç tablosundan.</p>
+      <p class="note" data-lang="en">Lower is better. Official Mu-Bench evaluation with the GPT-4.1 judge. Freya, PatientDesk, Mihu AI, Seda, UfakZeka, Duyu-small, omniASR, Whisper, balbal and challenger-v2.5bm are our runs through the official harness; the rest are from the leaderboard.</p>
+      <p class="note" data-lang="tr">Düşük daha iyi. GPT-4.1 hakemli resmi Mu-Bench değerlendirmesi. Freya, PatientDesk, Mihu AI, Seda, UfakZeka, Duyu-small, omniASR, Whisper, balbal ve challenger-v2.5bm resmi kodla bizim koşularımız; diğerleri sonuç tablosundan.</p>
     </details>
   </section>
 
@@ -776,8 +777,9 @@ const speed = v => fmt(v, v >= 10 ? 0 : v >= 1 ? 1 : 2) + '×';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ---- data (official Mu-Bench, GPT-4.1 judge; WER / sigWER %) ----
-const OURS = new Set(['balbal-v2', 'balbal-v2-manas']);
+const OURS = new Set(['balbal-v2', 'balbal-v2-manas', 'challenger-v2.5bm']);
 const BOARD = [
+  ['challenger-v2.5bm', 7.43, 10.40, 'next'],
   ['Google Chirp 3', 8.03, 14.30, 'api'], ['balbal-v2-manas', 8.20, 14.89, 'open'], ['Google Gemini 3.5 Transcribe', 8.68, 18.20, 'api'],
   ['Mihu AI Umay', 9.04, 19.86, 'api'], ['ElevenLabs Scribe v2', 9.43, 19.15, 'api'], ['Freya STT v2', 9.96, 23.17, 'api'], ['balbal-v2', 9.46, 18.44, 'open'],
   ['Mihu AI STT-v2', 10.91, 21.16, 'open'], ['PatientDesk Duyu-1', 10.94, 25.30, 'api'], ['balbal-v1', 11.93, 25.18, 'open'],
@@ -876,7 +878,7 @@ function board() {
   for (const node of box.children) {
     const r = BOARD[orig.get(node.dataset.n)];
     node.style.transform = `translateY(${y1.get(r[0]) - y0.get(r[0])}px)`;
-    node.querySelector('.tag').textContent = r[3] === 'open' ? T('open', 'açık') : 'API';
+    node.querySelector('.tag').textContent = r[3] === 'open' ? T('open', 'açık') : r[3] === 'next' ? T('preview', 'önizleme') : 'API';
     node.querySelector('.val').textContent = pct(r[i]);
     node.style.setProperty('--w', (r[i] / max * 88).toFixed(2) + '%');
     node.style.setProperty('--dl', (order.get(r[0]) * .05 + .2).toFixed(2) + 's');
