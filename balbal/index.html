@@ -568,8 +568,8 @@ footer a { color: var(--muted); }
     <div class="rv">
       <p class="kicker"><span data-lang="en">Read speech</span><span data-lang="tr">Okunmuş konuşma</span></p>
       <h2 id="fleurs-title">FLEURS</h2>
-      <p class="sub" data-lang="en">743 read Wikipedia sentences. <span class="nb">balbal-v2-manas</span> ties <span class="nb">Whisper large-v3-turbo</span>.<br>Only <span class="nb">Whisper large-v3</span> is ahead, and it runs 135× slower on a CPU.</p>
-      <p class="sub" data-lang="tr">Okunmuş 743 Wikipedia cümlesi. <span class="nb">balbal-v2-manas</span>, <span class="nb">Whisper large-v3-turbo</span> ile başa baş.<br>Önde yalnızca <span class="nb">Whisper large-v3</span> var, o da işlemcide 135 kat yavaş.</p>
+      <p class="sub" data-lang="en">743 read Wikipedia sentences, scored on corrected references. <span class="nb">balbal-v2-manas</span> ties <span class="nb">Whisper large-v3-turbo</span>.<br>Only <span class="nb">Whisper large-v3</span> is ahead, and it runs 135× slower on a CPU.</p>
+      <p class="sub" data-lang="tr">Okunmuş 743 Wikipedia cümlesi, düzeltilmiş referanslarla puanlandı. <span class="nb">balbal-v2-manas</span>, <span class="nb">Whisper large-v3-turbo</span> ile başa baş.<br>Önde yalnızca <span class="nb">Whisper large-v3</span> var, o da işlemcide 135 kat yavaş.</p>
     </div>
     <div class="table-wrap rv">
       <table>
@@ -583,8 +583,8 @@ footer a { color: var(--muted); }
         <tbody id="fleurs-rows"></tbody>
       </table>
     </div>
-    <p class="note" data-lang="en">Error rates in %, lower is better; every model scored on the same clips with the same <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">balbal-normalizer</a> rules.</p>
-    <p class="note" data-lang="tr">Hata oranları %, düşük daha iyi; tüm modeller aynı kayıtlarda, aynı <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">balbal-normalizer</a> kurallarıyla puanlandı.</p>
+    <p class="note" data-lang="en">Error rates in %, lower is better; every model scored on the same clips against the <a href="https://huggingface.co/datasets/erayyapagci/fleurs-tr-fixed" target="_blank" rel="noopener">FLEURS-TR fixed</a> references, with the same <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">balbal-normalizer</a> rules.</p>
+    <p class="note" data-lang="tr">Hata oranları %, düşük daha iyi; tüm modeller aynı kayıtlarda, <a href="https://huggingface.co/datasets/erayyapagci/fleurs-tr-fixed" target="_blank" rel="noopener">FLEURS-TR fixed</a> referanslarına karşı ve aynı <a href="https://github.com/erayyap/balbal" target="_blank" rel="noopener">balbal-normalizer</a> kurallarıyla puanlandı.</p>
   </section>
 
   <!-- 6. architecture (isometric) -->
@@ -797,12 +797,12 @@ const CHIRP = 14.30;
 // one hour of audio on CPU: [name, RTTF]
 const RACE = [['balbal-v2', 236.1], ['UfakZeka Kulak', 151.6], ['balbal-v2-manas', 122.6], ['balbal-v1', 96.4], ['Duyu-small', 29.6], ['Seda v0.2', 19.0], ['Mihu AI STT-v2', 15.7],
   ['omniASR CTC 1B', 12.1], ['Whisper large-v3-turbo', 1.63], ['Whisper large-v3', 0.91], ['Qwen3-ASR 1.7B', 0.84]];
-// FLEURS TR test: [name, WER, CER, params [en, tr], RTTF (null: not timed in our CPU session yet)]
+// FLEURS TR test on the FLEURS-TR fixed v1 references: [name, WER, CER, params [en, tr], RTTF (null: not timed in our CPU session yet)]
 const FLEURS = [
-  ['Whisper large-v3', 3.71, 1.08, ['1.55B', '1,55 mr'], 0.91], ['balbal-v2-manas', 4.06, 1.21, ['313M', '313 mn'], 122.6],
-  ['Whisper large-v3-turbo', 4.07, 1.18, ['809M', '809 mn'], 1.63], ['balbal-v2', 5.22, 1.52, ['45M', '45 mn'], 236.1],
-  ['Mihu AI STT-v2', 5.26, 1.62, ['66M', '66 mn'], 15.7], ['Seda v0.2', 6.20, 1.96, ['66M', '66 mn'], 19.0], ['Qwen3-ASR 1.7B', 6.52, 1.71, ['1.7B', '1,7 mr'], 0.84],
-  ['balbal-v1', 6.54, 1.85, ['45M', '45 mn'], 96.4], ['Duyu-small', 6.62, 1.88, ['49M', '49 mn'], 29.6], ['UfakZeka Kulak', 6.72, 1.98, ['32M', '32 mn'], 151.6], ['omniASR CTC 7B', 7.71, 1.91, ['7B', '7 mr'], 2.37]];
+  ['Whisper large-v3', 2.87, 0.78, ['1.55B', '1,55 mr'], 0.91], ['balbal-v2-manas', 3.19, 0.86, ['313M', '313 mn'], 122.6],
+  ['Whisper large-v3-turbo', 3.28, 0.90, ['809M', '809 mn'], 1.63], ['balbal-v2', 4.38, 1.17, ['45M', '45 mn'], 236.1],
+  ['Mihu AI STT-v2', 4.47, 1.28, ['66M', '66 mn'], 15.7], ['Seda v0.2', 5.34, 1.60, ['66M', '66 mn'], 19.0], ['balbal-v1', 5.73, 1.50, ['45M', '45 mn'], 96.4],
+  ['Qwen3-ASR 1.7B', 5.75, 1.47, ['1.7B', '1,7 mr'], 0.84], ['Duyu-small', 5.77, 1.55, ['49M', '49 mn'], 29.6], ['UfakZeka Kulak', 5.98, 1.66, ['32M', '32 mn'], 151.6], ['omniASR CTC 7B', 6.99, 1.62, ['7B', '7 mr'], 2.37]];
 
 // ---- scatter: sigWER vs CPU speed ----
 const NS = 'http://www.w3.org/2000/svg';
