@@ -568,8 +568,8 @@ footer a { color: var(--muted); }
     <div class="rv">
       <p class="kicker"><span data-lang="en">Read speech</span><span data-lang="tr">Okunmuş konuşma</span></p>
       <h2 id="fleurs-title">FLEURS</h2>
-      <p class="sub" data-lang="en">743 read Wikipedia sentences, scored on corrected references. <span class="nb">balbal-v2-manas</span> ties <span class="nb">Whisper large-v3-turbo</span>.<br>Only <span class="nb">Whisper large-v3</span> is ahead, and it runs 135× slower on a CPU.</p>
-      <p class="sub" data-lang="tr">Okunmuş 743 Wikipedia cümlesi, düzeltilmiş referanslarla puanlandı. <span class="nb">balbal-v2-manas</span>, <span class="nb">Whisper large-v3-turbo</span> ile başa baş.<br>Önde yalnızca <span class="nb">Whisper large-v3</span> var, o da işlemcide 135 kat yavaş.</p>
+      <p class="sub" data-lang="en">743 read Wikipedia sentences, scored on corrected references. <span class="nb">balbal-v2-manas</span> ties <span class="nb">Whisper large-v3-turbo</span>.<br>Only <span class="nb">Whisper large-v3</span> is ahead, and it runs 135× slower on a CPU.<br>Our next model, <span class="nb">challenger-v2.5bm</span>, is ahead of all of them.</p>
+      <p class="sub" data-lang="tr">Okunmuş 743 Wikipedia cümlesi, düzeltilmiş referanslarla puanlandı. <span class="nb">balbal-v2-manas</span>, <span class="nb">Whisper large-v3-turbo</span> ile başa baş.<br>Önde yalnızca <span class="nb">Whisper large-v3</span> var, o da işlemcide 135 kat yavaş.<br>Sıradaki modelimiz <span class="nb">challenger-v2.5bm</span> hepsinin önünde.</p>
     </div>
     <div class="table-wrap rv">
       <table>
@@ -799,6 +799,7 @@ const RACE = [['balbal-v2', 236.1], ['UfakZeka Kulak', 151.6], ['balbal-v2-manas
   ['omniASR CTC 1B', 12.1], ['Whisper large-v3-turbo', 1.63], ['Whisper large-v3', 0.91], ['Qwen3-ASR 1.7B', 0.84]];
 // FLEURS TR test on the FLEURS-TR fixed v1 references: [name, WER, CER, params [en, tr], RTTF (null: not timed in our CPU session yet)]
 const FLEURS = [
+  ['challenger-v2.5bm', 2.34, 0.60, ['331M', '331 mn'], null],
   ['Whisper large-v3', 2.87, 0.78, ['1.55B', '1,55 mr'], 0.91], ['balbal-v2-manas', 3.19, 0.86, ['313M', '313 mn'], 122.6],
   ['Whisper large-v3-turbo', 3.28, 0.90, ['809M', '809 mn'], 1.63], ['balbal-v2', 4.38, 1.17, ['45M', '45 mn'], 236.1],
   ['Mihu AI STT-v2', 4.47, 1.28, ['66M', '66 mn'], 15.7], ['Seda v0.2', 5.34, 1.60, ['66M', '66 mn'], 19.0], ['balbal-v1', 5.73, 1.50, ['45M', '45 mn'], 96.4],
